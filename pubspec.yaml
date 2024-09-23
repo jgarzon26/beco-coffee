@@ -53,6 +53,9 @@ assets:
   - assets/img/logo/logo_1.png
   - assets/img/logo/logo_2.png
   - assets/img/auth_background.jpg
+  - assets/img/intro/intro_1.jpg
+  - assets/img/intro/intro_2.jpg
+  - assets/img/intro/intro_3.jpg
 
 # An image asset can refer to one or more resolution-specific "variants", see
 # https://flutter.dev/to/resolution-aware-images
