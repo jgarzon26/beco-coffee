@@ -50,7 +50,12 @@ class _LoginPageState extends State<LoginPage> {
               label: 'Email or Phone',
               iconData: Icons.email_outlined,
               validator: (value) {
-                //TODO: validate
+                if (value == null ||
+                    value.trim().isEmpty ||
+                    !value.contains('@')) {
+                  return 'Input a valid email';
+                }
+
                 return null;
               },
               onSaved: (newValue) => _email = newValue,
@@ -60,7 +65,10 @@ class _LoginPageState extends State<LoginPage> {
               label: 'Password',
               icon: passwordIcon,
               validator: (value) {
-                //TODO: validate
+                if (value == null || value.trim().isEmpty) {
+                  return 'Input a password';
+                }
+
                 return null;
               },
               onSaved: (newValue) {
@@ -96,7 +104,15 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+
+                _formKey.currentState!.save();
+
+                //TODO: login the user from backend
+              },
               child: const Text(
                 'Sign In',
               ),
