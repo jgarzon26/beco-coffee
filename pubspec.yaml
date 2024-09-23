@@ -29,15 +29,25 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.8
+  dots_indicator: ^3.0.0
   flutter:
     sdk: flutter
   go_router: ^14.2.7
   google_fonts: ^6.2.1
+  flutter_native_splash: ^2.4.1
 
 dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
+
+flutter_native_splash:
+  color: '#ffffff'
+  image: assets/img/logo/logo_1.png
+
+  android_12:
+    color: '#ffffff'
+    image: assets/img/logo/logo_1.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -49,10 +59,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
-assets:
-  - assets/img/logo/logo_1.png
-  - assets/img/logo/logo_2.png
-  - assets/img/auth_background.jpg
+  assets:
+    - assets/img/logo/logo_1.png
+    - assets/img/logo/logo_2.png
+    - assets/img/auth_background.jpg
+    - assets/img/intro/intro_1.jpg
+    - assets/img/intro/intro_2.jpg
+    - assets/img/intro/intro_3.jpg
 
 # An image asset can refer to one or more resolution-specific "variants", see
 # https://flutter.dev/to/resolution-aware-images
