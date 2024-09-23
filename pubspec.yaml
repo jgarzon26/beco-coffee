@@ -66,6 +66,9 @@ flutter:
     - assets/img/intro/intro_1.jpg
     - assets/img/intro/intro_2.jpg
     - assets/img/intro/intro_3.jpg
+    - assets/icon/facebook.png
+    - assets/icon/google.png
+    - assets/icon/twitter.png
 
 # An image asset can refer to one or more resolution-specific "variants", see
 # https://flutter.dev/to/resolution-aware-images
