@@ -50,66 +50,11 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 10),
                   _buildUserOperations(context),
                   const Spacer(flex: 3),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.8,
-                    height: constraints.maxHeight * 0.05,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: kPrimaryContainer,
-                      ),
-                      onPressed: () {
-                        if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-
-                        _formKey.currentState!.save();
-
-                        //TODO: login the user from backend
-                      },
-                      child: Text(
-                        'Sign In',
-                        style:
-                            Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                  color: kOnPrimaryContainer,
-                                ),
-                      ),
-                    ),
-                  ),
+                  _buildAuthButton(context, constraints),
                   const SizedBox(height: 20),
-                  SizedBox(
-                    width: constraints.maxWidth * 0.7,
-                    child: Row(
-                      children: [
-                        const Expanded(child: Divider()),
-                        const SizedBox(width: 10),
-                        Text(
-                          'or sign in with',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: kOnPrimaryContainer,
-                                  ),
-                        ),
-                        const SizedBox(width: 10),
-                        const Expanded(child: Divider()),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      AccountIconButton(
-                        asset: 'assets/icon/google.png',
-                        onPressed: () {},
-                      ),
-                      AccountIconButton(
-                        asset: 'assets/icon/facebook.png',
-                        onPressed: () {},
-                      ),
-                      AccountIconButton(
-                        asset: 'assets/icon/twitter.png',
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
+                  _buildSignInDivider(context, constraints),
+                  const SizedBox(height: 20),
+                  _buildAccountIcons(),
                   const SizedBox(height: 10),
                   Row(
                     children: [
@@ -137,6 +82,84 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     });
+  }
+
+  Padding _buildAccountIcons() {
+    return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 60,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AccountIconButton(
+                        asset: 'assets/icon/google.png',
+                        onPressed: () {},
+                      ),
+                      AccountIconButton(
+                        asset: 'assets/icon/facebook.png',
+                        onPressed: () {},
+                      ),
+                      AccountIconButton(
+                        asset: 'assets/icon/twitter.png',
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                );
+  }
+
+  SizedBox _buildSignInDivider(
+    BuildContext context,
+    BoxConstraints constraints,
+  ) {
+    return SizedBox(
+      width: constraints.maxWidth * 0.7,
+      child: Row(
+        children: [
+          const Expanded(child: Divider()),
+          const SizedBox(width: 10),
+          Text(
+            'or sign in with',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: kOnPrimaryContainer,
+                ),
+          ),
+          const SizedBox(width: 10),
+          const Expanded(child: Divider()),
+        ],
+      ),
+    );
+  }
+
+  SizedBox _buildAuthButton(
+    BuildContext context,
+    BoxConstraints constraints,
+  ) {
+    return SizedBox(
+      width: constraints.maxWidth * 0.8,
+      height: constraints.maxHeight * 0.05,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: kPrimaryContainer,
+        ),
+        onPressed: () {
+          if (!_formKey.currentState!.validate()) {
+            return;
+          }
+
+          _formKey.currentState!.save();
+
+          //TODO: login the user from backend
+        },
+        child: Text(
+          'Sign In',
+          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                color: kOnPrimaryContainer,
+              ),
+        ),
+      ),
+    );
   }
 
   Widget _buildUserOperations(BuildContext context) {

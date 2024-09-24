@@ -12,9 +12,9 @@ class AccountIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
+    return TextButton(
       onPressed: onPressed,
-      icon: Image.asset(
+      child: Image.asset(
         asset,
         height: MediaQuery.of(context).size.height * 0.04,
         width: MediaQuery.of(context).size.height * 0.04,

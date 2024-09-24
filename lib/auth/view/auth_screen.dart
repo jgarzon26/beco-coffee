@@ -1,6 +1,5 @@
 import 'package:beco_coffee/auth/pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -31,12 +30,12 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ),
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.black87,
-                    Colors.black54,
-                    Colors.black87,
+                    Colors.black.withOpacity(0.7),
+                    Colors.black.withOpacity(0.6),
+                    Colors.black.withOpacity(0.7),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
