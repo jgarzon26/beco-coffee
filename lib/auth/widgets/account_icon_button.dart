@@ -13,6 +13,9 @@ class AccountIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+      ),
       onPressed: onPressed,
       child: Image.asset(
         asset,

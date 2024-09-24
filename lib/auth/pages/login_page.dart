@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 25,
@@ -55,25 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                   _buildSignInDivider(context, constraints),
                   const SizedBox(height: 20),
                   _buildAccountIcons(),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      const Text('Don\'t have an account?'),
-                      TextButton(
-                        onPressed: () {
-                          //TODO: go to sign up page
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: kSecondaryContainer,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  _buildAuthHelpRow(context),
                   const Spacer(),
                 ],
               ),
@@ -84,29 +67,59 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  Row _buildAuthHelpRow(BuildContext context) {
+    return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Don\'t have an account?',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: kOnPrimaryContainer,
+                          ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        //TODO: go to sign up page
+                      },
+                      child: Text(
+                        'Sign Up',
+                        style:
+                            Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  color: kSecondaryContainer,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                      ),
+                    ),
+                  ],
+                );
+  }
+
   Padding _buildAccountIcons() {
     return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 60,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      AccountIconButton(
-                        asset: 'assets/icon/google.png',
-                        onPressed: () {},
-                      ),
-                      AccountIconButton(
-                        asset: 'assets/icon/facebook.png',
-                        onPressed: () {},
-                      ),
-                      AccountIconButton(
-                        asset: 'assets/icon/twitter.png',
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                );
+      padding: const EdgeInsets.symmetric(
+        horizontal: 60,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          AccountIconButton(
+            asset: 'assets/icon/google.png',
+            onPressed: () {},
+          ),
+          AccountIconButton(
+            asset: 'assets/icon/facebook.png',
+            onPressed: () {},
+          ),
+          AccountIconButton(
+            asset: 'assets/icon/twitter.png',
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
   }
 
   SizedBox _buildSignInDivider(
