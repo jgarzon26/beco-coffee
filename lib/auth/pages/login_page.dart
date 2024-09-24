@@ -21,19 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final passwordIcon = IconButton(
-      style: IconButton.styleFrom(
-        backgroundColor: Colors.transparent,
-        overlayColor: Colors.transparent,
-      ),
-      onPressed: () => setState(() {
-        _isObscure = !_isObscure;
-      }),
-      icon: Icon(
-        _isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-      ),
-    );
-
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
         horizontal: 15,
@@ -52,38 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                 fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(height: 10),
-            AuthFormField(
-              label: 'Email or Phone',
-              iconData: Icons.email_outlined,
-              validator: (value) {
-                if (value == null ||
-                    value.trim().isEmpty ||
-                    !value.contains('@')) {
-                  return 'Input a valid email';
-                }
-
-                return null;
-              },
-              onSaved: (newValue) => _email = newValue,
-            ),
-            const SizedBox(height: 20),
-            AuthFormField(
-              label: 'Password',
-              obscureText: _isObscure,
-              icon: passwordIcon,
-              shouldIconDisappearOnEdit: false,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Input a password';
-                }
-
-                return null;
-              },
-              onSaved: (newValue) {
-                _password = newValue;
-              },
-            ),
+            _buildEmailAndPassword(),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,6 +127,59 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildEmailAndPassword() {
+    return Column(
+      children: [
+        AuthFormField(
+          label: 'Email or Phone',
+          iconData: Icons.email_outlined,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty || !value.contains('@')) {
+              return 'Input a valid email';
+            }
+
+            return null;
+          },
+          onSaved: (newValue) => _email = newValue,
+        ),
+        const SizedBox(height: 20),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return AuthFormField(
+              label: 'Password',
+              obscureText: _isObscure,
+              icon: IconButton(
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  overlayColor: Colors.transparent,
+                ),
+                onPressed: () => setState(() {
+                  _isObscure = !_isObscure;
+                }),
+                icon: Icon(
+                  _isObscure
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                ),
+              ),
+              shouldIconDisappearOnEdit: false,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Input a password';
+                }
+            
+                return null;
+              },
+              onSaved: (newValue) {
+                _password = newValue;
+              },
+            );
+          }
+        ),
+      ],
     );
   }
 }
