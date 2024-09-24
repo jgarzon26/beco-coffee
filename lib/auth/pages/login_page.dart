@@ -41,33 +41,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             _buildEmailAndPassword(),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                StatefulBuilder(
-                  builder: (context, setstate) {
-                    return TextButton.icon(
-                      onPressed: () {
-                        setstate(() => _isRememberMe = !_isRememberMe);
-                      },
-                      iconAlignment: IconAlignment.end,
-                      label: const Text('Remember me'),
-                      icon: Icon(
-                        _isRememberMe
-                            ? Icons.check_box_outlined
-                            : Icons.check_box_outline_blank,
-                      ),
-                    );
-                  },
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Forgot password?',
-                  ),
-                ),
-              ],
-            ),
+            _buildUserOperations(context),
             ElevatedButton(
               onPressed: () {
                 if (!_formKey.currentState!.validate()) {
@@ -130,6 +104,62 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _buildUserOperations(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        StatefulBuilder(
+          builder: (context, setstate) {
+            return TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.only(left: 5),
+              ),
+              onPressed: () {
+                setstate(() => _isRememberMe = !_isRememberMe);
+                //TODO: make app remember this user
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Remember me',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: kOnPrimaryContainer,
+                          fontSize: 10,
+                        ),
+                  ),
+                  const SizedBox(width: 2),
+                  Icon(
+                    _isRememberMe
+                        ? Icons.check_box_outlined
+                        : Icons.check_box_outline_blank,
+                    color: kOnPrimaryContainer,
+                    size: 10.5,
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+        TextButton(
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.only(right: 5),
+          ),
+          onPressed: () {
+            //TODO: go to forgot password screen
+          },
+          child: Text(
+            'Forgot password?',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: kOnPrimaryContainer,
+                  fontSize: 10,
+                ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildEmailAndPassword() {
     return Column(
       children: [
@@ -146,39 +176,37 @@ class _LoginPageState extends State<LoginPage> {
           onSaved: (newValue) => _email = newValue,
         ),
         const SizedBox(height: 20),
-        StatefulBuilder(
-          builder: (context, setState) {
-            return AuthFormField(
-              label: 'Password',
-              obscureText: _isObscure,
-              icon: IconButton(
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  overlayColor: Colors.transparent,
-                ),
-                onPressed: () => setState(() {
-                  _isObscure = !_isObscure;
-                }),
-                icon: Icon(
-                  _isObscure
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                ),
+        StatefulBuilder(builder: (context, setState) {
+          return AuthFormField(
+            label: 'Password',
+            obscureText: _isObscure,
+            icon: IconButton(
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                overlayColor: Colors.transparent,
               ),
-              shouldIconDisappearOnEdit: false,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Input a password';
-                }
-            
-                return null;
-              },
-              onSaved: (newValue) {
-                _password = newValue;
-              },
-            );
-          }
-        ),
+              onPressed: () => setState(() {
+                _isObscure = !_isObscure;
+              }),
+              icon: Icon(
+                _isObscure
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+              ),
+            ),
+            shouldIconDisappearOnEdit: false,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Input a password';
+              }
+
+              return null;
+            },
+            onSaved: (newValue) {
+              _password = newValue;
+            },
+          );
+        }),
       ],
     );
   }
