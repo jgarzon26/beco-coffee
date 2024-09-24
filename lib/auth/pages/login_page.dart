@@ -30,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: constraints.maxHeight,
+            minWidth: constraints.maxWidth,
           ),
           child: Form(
             key: _formKey,
@@ -37,39 +38,61 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(60),
+                    padding: const EdgeInsets.all(70),
                     child: Image.asset(
                       'assets/img/logo/logo_2.png',
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      fit: BoxFit.contain,
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   _buildEmailAndPassword(),
                   const SizedBox(height: 10),
                   _buildUserOperations(context),
                   const Spacer(flex: 3),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (!_formKey.currentState!.validate()) {
-                        return;
-                      }
+                  SizedBox(
+                    width: constraints.maxWidth * 0.8,
+                    height: constraints.maxHeight * 0.05,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kPrimaryContainer,
+                      ),
+                      onPressed: () {
+                        if (!_formKey.currentState!.validate()) {
+                          return;
+                        }
 
-                      _formKey.currentState!.save();
+                        _formKey.currentState!.save();
 
-                      //TODO: login the user from backend
-                    },
-                    child: const Text(
-                      'Sign In',
+                        //TODO: login the user from backend
+                      },
+                      child: Text(
+                        'Sign In',
+                        style:
+                            Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                  color: kOnPrimaryContainer,
+                                ),
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  const Row(
-                    children: [
-                      Expanded(child: Divider()),
-                      Text('or sign in with'),
-                      Expanded(child: Divider()),
-                    ],
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.7,
+                    child: Row(
+                      children: [
+                        const Expanded(child: Divider()),
+                        const SizedBox(width: 10),
+                        Text(
+                          'or sign in with',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: kOnPrimaryContainer,
+                                  ),
+                        ),
+                        const SizedBox(width: 10),
+                        const Expanded(child: Divider()),
+                      ],
+                    ),
                   ),
                   Row(
                     children: [
