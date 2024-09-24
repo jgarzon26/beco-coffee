@@ -21,87 +21,99 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 25,
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(60),
-              child: Image.asset(
-                'assets/img/logo/logo_2.png',
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.2,
-                fit: BoxFit.contain,
-              ),
-            ),
-            _buildEmailAndPassword(),
-            const SizedBox(height: 10),
-            _buildUserOperations(context),
-            ElevatedButton(
-              onPressed: () {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
-
-                _formKey.currentState!.save();
-
-                //TODO: login the user from backend
-              },
-              child: const Text(
-                'Sign In',
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Row(
-              children: [
-                Expanded(child: Divider()),
-                Text('or sign in with'),
-                Expanded(child: Divider()),
-              ],
-            ),
-            Row(
-              children: [
-                AccountIconButton(
-                  asset: 'assets/icon/google.png',
-                  onPressed: () {},
-                ),
-                AccountIconButton(
-                  asset: 'assets/icon/facebook.png',
-                  onPressed: () {},
-                ),
-                AccountIconButton(
-                  asset: 'assets/icon/twitter.png',
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                const Text('Don\'t have an account?'),
-                TextButton(
-                  onPressed: () {
-                    //TODO: go to sign up page
-                  },
-                  child: Text(
-                    'Sign Up',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: kSecondaryContainer,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+    return LayoutBuilder(builder: (context, constraints) {
+      return SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 25,
         ),
-      ),
-    );
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: constraints.maxHeight,
+          ),
+          child: Form(
+            key: _formKey,
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(60),
+                    child: Image.asset(
+                      'assets/img/logo/logo_2.png',
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  _buildEmailAndPassword(),
+                  const SizedBox(height: 10),
+                  _buildUserOperations(context),
+                  const Spacer(flex: 3),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+
+                      _formKey.currentState!.save();
+
+                      //TODO: login the user from backend
+                    },
+                    child: const Text(
+                      'Sign In',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Row(
+                    children: [
+                      Expanded(child: Divider()),
+                      Text('or sign in with'),
+                      Expanded(child: Divider()),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      AccountIconButton(
+                        asset: 'assets/icon/google.png',
+                        onPressed: () {},
+                      ),
+                      AccountIconButton(
+                        asset: 'assets/icon/facebook.png',
+                        onPressed: () {},
+                      ),
+                      AccountIconButton(
+                        asset: 'assets/icon/twitter.png',
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Text('Don\'t have an account?'),
+                      TextButton(
+                        onPressed: () {
+                          //TODO: go to sign up page
+                        },
+                        child: Text(
+                          'Sign Up',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: kSecondaryContainer,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   Widget _buildUserOperations(BuildContext context) {
