@@ -35,14 +35,14 @@ class _AuthFormFieldState extends State<AuthFormField> {
 
   @override
   Widget build(BuildContext context) {
-    Widget suffixIcon;
+    Widget? suffixIcon;
 
     if (widget.icon == null) {
       suffixIcon = Icon(
         widget.iconData,
       );
     } else {
-      suffixIcon = widget.icon!;
+      suffixIcon = widget.icon;
     }
 
     return TextFormField(

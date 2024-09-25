@@ -1,6 +1,6 @@
-import 'package:beco_coffee/auth/widgets/account_icon_button.dart';
-import 'package:beco_coffee/auth/widgets/auth_background.dart';
-import 'package:beco_coffee/auth/widgets/auth_form_field.dart';
+import 'dart:io';
+
+import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,17 +15,51 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool _isLogin = true;
+
   String? _email, _password;
+  String? _fullName, _address;
   bool _isObscure = true;
   bool _isRememberMe = false;
+  bool _isTOSCheck = false;
+
+  void _resetBooleanValues() {
+    if (_isLogin) {
+      _isTOSCheck = false;
+    } else {
+      _isObscure = true;
+    }
+  }
+
+  //* Build
 
   @override
   Widget build(BuildContext context) {
+    _resetBooleanValues();
+
     return DefaultTextStyle(
       style: GoogleFonts.inter(),
       child: Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: !_isLogin
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isLogin = true;
+                    });
+                  },
+                  icon: Icon(
+                    Platform.isIOS
+                        ? Icons.arrow_back_ios_new
+                        : Icons.arrow_back,
+                  ),
+                )
+              : null,
+        ),
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -59,15 +93,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            _buildEmailAndPassword(),
+                            _buildAuthCredential(),
                             const SizedBox(height: 10),
                             _buildUserOperations(context),
                             const Spacer(flex: 3),
                             _buildAuthButton(context, constraints),
                             const SizedBox(height: 20),
-                            _buildSignInDivider(context, constraints),
-                            const SizedBox(height: 20),
-                            _buildAccountIcons(),
+                            if (_isLogin)
+                              _buildSignInDivider(context, constraints),
+                            if (_isLogin) const SizedBox(height: 20),
+                            if (_isLogin) _buildAccountIcons(),
                             _buildAuthHelpRow(context),
                             const Spacer(),
                           ],
@@ -89,7 +124,7 @@ class _AuthScreenState extends State<AuthScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Don\'t have an account?',
+          _isLogin ? 'Don\'t have an account?' : 'You have any problems?',
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: kOnPrimaryContainer,
               ),
@@ -99,10 +134,16 @@ class _AuthScreenState extends State<AuthScreen> {
             padding: EdgeInsets.zero,
           ),
           onPressed: () {
-            //TODO: go to sign up page
+            if (_isLogin) {
+              setState(() {
+                _isLogin = false;
+              });
+            } else {
+              //TODO: Go to help screen
+            }
           },
           child: Text(
-            'Sign Up',
+            _isLogin ? 'Sign Up' : 'Help',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: kSecondaryContainer,
                   fontWeight: FontWeight.bold,
@@ -182,12 +223,58 @@ class _AuthScreenState extends State<AuthScreen> {
           //TODO: login the user from backend
         },
         child: Text(
-          'Sign In',
+          _isLogin ? 'Sign In' : 'Sign Up',
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                 color: kOnPrimaryContainer,
               ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTOSandPolicy() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text('I agree with'),
+        TextButton(
+          onPressed: () {
+            // TODO go to TOS
+          },
+          child: Text(
+            'Terms of Services',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: kSecondaryContainer,
+                ),
+          ),
+        ),
+        const Text('and'),
+        TextButton(
+          onPressed: () {
+            //TODO go to Policy Privacy
+          },
+          child: Text(
+            'Policy Privacy',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: kSecondaryContainer,
+                ),
+          ),
+        ),
+        StatefulBuilder(
+          builder: (context, setState) {
+            return IconButton(
+              onPressed: () {
+                setState(() => _isTOSCheck = !_isTOSCheck);
+              },
+              icon: Icon(
+                _isTOSCheck
+                    ? Icons.check_box_outlined
+                    : Icons.check_box_outline_blank_outlined,
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -247,53 +334,99 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  Widget _buildEmailAndPassword() {
+  Widget _buildAuthCredential() {
     return Column(
       children: [
-        AuthFormField(
-          label: 'Email or Phone',
-          iconData: Icons.email_outlined,
-          validator: (value) {
-            if (value == null || value.trim().isEmpty || !value.contains('@')) {
-              return 'Input a valid email';
-            }
+        _isLogin
+            ? AuthFormField(
+                label: 'Email or Phone',
+                iconData: Icons.email_outlined,
+                validator: (value) {
+                  if (value == null ||
+                      value.trim().isEmpty ||
+                      !value.contains('@')) {
+                    return 'Input a valid email';
+                  }
 
-            return null;
-          },
-          onSaved: (newValue) => _email = newValue,
-        ),
+                  return null;
+                },
+                onSaved: (newValue) => _email = newValue,
+              )
+            : AuthFormField(
+                label: 'Full Name',
+                iconData: Icons.person_3_outlined,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Input your name';
+                  }
+
+                  return null;
+                },
+                onSaved: (newValue) => _fullName = newValue,
+              ),
         const SizedBox(height: 20),
-        StatefulBuilder(builder: (context, setState) {
-          return AuthFormField(
-            label: 'Password',
-            obscureText: _isObscure,
-            icon: IconButton(
-              style: IconButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                overlayColor: Colors.transparent,
+        _isLogin
+            ? StatefulBuilder(
+                builder: (context, setState) {
+                  return AuthFormField(
+                    label: 'Password',
+                    obscureText: _isObscure,
+                    icon: IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        overlayColor: Colors.transparent,
+                      ),
+                      onPressed: () => setState(() {
+                        _isObscure = !_isObscure;
+                      }),
+                      icon: Icon(
+                        _isObscure
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                      ),
+                    ),
+                    shouldIconDisappearOnEdit: false,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Input a password';
+                      }
+
+                      return null;
+                    },
+                    onSaved: (newValue) {
+                      _password = newValue;
+                    },
+                  );
+                },
+              )
+            : AuthFormField(
+                label: 'Email or Phone',
+                iconData: Icons.email_outlined,
+                validator: (value) {
+                  if (value == null ||
+                      value.trim().isEmpty ||
+                      !value.contains('@')) {
+                    return 'Input your valid email';
+                  }
+
+                  return null;
+                },
+                onSaved: (newValue) => _email = newValue,
               ),
-              onPressed: () => setState(() {
-                _isObscure = !_isObscure;
-              }),
-              icon: Icon(
-                _isObscure
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-              ),
-            ),
-            shouldIconDisappearOnEdit: false,
+        const SizedBox(height: 20),
+        if (_isLogin == false)
+          AuthFormField(
+            label: 'Address',
+            iconData: Icons.person_3_outlined,
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Input a password';
+                return 'Input your address';
               }
 
               return null;
             },
-            onSaved: (newValue) {
-              _password = newValue;
-            },
-          );
-        }),
+            onSaved: (newValue) => _address = newValue,
+          ),
       ],
     );
   }
