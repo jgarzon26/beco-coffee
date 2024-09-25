@@ -23,6 +23,8 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isRememberMe = false;
   bool _isTOSCheck = false;
 
+  Widget? _addressInput;
+
   final _inputChecks = [false, false];
 
   bool _isAuthButtonEnable = false;
@@ -53,10 +55,33 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
+  Widget _buildAddressInput() {
+    return AuthFormField(
+      label: 'Address',
+      iconData: Icons.location_on_outlined,
+      onSaved: (newValue) => _address = newValue,
+      onChanged: (value) {
+        if (_isLogin) return;
+
+        if (value == null || value.trim().isEmpty) {
+          _inputChecks[2] = false;
+        } else {
+          _inputChecks[2] = true;
+        }
+
+        _notifyInputCheck();
+      },
+    );
+  }
+
   //* Build
 
   @override
   Widget build(BuildContext context) {
+    if (_isLogin == false) {
+      _addressInput = _buildAddressInput();
+    }
+
     return DefaultTextStyle(
       style: GoogleFonts.inter(),
       child: Scaffold(
@@ -109,7 +134,15 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: IntrinsicHeight(
                         child: Column(
                           children: [
-                            if (!_isLogin) const Spacer(),
+                            AnimatedSize(
+                              duration: Durations.medium2,
+                              curve: Curves.easeIn,
+                              child: SizedBox.fromSize(
+                                size: Size.fromHeight(
+                                  !_isLogin ? constraints.maxHeight * 0.05 : 0,
+                                ),
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(70),
                               child: Image.asset(
@@ -121,18 +154,71 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                             ),
                             _buildAuthCredential(),
-                            const SizedBox(height: 10),
                             _isLogin
                                 ? _buildUserOperations(context)
                                 : _buildTOSandPolicy(),
                             const Spacer(flex: 3),
-                            _buildAuthButton(context, constraints),
+                            Flexible(
+                              child: AnimatedCrossFade(
+                                crossFadeState: _isLogin
+                                    ? CrossFadeState.showFirst
+                                    : CrossFadeState.showSecond,
+                                duration: Durations.medium2,
+                                firstChild: AuthButton(
+                                  isAuthButtonEnable: _isAuthButtonEnable,
+                                  formKey: _formKey,
+                                  constraints: constraints,
+                                  text: 'Sign In',
+                                  onPressed: () {},
+                                ),
+                                secondChild: AuthButton(
+                                  isAuthButtonEnable: _isAuthButtonEnable,
+                                  formKey: _formKey,
+                                  constraints: constraints,
+                                  text: 'Sign Up',
+                                  onPressed: () {},
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 20),
-                            if (_isLogin)
-                              _buildSignInDivider(context, constraints),
-                            if (_isLogin) const SizedBox(height: 20),
-                            if (_isLogin) _buildAccountIcons(),
-                            _buildAuthHelpRow(context),
+                            AnimatedCrossFade(
+                              firstChild: Column(
+                                children: [
+                                  _buildSignInDivider(context, constraints),
+                                  const SizedBox(height: 20),
+                                  _buildAccountIcons(),
+                                ],
+                              ),
+                              secondChild: Container(),
+                              crossFadeState: _isLogin
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond,
+                              duration: Durations.medium2,
+                            ),
+                            AnimatedCrossFade(
+                              crossFadeState: _isLogin
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond,
+                              duration: Durations.medium2,
+                              firstChild: AuthHelpRow(
+                                questionText: 'Don\'t have an account?',
+                                label: 'Sign Up',
+                                onPressed: () {
+                                  _formKey.currentState!.reset();
+                                  setState(() {
+                                    _isLogin = false;
+                                  });
+                                  _resetBooleanValues();
+                                },
+                              ),
+                              secondChild: AuthHelpRow(
+                                questionText: 'You have any problem?',
+                                label: 'Help',
+                                onPressed: () {
+                                  //TODO: go to help page
+                                },
+                              ),
+                            ),
                             const Spacer(),
                           ],
                         ),
@@ -145,44 +231,6 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildAuthHelpRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          _isLogin ? 'Don\'t have an account?' : 'You have any problems?',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: kOnPrimaryContainer,
-              ),
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.only(left: 5),
-            alignment: Alignment.centerLeft,
-          ),
-          onPressed: () {
-            if (_isLogin) {
-              _formKey.currentState!.reset();
-              setState(() {
-                _isLogin = false;
-              });
-              _resetBooleanValues();
-            } else {
-              //TODO: Go to help screen
-            }
-          },
-          child: Text(
-            _isLogin ? 'Sign Up' : 'Help',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: kSecondaryContainer,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -230,39 +278,6 @@ class _AuthScreenState extends State<AuthScreen> {
           const SizedBox(width: 10),
           const Expanded(child: Divider()),
         ],
-      ),
-    );
-  }
-
-  Widget _buildAuthButton(
-    BuildContext context,
-    BoxConstraints constraints,
-  ) {
-    return SizedBox(
-      width: constraints.maxWidth * 0.8,
-      height: constraints.maxHeight * 0.05,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: kPrimaryContainer,
-          foregroundColor: kOnPrimaryContainer,
-          disabledBackgroundColor: Colors.black54,
-          disabledForegroundColor: Colors.white38,
-          textStyle: Theme.of(context).textTheme.headlineSmall,
-        ),
-        onPressed: _isAuthButtonEnable
-            ? () {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
-
-                _formKey.currentState!.save();
-
-                //TODO: login the user from backend
-              }
-            : null,
-        child: Text(
-          _isLogin ? 'Sign In' : 'Sign Up',
-        ),
       ),
     );
   }
@@ -403,80 +418,67 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget _buildAuthCredential() {
     return Column(
       children: [
-        _isLogin
-            ? AuthFormField(
-                label: 'Email or Phone',
-                iconData: Icons.email_outlined,
-                onChanged: (value) {
-                  if (value == null ||
-                      value.trim().isEmpty ||
-                      !value.contains('@')) {
-                    _inputChecks[0] = false;
-                  } else {
-                    _inputChecks[0] = true;
-                  }
+        AnimatedCrossFade(
+          crossFadeState:
+              _isLogin ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          duration: Durations.medium2,
+          firstChild: AuthFormField(
+            label: 'Email or Phone',
+            iconData: Icons.email_outlined,
+            onChanged: (value) {
+              if (value == null ||
+                  value.trim().isEmpty ||
+                  !value.contains('@')) {
+                _inputChecks[0] = false;
+              } else {
+                _inputChecks[0] = true;
+              }
 
-                  _notifyInputCheck();
-                },
-                onSaved: (newValue) => _email = newValue,
-              )
-            : AuthFormField(
-                label: 'Full Name',
-                iconData: Icons.person_3_outlined,
+              _notifyInputCheck();
+            },
+            onSaved: (newValue) => _email = newValue,
+          ),
+          secondChild: AuthFormField(
+            label: 'Full Name',
+            iconData: Icons.person_3_outlined,
+            onChanged: (value) {
+              if (value == null || value.trim().isEmpty) {
+                _inputChecks[0] = false;
+              } else {
+                _inputChecks[0] = true;
+              }
+              _notifyInputCheck();
+            },
+            onSaved: (newValue) => _fullName = newValue,
+          ),
+        ),
+        const SizedBox(height: 20),
+        AnimatedCrossFade(
+          crossFadeState:
+              _isLogin ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          duration: Durations.medium2,
+          firstChild: StatefulBuilder(
+            builder: (context, setState) {
+              return AuthFormField(
+                label: 'Password',
+                obscureText: _isObscure,
+                icon: IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    overlayColor: Colors.transparent,
+                  ),
+                  onPressed: () => setState(() {
+                    _isObscure = !_isObscure;
+                  }),
+                  icon: Icon(
+                    _isObscure
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                  ),
+                ),
+                shouldIconDisappearOnEdit: false,
                 onChanged: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    _inputChecks[0] = false;
-                  } else {
-                    _inputChecks[0] = true;
-                  }
-                  _notifyInputCheck();
-                },
-                onSaved: (newValue) => _fullName = newValue,
-              ),
-        const SizedBox(height: 20),
-        _isLogin
-            ? StatefulBuilder(
-                builder: (context, setState) {
-                  return AuthFormField(
-                    label: 'Password',
-                    obscureText: _isObscure,
-                    icon: IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        overlayColor: Colors.transparent,
-                      ),
-                      onPressed: () => setState(() {
-                        _isObscure = !_isObscure;
-                      }),
-                      icon: Icon(
-                        _isObscure
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                      ),
-                    ),
-                    shouldIconDisappearOnEdit: false,
-                    onChanged: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        _inputChecks[1] = false;
-                      } else {
-                        _inputChecks[1] = true;
-                      }
-
-                      _notifyInputCheck();
-                    },
-                    onSaved: (newValue) {
-                      _password = newValue;
-                    },
-                  );
-                },
-              )
-            : AuthFormField(
-                label: 'Email or Phone',
-                iconData: Icons.email_outlined,
-                onChanged: (value) {
-                  if (value == null ||
-                      value.trim().isEmpty ||
-                      !value.contains('@')) {
                     _inputChecks[1] = false;
                   } else {
                     _inputChecks[1] = true;
@@ -484,24 +486,43 @@ class _AuthScreenState extends State<AuthScreen> {
 
                   _notifyInputCheck();
                 },
-                onSaved: (newValue) => _email = newValue,
-              ),
-        const SizedBox(height: 20),
-        if (_isLogin == false)
-          AuthFormField(
-            label: 'Address',
-            iconData: Icons.location_on_outlined,
+                onSaved: (newValue) {
+                  _password = newValue;
+                },
+              );
+            },
+          ),
+          secondChild: AuthFormField(
+            label: 'Email or Phone',
+            iconData: Icons.email_outlined,
             onChanged: (value) {
-              if (value == null || value.trim().isEmpty) {
-                _inputChecks[2] = false;
+              if (value == null ||
+                  value.trim().isEmpty ||
+                  !value.contains('@')) {
+                _inputChecks[1] = false;
               } else {
-                _inputChecks[2] = true;
+                _inputChecks[1] = true;
               }
 
               _notifyInputCheck();
             },
-            onSaved: (newValue) => _address = newValue,
+            onSaved: (newValue) => _email = newValue,
           ),
+        ),
+        const SizedBox(height: 20),
+        AnimatedOpacity(
+          opacity: _isLogin ? 0 : 1,
+          duration: Durations.extralong1,
+          curve: Curves.fastOutSlowIn,
+          onEnd: () {
+            if (_isLogin) {
+              setState(() {
+                _addressInput = null;
+              });
+            }
+          },
+          child: _addressInput,
+        ),
       ],
     );
   }

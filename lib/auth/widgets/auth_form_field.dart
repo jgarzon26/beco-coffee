@@ -57,7 +57,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
         if (widget.onChanged != null) {
           widget.onChanged!(value);
         }
-        
+
         if (!widget.shouldIconDisappearOnEdit) return;
 
         if (value.trim().isNotEmpty) {
@@ -87,8 +87,8 @@ class _AuthFormFieldState extends State<AuthFormField> {
         hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: kLabelIconColor,
             ),
-        suffixIcon: suffixIcon,
-        suffixIconColor: _disappear ? Colors.transparent : kLabelIconColor,
+        suffixIcon: !_disappear ? suffixIcon : null,
+        suffixIconColor: kLabelIconColor,
         filled: true,
         fillColor: Colors.white,
         border: const OutlineInputBorder(
