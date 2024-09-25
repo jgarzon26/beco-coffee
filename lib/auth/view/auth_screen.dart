@@ -23,11 +23,33 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isRememberMe = false;
   bool _isTOSCheck = false;
 
+  final _inputChecks = [false, false];
+
+  bool _isAuthButtonEnable = false;
+
   void _resetBooleanValues() {
     if (_isLogin) {
       _isTOSCheck = false;
+      _inputChecks.clear();
+      _inputChecks.addAll([false, false]);
     } else {
       _isObscure = true;
+      _inputChecks.clear();
+      _inputChecks.addAll([false, false, false, false]);
+    }
+
+    _isAuthButtonEnable = false;
+  }
+
+  void _notifyInputCheck() {
+    if (!_inputChecks.contains(false) && _isAuthButtonEnable == false) {
+      setState(() {
+        _isAuthButtonEnable = true;
+      });
+    } else if (_inputChecks.contains(false) && _isAuthButtonEnable) {
+      setState(() {
+        _isAuthButtonEnable = false;
+      });
     }
   }
 
@@ -35,8 +57,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _resetBooleanValues();
-
     return DefaultTextStyle(
       style: GoogleFonts.inter(),
       child: Scaffold(
@@ -47,10 +67,16 @@ class _AuthScreenState extends State<AuthScreen> {
           elevation: 0,
           leading: !_isLogin
               ? IconButton(
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                  ),
+                  iconSize: 40,
                   onPressed: () {
+                    _formKey.currentState!.reset();
                     setState(() {
                       _isLogin = true;
                     });
+                    _resetBooleanValues();
                   },
                   icon: Icon(
                     Platform.isIOS
@@ -95,7 +121,9 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             _buildAuthCredential(),
                             const SizedBox(height: 10),
-                            _buildUserOperations(context),
+                            _isLogin
+                                ? _buildUserOperations(context)
+                                : _buildTOSandPolicy(),
                             const Spacer(flex: 3),
                             _buildAuthButton(context, constraints),
                             const SizedBox(height: 20),
@@ -131,13 +159,16 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
         TextButton(
           style: TextButton.styleFrom(
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.only(left: 5),
+            alignment: Alignment.centerLeft,
           ),
           onPressed: () {
             if (_isLogin) {
+              _formKey.currentState!.reset();
               setState(() {
                 _isLogin = false;
               });
+              _resetBooleanValues();
             } else {
               //TODO: Go to help screen
             }
@@ -212,21 +243,24 @@ class _AuthScreenState extends State<AuthScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: kPrimaryContainer,
+          foregroundColor: kOnPrimaryContainer,
+          disabledBackgroundColor: Colors.black54,
+          disabledForegroundColor: Colors.white38,
+          textStyle: Theme.of(context).textTheme.headlineSmall,
         ),
-        onPressed: () {
-          if (!_formKey.currentState!.validate()) {
-            return;
-          }
+        onPressed: _isAuthButtonEnable
+            ? () {
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
 
-          _formKey.currentState!.save();
+                _formKey.currentState!.save();
 
-          //TODO: login the user from backend
-        },
+                //TODO: login the user from backend
+              }
+            : null,
         child: Text(
           _isLogin ? 'Sign In' : 'Sign Up',
-          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                color: kOnPrimaryContainer,
-              ),
         ),
       ),
     );
@@ -234,10 +268,21 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Widget _buildTOSandPolicy() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('I agree with'),
+        Text(
+          'I agree with',
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: kOnPrimaryContainer,
+                fontSize: 10,
+              ),
+        ),
         TextButton(
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 5,
+            ),
+          ),
           onPressed: () {
             // TODO go to TOS
           },
@@ -245,11 +290,23 @@ class _AuthScreenState extends State<AuthScreen> {
             'Terms of Services',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: kSecondaryContainer,
+                  fontSize: 10,
                 ),
           ),
         ),
-        const Text('and'),
+        Text(
+          'and',
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: kOnPrimaryContainer,
+                fontSize: 10,
+              ),
+        ),
         TextButton(
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 5,
+            ),
+          ),
           onPressed: () {
             //TODO go to Policy Privacy
           },
@@ -257,19 +314,27 @@ class _AuthScreenState extends State<AuthScreen> {
             'Policy Privacy',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: kSecondaryContainer,
+                  fontSize: 10,
                 ),
           ),
         ),
         StatefulBuilder(
           builder: (context, setState) {
-            return IconButton(
-              onPressed: () {
-                setState(() => _isTOSCheck = !_isTOSCheck);
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isTOSCheck = !_isTOSCheck;
+                });
+
+                _inputChecks[3] = _isTOSCheck;
+                _notifyInputCheck();
               },
-              icon: Icon(
+              child: Icon(
                 _isTOSCheck
                     ? Icons.check_box_outlined
                     : Icons.check_box_outline_blank_outlined,
+                size: 10.5,
+                color: kOnPrimaryContainer,
               ),
             );
           },
@@ -341,26 +406,29 @@ class _AuthScreenState extends State<AuthScreen> {
             ? AuthFormField(
                 label: 'Email or Phone',
                 iconData: Icons.email_outlined,
-                validator: (value) {
+                onChanged: (value) {
                   if (value == null ||
                       value.trim().isEmpty ||
                       !value.contains('@')) {
-                    return 'Input a valid email';
+                    _inputChecks[0] = false;
+                  } else {
+                    _inputChecks[0] = true;
                   }
 
-                  return null;
+                  _notifyInputCheck();
                 },
                 onSaved: (newValue) => _email = newValue,
               )
             : AuthFormField(
                 label: 'Full Name',
                 iconData: Icons.person_3_outlined,
-                validator: (value) {
+                onChanged: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Input your name';
+                    _inputChecks[0] = false;
+                  } else {
+                    _inputChecks[0] = true;
                   }
-
-                  return null;
+                  _notifyInputCheck();
                 },
                 onSaved: (newValue) => _fullName = newValue,
               ),
@@ -386,12 +454,14 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                     shouldIconDisappearOnEdit: false,
-                    validator: (value) {
+                    onChanged: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Input a password';
+                        _inputChecks[1] = false;
+                      } else {
+                        _inputChecks[1] = true;
                       }
 
-                      return null;
+                      _notifyInputCheck();
                     },
                     onSaved: (newValue) {
                       _password = newValue;
@@ -402,14 +472,16 @@ class _AuthScreenState extends State<AuthScreen> {
             : AuthFormField(
                 label: 'Email or Phone',
                 iconData: Icons.email_outlined,
-                validator: (value) {
+                onChanged: (value) {
                   if (value == null ||
                       value.trim().isEmpty ||
                       !value.contains('@')) {
-                    return 'Input your valid email';
+                    _inputChecks[1] = false;
+                  } else {
+                    _inputChecks[1] = true;
                   }
 
-                  return null;
+                  _notifyInputCheck();
                 },
                 onSaved: (newValue) => _email = newValue,
               ),
@@ -417,13 +489,15 @@ class _AuthScreenState extends State<AuthScreen> {
         if (_isLogin == false)
           AuthFormField(
             label: 'Address',
-            iconData: Icons.person_3_outlined,
-            validator: (value) {
+            iconData: Icons.location_on_outlined,
+            onChanged: (value) {
               if (value == null || value.trim().isEmpty) {
-                return 'Input your address';
+                _inputChecks[2] = false;
+              } else {
+                _inputChecks[2] = true;
               }
 
-              return null;
+              _notifyInputCheck();
             },
             onSaved: (newValue) => _address = newValue,
           ),

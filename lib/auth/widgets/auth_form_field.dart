@@ -1,3 +1,4 @@
+import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 final kLabelIconColor = Colors.black.withOpacity(0.3);
@@ -9,6 +10,7 @@ class AuthFormField extends StatefulWidget {
   final String? initialValue;
   final TextInputType? keyBoardType;
   final bool obscureText;
+  final ValueChanged<String?>? onChanged;
   final FormFieldValidator<String?>? validator;
   final void Function(String? newValue)? onSaved;
   final bool shouldIconDisappearOnEdit;
@@ -19,6 +21,7 @@ class AuthFormField extends StatefulWidget {
     this.iconData,
     this.icon,
     this.initialValue,
+    this.onChanged,
     this.validator,
     this.onSaved,
     this.keyBoardType,
@@ -51,6 +54,10 @@ class _AuthFormFieldState extends State<AuthFormField> {
       obscureText: widget.obscureText,
       validator: widget.validator,
       onChanged: (value) {
+        if (widget.onChanged != null) {
+          widget.onChanged!(value);
+        }
+        
         if (!widget.shouldIconDisappearOnEdit) return;
 
         if (value.trim().isNotEmpty) {
@@ -73,6 +80,9 @@ class _AuthFormFieldState extends State<AuthFormField> {
           horizontal: 20,
           vertical: 5,
         ),
+        errorStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: kSecondaryContainer,
+            ),
         hintText: widget.label,
         hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: kLabelIconColor,
