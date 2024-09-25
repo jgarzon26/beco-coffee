@@ -23,8 +23,6 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isRememberMe = false;
   bool _isTOSCheck = false;
 
-  Widget? _addressInput;
-
   final _inputChecks = [false, false];
 
   bool _isAuthButtonEnable = false;
@@ -55,33 +53,10 @@ class _AuthScreenState extends State<AuthScreen> {
     }
   }
 
-  Widget _buildAddressInput() {
-    return AuthFormField(
-      label: 'Address',
-      iconData: Icons.location_on_outlined,
-      onSaved: (newValue) => _address = newValue,
-      onChanged: (value) {
-        if (_isLogin) return;
-
-        if (value == null || value.trim().isEmpty) {
-          _inputChecks[2] = false;
-        } else {
-          _inputChecks[2] = true;
-        }
-
-        _notifyInputCheck();
-      },
-    );
-  }
-
   //* Build
 
   @override
   Widget build(BuildContext context) {
-    if (_isLogin == false) {
-      _addressInput = _buildAddressInput();
-    }
-
     return DefaultTextStyle(
       style: GoogleFonts.inter(),
       child: Scaffold(
@@ -510,18 +485,27 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        AnimatedOpacity(
-          opacity: _isLogin ? 0 : 1,
-          duration: Durations.extralong1,
-          curve: Curves.fastOutSlowIn,
-          onEnd: () {
-            if (_isLogin) {
-              setState(() {
-                _addressInput = null;
-              });
-            }
-          },
-          child: _addressInput,
+        AnimatedCrossFade(
+          crossFadeState:
+              !_isLogin ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+          duration: Durations.medium2,
+          firstChild: AuthFormField(
+            label: 'Address',
+            iconData: Icons.location_on_outlined,
+            onSaved: (newValue) => _address = newValue,
+            onChanged: (value) {
+              if (_isLogin) return;
+
+              if (value == null || value.trim().isEmpty) {
+                _inputChecks[2] = false;
+              } else {
+                _inputChecks[2] = true;
+              }
+
+              _notifyInputCheck();
+            },
+          ),
+          secondChild: Container(),
         ),
       ],
     );
