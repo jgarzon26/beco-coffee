@@ -109,6 +109,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: IntrinsicHeight(
                         child: Column(
                           children: [
+                            if (!_isLogin) const Spacer(),
                             Padding(
                               padding: const EdgeInsets.all(70),
                               child: Image.asset(
