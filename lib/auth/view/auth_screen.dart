@@ -17,7 +17,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   bool _isLogin = true;
 
-  String? _email, _password;
+  String? _emailOrPhone, _password;
   String? _fullName, _address;
   bool _isObscure = true;
   bool _isRememberMe = false;
@@ -402,8 +402,7 @@ class _AuthScreenState extends State<AuthScreen> {
             iconData: Icons.email_outlined,
             onChanged: (value) {
               if (value == null ||
-                  value.trim().isEmpty ||
-                  !value.contains('@')) {
+                  value.trim().isEmpty) {
                 _inputChecks[0] = false;
               } else {
                 _inputChecks[0] = true;
@@ -411,7 +410,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
               _notifyInputCheck();
             },
-            onSaved: (newValue) => _email = newValue,
+            onSaved: (newValue) => _emailOrPhone = newValue,
           ),
           secondChild: AuthFormField(
             label: 'Full Name',
@@ -472,8 +471,7 @@ class _AuthScreenState extends State<AuthScreen> {
             iconData: Icons.email_outlined,
             onChanged: (value) {
               if (value == null ||
-                  value.trim().isEmpty ||
-                  !value.contains('@')) {
+                  value.trim().isEmpty) {
                 _inputChecks[1] = false;
               } else {
                 _inputChecks[1] = true;
@@ -481,7 +479,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
               _notifyInputCheck();
             },
-            onSaved: (newValue) => _email = newValue,
+            onSaved: (newValue) => _emailOrPhone = newValue,
           ),
         ),
         const SizedBox(height: 20),

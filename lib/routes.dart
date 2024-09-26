@@ -4,6 +4,9 @@ import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _sectionNavigatorKey = GlobalKey<NavigatorState>();
+
 CustomTransitionPage _buildPageWithCustomTransitionPage<T>({
   required BuildContext context,
   required GoRouterState state,
@@ -18,7 +21,7 @@ CustomTransitionPage _buildPageWithCustomTransitionPage<T>({
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return transitionWidget ??
           FadeTransition(
-            opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
+            opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
             child: child,
           );
     },
