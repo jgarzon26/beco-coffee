@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
+import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -144,14 +147,18 @@ class _AuthScreenState extends State<AuthScreen> {
                                   formKey: _formKey,
                                   constraints: constraints,
                                   text: 'Sign In',
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    //TODO: sign in the user to backend
+                                  },
                                 ),
                                 secondChild: AuthButton(
                                   isAuthButtonEnable: _isAuthButtonEnable,
                                   formKey: _formKey,
                                   constraints: constraints,
                                   text: 'Sign Up',
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context.go('/auth/verify-code');
+                                  },
                                 ),
                               ),
                             ),
@@ -186,13 +193,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   _resetBooleanValues();
                                 },
                               ),
-                              secondChild: AuthHelpRow(
-                                questionText: 'You have any problem?',
-                                label: 'Help',
-                                onPressed: () {
-                                  //TODO: go to help page
-                                },
-                              ),
+                              secondChild: const AuthHelpRowSignUp(),
                             ),
                             const Spacer(),
                           ],
@@ -399,10 +400,10 @@ class _AuthScreenState extends State<AuthScreen> {
           duration: Durations.medium2,
           firstChild: AuthFormField(
             label: 'Email or Phone',
+            keyBoardType: TextInputType.emailAddress,
             iconData: Icons.email_outlined,
             onChanged: (value) {
-              if (value == null ||
-                  value.trim().isEmpty) {
+              if (value == null || value.trim().isEmpty) {
                 _inputChecks[0] = false;
               } else {
                 _inputChecks[0] = true;
@@ -469,9 +470,9 @@ class _AuthScreenState extends State<AuthScreen> {
           secondChild: AuthFormField(
             label: 'Email or Phone',
             iconData: Icons.email_outlined,
+            keyBoardType: TextInputType.emailAddress,
             onChanged: (value) {
-              if (value == null ||
-                  value.trim().isEmpty) {
+              if (value == null || value.trim().isEmpty) {
                 _inputChecks[1] = false;
               } else {
                 _inputChecks[1] = true;

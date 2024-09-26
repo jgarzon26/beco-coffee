@@ -36,7 +36,7 @@ class AuthButton extends StatelessWidget {
                   return;
                 }
                 formKey.currentState!.save();
-                onPressed;
+                if (onPressed != null) onPressed!();
               }
             : null,
         child: Text(text),

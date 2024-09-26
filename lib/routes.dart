@@ -1,4 +1,5 @@
 import 'package:beco_coffee/auth/view/auth_screen.dart';
+import 'package:beco_coffee/auth/view/code_verify_screen.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,12 @@ final routes = GoRouter(
         state: state,
         child: const AuthScreen(),
       ),
+      routes: [
+        GoRoute(
+          path: 'verify-code',
+          builder: (context, state) => const CodeVerifyScreen(),
+        ),
+      ],
     ),
     GoRoute(
       name: 'home',
