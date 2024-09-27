@@ -7,13 +7,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AuthFormBackground extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  final List<Widget> Function(BuildContext context, BoxConstraints constraints,)? builder;
+  final List<Widget> Function(
+    BuildContext context,
+    BoxConstraints constraints,
+  )? builder;
   final MainAxisAlignment? mainAxisAlignment;
 
   const AuthFormBackground({
     super.key,
     required this.formKey,
-    this.builder, this.mainAxisAlignment,
+    this.builder,
+    this.mainAxisAlignment,
   });
 
   @override
@@ -37,49 +41,56 @@ class AuthFormBackground extends StatelessWidget {
             ),
           ),
         ),
-        body: AuthBackground(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 25,
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
-                    minWidth: constraints.maxWidth,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: AuthBackground(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 25,
                   ),
-                  child: Form(
-                    key: formKey,
-                    child: IntrinsicHeight(
-                      child: Column(
-                        mainAxisAlignment:
-                            mainAxisAlignment ?? MainAxisAlignment.start,
-                        children: [
-                          SizedBox.fromSize(
-                            size: Size.fromHeight(
-                              constraints.maxHeight * 0.05,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                      minWidth: constraints.maxWidth,
+                    ),
+                    child: Form(
+                      key: formKey,
+                      child: IntrinsicHeight(
+                        child: Column(
+                          mainAxisAlignment:
+                              mainAxisAlignment ?? MainAxisAlignment.start,
+                          children: [
+                            SizedBox.fromSize(
+                              size: Size.fromHeight(
+                                constraints.maxHeight * 0.05,
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(70),
-                            child: Image.asset(
-                              'assets/img/logo/logo_2.png',
-                              width: double.infinity,
-                              height: MediaQuery.of(context).size.height * 0.1,
-                              fit: BoxFit.cover,
+                            Padding(
+                              padding: const EdgeInsets.all(70),
+                              child: Image.asset(
+                                'assets/img/logo/logo_2.png',
+                                width: double.infinity,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          if(builder != null) ...builder!(context, constraints),
-                        ],
+                            if (builder != null)
+                              ...builder!(context, constraints),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),

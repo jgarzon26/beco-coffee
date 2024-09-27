@@ -1,8 +1,10 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:beco_coffee/auth/widgets/auth_form_background.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class CodeVerifyScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class CodeVerifyScreen extends StatefulWidget {
 
 class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
   final _formKey = GlobalKey<FormState>();
+  final String _code = '';
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +63,29 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
                         counterText: '',
                       ),
                       style: textTheme.labelLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontSize: 45,
                       ),
+                      onChanged: (value) {
+                        if (value.length == 1) {
+                          FocusScope.of(context).nextFocus();
+                        }
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return '';
+                        }
+
+                        return null;
+                      },
+                      onSaved: (newValue) {
+                        StringUtils.addCharAtPosition(_code, newValue!, index);
+                      },
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                   ),
                 );
               },
+              growable: false,
             ),
           ),
           const SizedBox(height: 20),
