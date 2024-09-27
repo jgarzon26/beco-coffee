@@ -16,7 +16,8 @@ class CodeVerifyScreen extends StatefulWidget {
 
 class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
   final _formKey = GlobalKey<FormState>();
-  final String _code = '';
+  final List<String> _code = List.filled(4, '');
+  final bool _canSignUp = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,13 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderSide: BorderSide(
+                            color: Colors.red,
+                            width: 2,
+                          ),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                         counterText: '',
@@ -68,6 +76,9 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
                       onChanged: (value) {
                         if (value.length == 1) {
                           FocusScope.of(context).nextFocus();
+                          _code[index] = value;
+                        } else {
+                          _code[index] = '';
                         }
                       },
                       validator: (value) {
@@ -76,9 +87,6 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
                         }
 
                         return null;
-                      },
-                      onSaved: (newValue) {
-                        StringUtils.addCharAtPosition(_code, newValue!, index);
                       },
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
@@ -111,11 +119,20 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
           ),
           const Spacer(flex: 2),
           AuthButton(
+            //isAuthButtonEnable: _canSignUp,
             formKey: _formKey,
             constraints: constraints,
             text: 'Sign Up',
             onPressed: () {
-              //context.go('/auth/verify-code');
+              if (!_formKey.currentState!.validate()) return;
+
+              String finalCode = '';
+
+              for (var element in _code) {
+                finalCode += element;
+              }
+
+              //TODO: verify the code in backend and go to create password
             },
           ),
           const Spacer(),
