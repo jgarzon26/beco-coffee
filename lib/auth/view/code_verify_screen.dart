@@ -1,4 +1,3 @@
-import 'package:basic_utils/basic_utils.dart';
 import 'package:beco_coffee/auth/widgets/auth_form_background.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
@@ -6,6 +5,7 @@ import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CodeVerifyScreen extends StatefulWidget {
   const CodeVerifyScreen({super.key});
@@ -110,7 +110,9 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  //TODO: inform the backed to send again the code
+                },
                 child: Text(
                   'Sent again',
                   style: textTheme.bodyMedium!.copyWith(
@@ -121,21 +123,27 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
             ],
           ),
           const Spacer(flex: 2),
-          AuthButton(
-            isAuthButtonEnable: _canSignUp,
-            formKey: _formKey,
-            constraints: constraints,
-            text: 'Sign Up',
-            onPressed: () {
-              String finalCode = '';
+          Consumer(
+            builder: (context, ref, child) {
+              return AuthButton(
+                isAuthButtonEnable: _canSignUp,
+                formKey: _formKey,
+                constraints: constraints,
+                text: 'Sign Up',
+                onPressed: () {
+                  String finalCode = '';
 
-              for (var element in _code) {
-                finalCode += element;
-              }
+                  for (var element in _code) {
+                    finalCode += element;
+                  }
 
-              //TODO: verify the code in backend and go to create password
+                  
 
-              context.goNamed('password-create');
+                  //TODO: verify the code in backend
+
+                  context.goNamed('password-create');
+                },
+              );
             },
           ),
           const Spacer(),

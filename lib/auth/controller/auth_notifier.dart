@@ -30,5 +30,6 @@ class AuthNotifier extends _$AuthNotifier {
     state = AsyncData(state.value!.copyWith(
       password: password,
     ));
+    state = const AsyncLoading();
   }
 }

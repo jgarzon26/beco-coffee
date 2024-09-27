@@ -1,9 +1,11 @@
+import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/widgets/auth_button.dart';
 import 'package:beco_coffee/auth/widgets/auth_form_background.dart';
 import 'package:beco_coffee/auth/widgets/auth_form_field.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PasswordCreateScreen extends StatefulWidget {
   const PasswordCreateScreen({super.key});
@@ -92,15 +94,21 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen> {
             ),
           ),
           const Spacer(),
-          AuthButton(
-            isAuthButtonEnable: _canSignUp,
-            formKey: _formKey,
-            constraints: constraints,
-            text: 'Create',
-            onPressed: () {
-              //TODO: sign up the user
-
-              context.goNamed('sign-up');
+          Consumer(
+            builder: (context, ref, child) {
+              return AuthButton(
+                isAuthButtonEnable: _canSignUp,
+                formKey: _formKey,
+                constraints: constraints,
+                text: 'Create',
+                onPressed: () {
+                  //TODO: sign up the user
+                  ref
+                      .read(authNotifierProvider.notifier)
+                      .SignUp(password: _password!);
+                  context.goNamed('sign-up');
+                },
+              );
             },
           ),
           const Spacer(),

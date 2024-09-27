@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
-import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -151,13 +152,33 @@ class _AuthScreenState extends State<AuthScreen> {
                                     //TODO: sign in the user to backend
                                   },
                                 ),
-                                secondChild: AuthButton(
-                                  isAuthButtonEnable: _isAuthButtonEnable,
-                                  formKey: _formKey,
-                                  constraints: constraints,
-                                  text: 'Sign Up',
-                                  onPressed: () {
-                                    context.go('/auth/verify-code');
+                                secondChild: Consumer(
+                                  builder: (context, ref, child) {
+                                    return AuthButton(
+                                      isAuthButtonEnable: _isAuthButtonEnable,
+                                      formKey: _formKey,
+                                      constraints: constraints,
+                                      text: 'Sign Up',
+                                      onPressed: () {
+                                        ref
+                                            .read(authNotifierProvider.notifier)
+                                            .initUserCredentialForSignUp(
+                                              fullName: _fullName!,
+                                              address: _address!,
+                                              email:
+                                                  _emailOrPhone!.contains('@')
+                                                      ? _emailOrPhone
+                                                      : null,
+                                              number:
+                                                  _emailOrPhone!.contains('@')
+                                                      ? null
+                                                      : _emailOrPhone,
+                                            );
+
+                                        //? firebase might accept number rather string
+                                        context.goNamed('verify-code');
+                                      },
+                                    );
                                   },
                                 ),
                               ),
