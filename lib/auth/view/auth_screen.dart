@@ -4,28 +4,31 @@ import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
 import 'package:beco_coffee/theme/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthScreenState extends ConsumerState<AuthScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _isLogin = true;
 
-  String? _emailOrPhone, _password;
+  String? _email, _password;
   String? _fullName, _address;
   bool _isObscure = true;
   bool _isRememberMe = false;
   bool _isTOSCheck = false;
+
+  String? _customErrorEmailText;
 
   final _inputChecks = [false, false];
 
@@ -61,6 +64,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authNotifierProvider);
+
     return DefaultTextStyle(
       style: GoogleFonts.inter(),
       child: Scaffold(
@@ -152,33 +157,34 @@ class _AuthScreenState extends State<AuthScreen> {
                                     //TODO: sign in the user to backend
                                   },
                                 ),
-                                secondChild: Consumer(
-                                  builder: (context, ref, child) {
-                                    return AuthButton(
-                                      isAuthButtonEnable: _isAuthButtonEnable,
-                                      formKey: _formKey,
-                                      constraints: constraints,
-                                      text: 'Sign Up',
-                                      onPressed: () {
-                                        ref
-                                            .read(authNotifierProvider.notifier)
-                                            .initUserCredentialForSignUp(
-                                              fullName: _fullName!,
-                                              address: _address!,
-                                              email:
-                                                  _emailOrPhone!.contains('@')
-                                                      ? _emailOrPhone
-                                                      : null,
-                                              number:
-                                                  _emailOrPhone!.contains('@')
-                                                      ? null
-                                                      : _emailOrPhone,
-                                            );
+                                secondChild: AuthButton(
+                                  isAuthButtonEnable: _isAuthButtonEnable,
+                                  formKey: _formKey,
+                                  constraints: constraints,
+                                  text: 'Sign Up',
+                                  onPressed: () {
+                                    ref
+                                        .read(authNotifierProvider.notifier)
+                                        .initUserCredentialForSignUp(
+                                          fullName: _fullName!,
+                                          address: _address!,
+                                          email: _email!,
+                                        );
 
-                                        //? firebase might accept number rather string
-                                        context.goNamed('verify-code');
-                                      },
-                                    );
+                                    if (authState.hasError) {
+                                      final exception = authState.error
+                                          as FirebaseAuthException;
+
+                                      if (exception.code ==
+                                          'email-already-in-use') {
+                                        setState(() {
+                                          _customErrorEmailText =
+                                              'Email is already in use';
+                                        });
+                                      }
+                                    } else if (authState.hasValue) {
+                                      context.goNamed('password-create');
+                                    }
                                   },
                                 ),
                               ),
@@ -432,7 +438,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
               _notifyInputCheck();
             },
-            onSaved: (newValue) => _emailOrPhone = newValue,
+            onSaved: (newValue) => _email = newValue,
           ),
           secondChild: AuthFormField(
             label: 'Full Name',
@@ -489,11 +495,14 @@ class _AuthScreenState extends State<AuthScreen> {
             },
           ),
           secondChild: AuthFormField(
-            label: 'Email or Phone',
+            label: 'Email',
             iconData: Icons.email_outlined,
             keyBoardType: TextInputType.emailAddress,
+            errorText: _customErrorEmailText,
             onChanged: (value) {
-              if (value == null || value.trim().isEmpty) {
+              if (value == null ||
+                  value.trim().isEmpty ||
+                  !value.contains('@')) {
                 _inputChecks[1] = false;
               } else {
                 _inputChecks[1] = true;
@@ -501,7 +510,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
               _notifyInputCheck();
             },
-            onSaved: (newValue) => _emailOrPhone = newValue,
+            onSaved: (newValue) => _email = newValue,
           ),
         ),
         const SizedBox(height: 20),

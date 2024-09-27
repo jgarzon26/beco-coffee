@@ -1,35 +1,48 @@
-import 'package:beco_coffee/auth/model/auth_user.dart';
+import 'package:beco_coffee/repo/auth_repo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_notifier.g.dart';
 
 @riverpod
 class AuthNotifier extends _$AuthNotifier {
+  String _fullName = '', _email = '', _address = '';
+
   @override
-  FutureOr<AuthUser> build() {
-    return const AuthUser();
+  FutureOr<UserCredential?> build() {
+    return null;
   }
 
-  void initUserCredentialForSignUp({
+  Future<void> initUserCredentialForSignUp({
     required String fullName,
-    String? email,
-    String? number,
+    required String email,
     required String address,
-  }) {
-    state = AsyncData(state.value!.copyWith(
-      fullName: fullName,
-      email: email ?? '',
-      number: number ?? '',
-      address: address,
-    ));
+  }) async {
+    state = const AsyncLoading();
+    final response =
+        await ref.read(authRepoProvider).checkIfEmailIsAvailable(email);
+
+    if (response) {
+      _fullName = fullName;
+      _email = email;
+      _address = address;
+    } else {
+      state = AsyncError(
+        FirebaseAuthException(code: 'email-already-in-use'),
+        StackTrace.current,
+      );
+    }
   }
 
-  void SignUp({
+  Future<void> signUp({
     required String password,
-  }) {
-    state = AsyncData(state.value!.copyWith(
-      password: password,
-    ));
-    state = const AsyncLoading();
+  }) async {
+    state = await AsyncValue.guard(
+        () => ref.read(authRepoProvider).signUpUserWithEmail(
+              fullName: _fullName,
+              email: _email,
+              password: password,
+              address: _address,
+            ));
   }
 }

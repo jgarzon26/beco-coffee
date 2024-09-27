@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "587600554342",
+    "project_id": "beco-coffee",
+    "storage_bucket": "beco-coffee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587600554342:android:2149ad53609f1e518d80a7",
+        "android_client_info": {
+          "package_name": "com.example.beco_coffee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBr1c6fe3aT6KnWY5oNjN9US8O4CqsjHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

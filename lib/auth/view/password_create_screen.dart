@@ -11,7 +11,8 @@ class PasswordCreateScreen extends StatefulWidget {
   const PasswordCreateScreen({super.key});
 
   @override
-  State<PasswordCreateScreen> createState() => _PasswordCreateScreenState();
+  State<PasswordCreateScreen> createState() =>
+      _PasswordCreateScreenState();
 }
 
 class _PasswordCreateScreenState extends State<PasswordCreateScreen> {
@@ -101,12 +102,11 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen> {
                 formKey: _formKey,
                 constraints: constraints,
                 text: 'Create',
-                onPressed: () {
-                  //TODO: sign up the user
-                  ref
-                      .read(authNotifierProvider.notifier)
-                      .SignUp(password: _password!);
+                onPressed: () async {
                   context.goNamed('sign-up');
+                  await ref
+                      .read(authNotifierProvider.notifier)
+                      .signUp(password: _password!);
                 },
               );
             },
