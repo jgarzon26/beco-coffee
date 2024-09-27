@@ -3,6 +3,7 @@ import 'package:beco_coffee/auth/widgets/auth_form_background.dart';
 import 'package:beco_coffee/auth/widgets/auth_form_field.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PasswordCreateScreen extends StatefulWidget {
   const PasswordCreateScreen({super.key});
@@ -96,10 +97,10 @@ class _PasswordCreateScreenState extends State<PasswordCreateScreen> {
             formKey: _formKey,
             constraints: constraints,
             text: 'Create',
-            onPressed: (){
+            onPressed: () {
               //TODO: sign up the user
 
-              
+              context.goNamed('sign-up');
             },
           ),
           const Spacer(),
