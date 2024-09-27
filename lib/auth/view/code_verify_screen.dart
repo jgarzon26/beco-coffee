@@ -17,7 +17,7 @@ class CodeVerifyScreen extends StatefulWidget {
 class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _code = List.filled(4, '');
-  final bool _canSignUp = false;
+  bool _canSignUp = false;
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +80,16 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
                         } else {
                           _code[index] = '';
                         }
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return '';
-                        }
 
-                        return null;
+                        if (_code.contains('')) {
+                          setState(() {
+                            _canSignUp = false;
+                          });
+                        } else {
+                          setState(() {
+                            _canSignUp = true;
+                          });
+                        }
                       },
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
@@ -119,13 +122,11 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
           ),
           const Spacer(flex: 2),
           AuthButton(
-            //isAuthButtonEnable: _canSignUp,
+            isAuthButtonEnable: _canSignUp,
             formKey: _formKey,
             constraints: constraints,
             text: 'Sign Up',
             onPressed: () {
-              if (!_formKey.currentState!.validate()) return;
-
               String finalCode = '';
 
               for (var element in _code) {
@@ -133,6 +134,8 @@ class _CodeVerifyScreenState extends State<CodeVerifyScreen> {
               }
 
               //TODO: verify the code in backend and go to create password
+
+              context.goNamed('password-create');
             },
           ),
           const Spacer(),

@@ -1,5 +1,6 @@
 import 'package:beco_coffee/auth/view/auth_screen.dart';
 import 'package:beco_coffee/auth/view/code_verify_screen.dart';
+import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +48,14 @@ final routes = GoRouter(
       ),
       routes: [
         GoRoute(
+          name: 'verify-code',
           path: 'verify-code',
           builder: (context, state) => const CodeVerifyScreen(),
+        ),
+        GoRoute(
+          name: 'password-create',
+          path: 'password-create',
+          builder: (context, state) => const PasswordCreateScreen(),
         ),
       ],
     ),
