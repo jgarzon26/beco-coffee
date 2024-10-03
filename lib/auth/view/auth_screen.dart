@@ -156,7 +156,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                   constraints: constraints,
                                   text: 'Sign In',
                                   onPressed: () {
-                                    //TODO: sign in the user to backend
+                                    ref
+                                        .read(authNotifierProvider.notifier)
+                                        .logIn(
+                                          email: _email!,
+                                          password: _password!,
+                                        );
                                   },
                                 ),
                                 secondChild: AuthButton(

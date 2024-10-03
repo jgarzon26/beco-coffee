@@ -2,6 +2,7 @@ import 'package:beco_coffee/auth/view/auth_screen.dart';
 import 'package:beco_coffee/auth/view/code_verify_screen.dart';
 import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/auth/view/sign_up_loading_screen.dart';
+import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,12 +33,17 @@ CustomTransitionPage _buildPageWithCustomTransitionPage<T>({
 }
 
 final routes = GoRouter(
-  initialLocation: '/intro',
+  initialLocation: '/',
   routes: [
     GoRoute(
       name: 'intro',
       path: '/intro',
       builder: (context, state) => const IntroScreen(),
+    ),
+    GoRoute(
+      name: 'main',
+      path: '/',
+      builder: (context, state) => const MainWidget(),
     ),
     GoRoute(
       name: 'auth',
@@ -67,7 +73,7 @@ final routes = GoRouter(
     ),
     GoRoute(
       name: 'home',
-      path: '/',
+      path: '/home',
       builder: (context, state) => const HomeScreen(),
     ),
   ],

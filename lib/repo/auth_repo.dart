@@ -45,9 +45,25 @@ class AuthRepo {
 
     return query.docs.isEmpty;
   }
+
+  Future<UserCredential> loginUser(String email, String password) async {
+    return await _firebaseAuth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  Stream<User?> authStateChanges() {
+    return _firebaseAuth.authStateChanges();
+  }
 }
 
 @riverpod
 AuthRepo authRepo(AuthRepoRef ref) {
   return AuthRepo();
+}
+
+@riverpod
+Stream<User?> authStateChanges(AuthStateChangesRef ref) {
+  return ref.watch(authRepoProvider).authStateChanges();
 }
