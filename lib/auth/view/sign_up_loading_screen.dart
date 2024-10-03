@@ -3,6 +3,7 @@ import 'package:beco_coffee/auth/widgets/auth_background.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpLoadingScreen extends ConsumerWidget {
   const SignUpLoadingScreen({super.key});
@@ -53,7 +54,7 @@ class SignUpLoadingScreen extends ConsumerWidget {
                         textStyle: Theme.of(context).textTheme.headlineSmall,
                       ),
                       onPressed: () {
-                        //TODO: login the user and enter the homepage
+                        context.goNamed('home');
                       },
                       child: const Text('Log In'),
                     ),

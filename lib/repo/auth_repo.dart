@@ -41,6 +41,8 @@ class AuthRepo {
         .where('email', isEqualTo: email)
         .get();
 
+    print(query.docs.isEmpty);
+
     return query.docs.isEmpty;
   }
 }

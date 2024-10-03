@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 class AuthButton extends StatelessWidget {
   const AuthButton({
     super.key,
-    this.isAuthButtonEnable = true,
     required this.formKey,
     required this.constraints,
     required this.text,
     this.onPressed,
+    this.isAuthButtonEnable = true,
+    this.shouldValidate = false,
   });
 
   final bool isAuthButtonEnable;
@@ -16,6 +17,7 @@ class AuthButton extends StatelessWidget {
   final BoxConstraints constraints;
   final String text;
   final VoidCallback? onPressed;
+  final bool shouldValidate;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class AuthButton extends StatelessWidget {
         ),
         onPressed: isAuthButtonEnable
             ? () {
-                if (!formKey.currentState!.validate()) {
+                if (shouldValidate && !formKey.currentState!.validate()) {
                   return;
                 }
                 formKey.currentState!.save();

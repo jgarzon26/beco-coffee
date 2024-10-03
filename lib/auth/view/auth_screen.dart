@@ -10,6 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+//TODO: continue to fix check email if available
+
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
@@ -64,7 +66,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
+    final authState = ref.watch(authNotifierProvider).unwrapPrevious();
 
     return DefaultTextStyle(
       style: GoogleFonts.inter(),
@@ -182,7 +184,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                               'Email is already in use';
                                         });
                                       }
-                                    } else if (authState.hasValue) {
+
+                                      return;
+                                    }
+
+                                    if (!authState.isLoading &&
+                                        !authState.hasError) {
+                                      setState(() {
+                                        _customErrorEmailText = null;
+                                      });
                                       context.goNamed('password-create');
                                     }
                                   },

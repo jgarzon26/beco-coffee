@@ -26,6 +26,7 @@ class AuthNotifier extends _$AuthNotifier {
       _fullName = fullName;
       _email = email;
       _address = address;
+      state = const AsyncData(null);
     } else {
       state = AsyncError(
         FirebaseAuthException(code: 'email-already-in-use'),
@@ -37,6 +38,7 @@ class AuthNotifier extends _$AuthNotifier {
   Future<void> signUp({
     required String password,
   }) async {
+    state = const AsyncLoading();
     state = await AsyncValue.guard(
         () => ref.read(authRepoProvider).signUpUserWithEmail(
               fullName: _fullName,
