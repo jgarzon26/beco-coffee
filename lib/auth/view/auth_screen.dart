@@ -169,8 +169,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                   formKey: _formKey,
                                   constraints: constraints,
                                   text: 'Sign Up',
-                                  onPressed: () {
-                                    ref
+                                  onPressed: () async {
+                                    await ref
                                         .read(authNotifierProvider.notifier)
                                         .initUserCredentialForSignUp(
                                           fullName: _fullName!,
@@ -193,8 +193,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                       return;
                                     }
 
-                                    if (!authState.isLoading &&
-                                        !authState.hasError) {
+                                    if (authState.hasValue) {
                                       setState(() {
                                         _customErrorEmailText = null;
                                       });

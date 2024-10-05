@@ -4,6 +4,8 @@ import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/auth/view/sign_up_loading_screen.dart';
 import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
+import 'package:beco_coffee/home/view/profile_screen.dart';
+import 'package:beco_coffee/home/widgets/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +35,8 @@ CustomTransitionPage _buildPageWithCustomTransitionPage<T>({
 }
 
 final routes = GoRouter(
-  initialLocation: '/',
+  navigatorKey: _rootNavigatorKey,
+  initialLocation: '/home',
   routes: [
     GoRoute(
       name: 'intro',
@@ -71,10 +74,58 @@ final routes = GoRouter(
         ),
       ],
     ),
-    GoRoute(
-      name: 'home',
-      path: '/home',
-      builder: (context, state) => const HomeScreen(),
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return HomeNavBar(statefulNavigationShell: navigationShell);
+      },
+      branches: [
+        StatefulShellBranch(
+          navigatorKey: _sectionNavigatorKey,
+          routes: [
+            GoRoute(
+              name: 'home',
+              path: '/home',
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              name: 'order',
+              path: '/order',
+              builder: (context, state) => const Placeholder(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              name: 'chat',
+              path: '/chat',
+              builder: (context, state) => const Placeholder(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              name: 'cart',
+              path: '/cart',
+              builder: (context, state) => const Placeholder(),
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              name: 'profile',
+              path: '/profile',
+              builder: (context, state) => const ProfileScreen(),
+            ),
+          ],
+        ),
+      ],
     ),
   ],
 );
