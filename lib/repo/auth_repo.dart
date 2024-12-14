@@ -56,6 +56,10 @@ class AuthRepo {
   Stream<User?> authStateChanges() {
     return _firebaseAuth.authStateChanges();
   }
+
+  User? get currentUser {
+    return _firebaseAuth.currentUser;
+  }
 }
 
 @riverpod

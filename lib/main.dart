@@ -1,4 +1,5 @@
-import 'package:beco_coffee/routes.dart';
+import 'package:beco_coffee/core/routes.dart';
+import 'package:beco_coffee/repo/auth_repo.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -13,20 +14,20 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FlutterNativeSplash.remove();
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ProviderScope(
-      child: MaterialApp.router(
-        theme: defaultTheme,
-        title: 'beCo Coffee',
-        routerConfig: routes,
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final routes = ref.watch(routerProvider);
+
+    return MaterialApp.router(
+      theme: defaultTheme,
+      title: 'beCo Coffee',
+      routerConfig: routes,
     );
   }
 }

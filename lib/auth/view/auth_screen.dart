@@ -162,6 +162,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                           email: _email!,
                                           password: _password!,
                                         );
+
+                                    if (authState.value != null) {
+                                      if (context.mounted)
+                                        context.goNamed('/home');
+                                    }
                                   },
                                 ),
                                 secondChild: AuthButton(

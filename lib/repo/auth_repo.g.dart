@@ -19,8 +19,10 @@ final authRepoProvider = AutoDisposeProvider<AuthRepo>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AuthRepoRef = AutoDisposeProviderRef<AuthRepo>;
-String _$authStateChangesHash() => r'6644985d79e53ec5ef04a8a3c30a0a7c040b8412';
+String _$authStateChangesHash() => r'8a60d5e0487f1fe75e9563469588ec39ead21fe0';
 
 /// See also [authStateChanges].
 @ProviderFor(authStateChanges)
@@ -34,6 +36,8 @@ final authStateChangesProvider = AutoDisposeStreamProvider<User?>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef AuthStateChangesRef = AutoDisposeStreamProviderRef<User?>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
