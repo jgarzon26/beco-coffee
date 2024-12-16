@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
+import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
 import 'package:beco_coffee/theme/theme.dart';
@@ -67,6 +68,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider).unwrapPrevious();
+    final parentContext = context;
 
     return DefaultTextStyle(
       style: GoogleFonts.inter(),
@@ -102,154 +104,173 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             FocusScope.of(context).unfocus();
           },
           child: AuthBackground(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 25,
-                  ),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                      minWidth: constraints.maxWidth,
-                    ),
-                    child: Form(
-                      key: _formKey,
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            AnimatedSize(
-                              duration: Durations.medium2,
-                              curve: Curves.easeIn,
-                              child: SizedBox.fromSize(
-                                size: Size.fromHeight(
-                                  !_isLogin ? constraints.maxHeight * 0.05 : 0,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(70),
-                              child: Image.asset(
-                                'assets/img/logo/logo_2.png',
-                                width: double.infinity,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            _buildAuthCredential(),
-                            _isLogin
-                                ? _buildUserOperations(context)
-                                : _buildTOSandPolicy(),
-                            const Spacer(flex: 3),
-                            Flexible(
-                              child: AnimatedCrossFade(
-                                crossFadeState: _isLogin
-                                    ? CrossFadeState.showFirst
-                                    : CrossFadeState.showSecond,
-                                duration: Durations.medium2,
-                                firstChild: AuthButton(
-                                  isAuthButtonEnable: _isAuthButtonEnable,
-                                  formKey: _formKey,
-                                  constraints: constraints,
-                                  text: 'Sign In',
-                                  onPressed: () {
-                                    ref
-                                        .read(authNotifierProvider.notifier)
-                                        .logIn(
-                                          email: _email!,
-                                          password: _password!,
-                                        );
-
-                                    if (authState.value != null) {
-                                      if (context.mounted)
-                                        context.goNamed('/home');
-                                    }
-                                  },
-                                ),
-                                secondChild: AuthButton(
-                                  isAuthButtonEnable: _isAuthButtonEnable,
-                                  formKey: _formKey,
-                                  constraints: constraints,
-                                  text: 'Sign Up',
-                                  onPressed: () async {
-                                    await ref
-                                        .read(authNotifierProvider.notifier)
-                                        .initUserCredentialForSignUp(
-                                          fullName: _fullName!,
-                                          address: _address!,
-                                          email: _email!,
-                                        );
-
-                                    if (authState.hasError) {
-                                      final exception = authState.error
-                                          as FirebaseAuthException;
-
-                                      if (exception.code ==
-                                          'email-already-in-use') {
-                                        setState(() {
-                                          _customErrorEmailText =
-                                              'Email is already in use';
-                                        });
-                                      }
-
-                                      return;
-                                    }
-
-                                    if (authState.hasValue) {
-                                      setState(() {
-                                        _customErrorEmailText = null;
-                                      });
-                                      context.goNamed('password-create');
-                                    }
-                                  },
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            AnimatedCrossFade(
-                              firstChild: Column(
+            child: authState.isLoading
+                ? const Center(child: CircularProgressIndicator.adaptive())
+                : LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 25,
+                        ),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                            minWidth: constraints.maxWidth,
+                          ),
+                          child: Form(
+                            key: _formKey,
+                            child: IntrinsicHeight(
+                              child: Column(
                                 children: [
-                                  _buildSignInDivider(context, constraints),
+                                  AnimatedSize(
+                                    duration: Durations.medium2,
+                                    curve: Curves.easeIn,
+                                    child: SizedBox.fromSize(
+                                      size: Size.fromHeight(
+                                        !_isLogin
+                                            ? constraints.maxHeight * 0.05
+                                            : 0,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(70),
+                                    child: Image.asset(
+                                      'assets/img/logo/logo_2.png',
+                                      width: double.infinity,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.1,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  _buildAuthCredential(),
+                                  _isLogin
+                                      ? _buildUserOperations(context)
+                                      : _buildTOSandPolicy(),
+                                  const Spacer(flex: 3),
+                                  Flexible(
+                                    child: AnimatedCrossFade(
+                                      crossFadeState: _isLogin
+                                          ? CrossFadeState.showFirst
+                                          : CrossFadeState.showSecond,
+                                      duration: Durations.medium2,
+                                      firstChild: AuthButton(
+                                        isAuthButtonEnable: _isAuthButtonEnable,
+                                        formKey: _formKey,
+                                        constraints: constraints,
+                                        text: 'Sign In',
+                                        onPressed: () {
+                                          _resetBooleanValues();
+                                          ref
+                                              .read(
+                                                  authNotifierProvider.notifier)
+                                              .logIn(
+                                                email: _email!,
+                                                password: _password!,
+                                              )
+                                              .then(
+                                            (_) {
+                                              if (authState.hasValue &&
+                                                  authState.value != null) {
+                                                if (context.mounted) {
+                                                  context.goNamed('home');
+                                                  return;
+                                                }
+                                                print('Cannot go to home');
+                                              }
+                                            },
+                                          );
+                                        },
+                                      ),
+                                      secondChild: AuthButton(
+                                        isAuthButtonEnable: _isAuthButtonEnable,
+                                        formKey: _formKey,
+                                        constraints: constraints,
+                                        text: 'Sign Up',
+                                        onPressed: () async {
+                                          _isTOSCheck = false;
+
+                                          await ref
+                                              .read(
+                                                  authNotifierProvider.notifier)
+                                              .initUserCredentialForSignUp(
+                                                fullName: _fullName!,
+                                                address: _address!,
+                                                email: _email!,
+                                              );
+
+                                          if (authState.hasError) {
+                                            final exception = authState.error
+                                                as FirebaseAuthException;
+
+                                            if (exception.code ==
+                                                'email-already-in-use') {
+                                              setState(() {
+                                                _customErrorEmailText =
+                                                    'Email is already in use';
+                                              });
+                                            }
+                                            _resetBooleanValues();
+                                            return;
+                                          }
+
+                                          if (authState.hasValue) {
+                                            setState(() {
+                                              _customErrorEmailText = null;
+                                            });
+                                            parentContext
+                                                .pushNamed('password-create');
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ),
                                   const SizedBox(height: 20),
-                                  _buildAccountIcons(),
+                                  AnimatedCrossFade(
+                                    firstChild: Column(
+                                      children: [
+                                        _buildSignInDivider(
+                                            context, constraints),
+                                        const SizedBox(height: 20),
+                                        _buildAccountIcons(),
+                                      ],
+                                    ),
+                                    secondChild: Container(),
+                                    crossFadeState: _isLogin
+                                        ? CrossFadeState.showFirst
+                                        : CrossFadeState.showSecond,
+                                    duration: Durations.medium2,
+                                  ),
+                                  AnimatedCrossFade(
+                                    crossFadeState: _isLogin
+                                        ? CrossFadeState.showFirst
+                                        : CrossFadeState.showSecond,
+                                    duration: Durations.medium2,
+                                    firstChild: AuthHelpRow(
+                                      questionText: 'Don\'t have an account?',
+                                      label: 'Sign Up',
+                                      onPressed: () {
+                                        _formKey.currentState!.reset();
+                                        setState(() {
+                                          _isLogin = false;
+                                        });
+                                        _resetBooleanValues();
+                                      },
+                                    ),
+                                    secondChild: const AuthHelpRowSignUp(),
+                                  ),
+                                  const Spacer(),
                                 ],
                               ),
-                              secondChild: Container(),
-                              crossFadeState: _isLogin
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                              duration: Durations.medium2,
                             ),
-                            AnimatedCrossFade(
-                              crossFadeState: _isLogin
-                                  ? CrossFadeState.showFirst
-                                  : CrossFadeState.showSecond,
-                              duration: Durations.medium2,
-                              firstChild: AuthHelpRow(
-                                questionText: 'Don\'t have an account?',
-                                label: 'Sign Up',
-                                onPressed: () {
-                                  _formKey.currentState!.reset();
-                                  setState(() {
-                                    _isLogin = false;
-                                  });
-                                  _resetBooleanValues();
-                                },
-                              ),
-                              secondChild: const AuthHelpRowSignUp(),
-                            ),
-                            const Spacer(),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ),
       ),
@@ -457,7 +478,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
               _notifyInputCheck();
             },
-            onSaved: (newValue) => _email = newValue,
+            onSaved: (newValue) {
+              _email = newValue;
+            },
           ),
           secondChild: AuthFormField(
             label: 'Full Name',
@@ -529,7 +552,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
               _notifyInputCheck();
             },
-            onSaved: (newValue) => _email = newValue,
+            onSaved: (newValue) {
+              if (_isLogin) return;
+              _email = newValue;
+            },
           ),
         ),
         const SizedBox(height: 20),

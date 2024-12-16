@@ -41,13 +41,11 @@ class AuthRepo {
         .where('email', isEqualTo: email)
         .get();
 
-    print(query.docs.isEmpty);
-
     return query.docs.isEmpty;
   }
 
   Future<UserCredential> loginUser(String email, String password) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(
+    return _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
