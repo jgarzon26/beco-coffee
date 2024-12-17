@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
-import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
 import 'package:beco_coffee/theme/theme.dart';
@@ -173,13 +172,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                               )
                                               .then(
                                             (_) {
-                                              if (authState.hasValue &&
-                                                  authState.value != null) {
-                                                if (context.mounted) {
-                                                  context.goNamed('home');
-                                                  return;
-                                                }
-                                                print('Cannot go to home');
+                                              if (authState.hasValue) {
+                                                parentContext.goNamed('home');
                                               }
                                             },
                                           );

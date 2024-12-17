@@ -53,13 +53,17 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
   }) async {
     state = const AsyncLoading();
-    //state = await AsyncValue.guard(() => ref.read(authRepoProvider).loginUser(email, password));
+    state = await AsyncValue.guard(
+        () => ref.read(authRepoProvider).loginUser(email, password));
+  }
+
+  Future<void> logOut() async {
+    state = const AsyncLoading();
     try {
-      final userCredential =
-          await ref.read(authRepoProvider).loginUser(email, password);
-      state = AsyncData(userCredential);
-    } catch (e, stack) {
-      state = AsyncError(e, stack);
+      await ref.read(authRepoProvider).logOut();
+      state = const AsyncData(null);
+    } catch(e, stackTrace) {
+      state = AsyncError(e, stackTrace);
     }
   }
 }

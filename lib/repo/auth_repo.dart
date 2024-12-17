@@ -45,10 +45,12 @@ class AuthRepo {
   }
 
   Future<UserCredential> loginUser(String email, String password) async {
-    return _firebaseAuth.signInWithEmailAndPassword(
+    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+
+    return userCredential;
   }
 
   Stream<User?> authStateChanges() {
@@ -57,6 +59,10 @@ class AuthRepo {
 
   User? get currentUser {
     return _firebaseAuth.currentUser;
+  }
+
+  Future<void> logOut() async {
+    return _firebaseAuth.signOut();
   }
 }
 
