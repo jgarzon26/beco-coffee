@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-//TODO: continue to fix check email if available
+import 'package:path_provider/path_provider.dart' as syspath;
 
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
@@ -577,5 +576,14 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         ),
       ],
     );
+  }
+
+  void rememberUserIfAllow() async {
+    final appDir = await syspath.getApplicationDocumentsDirectory();
+
+    if (!_isRememberMe) {
+      //TODO: Delete the user from the local database
+      return;
+    }
   }
 }

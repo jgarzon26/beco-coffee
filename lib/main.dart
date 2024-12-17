@@ -1,5 +1,5 @@
 import 'package:beco_coffee/core/routes.dart';
-import 'package:beco_coffee/repo/auth_repo.dart';
+import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';

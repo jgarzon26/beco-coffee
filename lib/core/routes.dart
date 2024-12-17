@@ -7,7 +7,7 @@ import 'package:beco_coffee/home/view/home_screen.dart';
 import 'package:beco_coffee/home/view/profile_screen.dart';
 import 'package:beco_coffee/home/widgets/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
-import 'package:beco_coffee/repo/auth_repo.dart';
+import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
