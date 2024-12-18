@@ -7,29 +7,31 @@ part 'user_local_repo.g.dart';
 class UserLocalRepo {
   final _asyncPrefs = SharedPreferencesAsync();
 
-  Future<bool?> get getIsRememberUser {
-    return _asyncPrefs.getBool('remember');
+  static const _userKey = 'user', _passKey = 'pass', _rememberKey = 'remember';
+
+  Future<bool?> getIsRememberUser() {
+    return _asyncPrefs.getBool(_rememberKey);
   }
 
-  set setIsRememberUser(bool value) {
-    _asyncPrefs.setBool('remember', value);
+  void setIsRememberUser(bool value) {
+    _asyncPrefs.setBool(_rememberKey, value);
   }
 
-  Future<Tuple2<String?, String?>> get getUser async {
-    String? user = await _asyncPrefs.getString('user');
-    String? password = await _asyncPrefs.getString('pass');
+  Future<Tuple2<String?, String?>> getUser() async {
+    String? user = await _asyncPrefs.getString(_userKey);
+    String? password = await _asyncPrefs.getString(_passKey);
 
     return Tuple2(user, password);
   }
 
   Future<void> setUser(String user, String password) async {
-    await _asyncPrefs.setString('user', user);
-    await _asyncPrefs.setString('pass', password);
+    await _asyncPrefs.setString(_userKey, user);
+    await _asyncPrefs.setString(_passKey, password);
   }
 
   Future<void> removeUser() async {
-    await _asyncPrefs.remove('user');
-    await _asyncPrefs.remove('pass');
+    await _asyncPrefs.remove(_userKey);
+    await _asyncPrefs.remove(_passKey);
   }
 }
 

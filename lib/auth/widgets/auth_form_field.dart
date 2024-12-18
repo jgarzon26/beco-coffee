@@ -15,6 +15,7 @@ class AuthFormField extends StatefulWidget {
   final void Function(String? newValue)? onSaved;
   final bool shouldIconDisappearOnEdit;
   final String? errorText;
+  final TextEditingController? controller;
 
   const AuthFormField({
     super.key,
@@ -29,6 +30,7 @@ class AuthFormField extends StatefulWidget {
     this.obscureText = false,
     this.shouldIconDisappearOnEdit = true,
     this.errorText,
+    this.controller,
   });
 
   @override
@@ -52,6 +54,7 @@ class _AuthFormFieldState extends State<AuthFormField> {
 
     return TextFormField(
       initialValue: widget.initialValue,
+      controller: widget.controller,
       keyboardType: widget.keyBoardType,
       obscureText: widget.obscureText,
       validator: widget.validator,

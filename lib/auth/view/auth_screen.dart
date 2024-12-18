@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
+import 'package:beco_coffee/auth/repo/user_local_repo.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
 import 'package:beco_coffee/theme/theme.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path_provider/path_provider.dart' as syspath;
 
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
@@ -24,6 +24,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   bool _isLogin = true;
 
   String? _email, _password;
+  var _emailController = TextEditingController(),
+      _passwordController = TextEditingController();
   String? _fullName, _address;
   bool _isObscure = true;
   bool _isRememberMe = false;
@@ -34,6 +36,35 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _inputChecks = [false, false];
 
   bool _isAuthButtonEnable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupRememberMe();
+  }
+
+  Future<void> _setupRememberMe() async {
+    final rememberMe =
+        await ref.read(userLocalRepoProvider).getIsRememberUser();
+    setState(() => _isRememberMe = rememberMe ?? false);
+    _setupUser();
+  }
+
+  Future<void> _setupUser() async {
+    if (!_isRememberMe) return;
+
+    final user = await ref.read(userLocalRepoProvider).getUser();
+    setState(() {
+      _email = user.item1;
+      _password = user.item2;
+      _emailController = TextEditingController(text: _email);
+      _passwordController = TextEditingController(text: _password);
+    });
+
+    _inputChecks[0] = true;
+    _inputChecks[1] = true;
+    _notifyInputCheck();
+  }
 
   void _resetBooleanValues() {
     if (_isLogin) {
@@ -162,6 +193,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                         text: 'Sign In',
                                         onPressed: () {
                                           _resetBooleanValues();
+                                          _rememberUserIfAllow();
                                           ref
                                               .read(
                                                   authNotifierProvider.notifier)
@@ -407,7 +439,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               ),
               onPressed: () {
                 setstate(() => _isRememberMe = !_isRememberMe);
-                //TODO: make app remember this user
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -459,6 +490,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               _isLogin ? CrossFadeState.showFirst : CrossFadeState.showSecond,
           duration: Durations.medium2,
           firstChild: AuthFormField(
+            controller: _emailController,
             label: 'Email or Phone',
             keyBoardType: TextInputType.emailAddress,
             iconData: Icons.email_outlined,
@@ -497,6 +529,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           firstChild: StatefulBuilder(
             builder: (context, setState) {
               return AuthFormField(
+                controller: _passwordController,
                 label: 'Password',
                 obscureText: _isObscure,
                 icon: IconButton(
@@ -578,12 +611,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     );
   }
 
-  void rememberUserIfAllow() async {
-    final appDir = await syspath.getApplicationDocumentsDirectory();
-
+  void _rememberUserIfAllow() {
+    ref.read(userLocalRepoProvider).setIsRememberUser(_isRememberMe);
     if (!_isRememberMe) {
-      //TODO: Delete the user from the local database
+      ref.read(userLocalRepoProvider).removeUser();
       return;
     }
+
+    ref.read(userLocalRepoProvider).setUser(_email!, _password!);
   }
 }
