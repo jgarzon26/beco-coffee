@@ -1,6 +1,7 @@
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:beco_coffee/core/email_exception.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_notifier.g.dart';
 
@@ -9,7 +10,7 @@ class AuthNotifier extends _$AuthNotifier {
   String _fullName = '', _email = '', _address = '';
 
   @override
-  FutureOr<UserCredential?> build() {
+  FutureOr<User?> build() {
     return null;
   }
 
@@ -19,19 +20,15 @@ class AuthNotifier extends _$AuthNotifier {
     required String address,
   }) async {
     state = const AsyncLoading();
-    final response =
-        await ref.read(authRepoProvider).checkIfEmailIsAvailable(email);
-
+    final response = await ref.read(authRepoProvider).isEmailAvailable(email);
     if (response) {
       _fullName = fullName;
       _email = email;
       _address = address;
-      state = const AsyncValue.data(null);
+      state = const AsyncData(null);
     } else {
       state = AsyncError(
-        FirebaseAuthException(code: 'email-already-in-use'),
-        StackTrace.current,
-      );
+          EmailException('email-already-in-use'), StackTrace.current);
     }
   }
 
@@ -62,7 +59,7 @@ class AuthNotifier extends _$AuthNotifier {
     try {
       await ref.read(authRepoProvider).logOut();
       state = const AsyncData(null);
-    } catch(e, stackTrace) {
+    } catch (e, stackTrace) {
       state = AsyncError(e, stackTrace);
     }
   }

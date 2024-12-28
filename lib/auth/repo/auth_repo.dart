@@ -1,77 +1,68 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_repo.g.dart';
 
 class AuthRepo {
-  final _firebaseAuth = FirebaseAuth.instance;
-  final _firebaseFirestore = FirebaseFirestore.instance;
+  final supabase = Supabase.instance.client;
 
-  Future<UserCredential> signUpUserWithEmail({
+  Future<User?> signUpUserWithEmail({
     required String fullName,
     required String email,
     required String address,
     required String password,
   }) async {
-    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+    //sign up user with email and password
+    final authResponse = await supabase.auth.signUp(
       email: email,
       password: password,
     );
 
-    await userCredential.user!.updateProfile(displayName: fullName);
+    //update user info
+    await supabase.from('users').insert({
+      'user_id': authResponse.user?.id,
+      'email': email,
+      'full_name': fullName,
+      'address': address,
+    });
 
-    final documentRef =
-        _firebaseFirestore.collection('users').doc(userCredential.user!.uid);
-
-    await documentRef.set(
-      {
-        'fullName': fullName,
-        'email': email,
-        'address': address,
-      },
-    );
-
-    return userCredential;
+    return authResponse.user;
   }
 
-  Future<bool> checkIfEmailIsAvailable(String email) async {
-    final query = await _firebaseFirestore
-        .collection('users')
-        .where('email', isEqualTo: email)
-        .get();
-
-    return query.docs.isEmpty;
+  Future<bool> isEmailAvailable(String email) async {
+    final users = await supabase.from('users').select().eq('email', email);
+    return users.isEmpty;
   }
 
-  Future<UserCredential> loginUser(String email, String password) async {
-    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+  Future<User?> loginUser(String email, String password) async {
+    final authResponse = await supabase.auth.signInWithPassword(
       email: email,
       password: password,
     );
 
-    return userCredential;
+    return authResponse.user;
   }
 
-  Stream<User?> authStateChanges() {
-    return _firebaseAuth.authStateChanges();
+  Stream<AuthState> authStateChanges() {
+    return supabase.auth.onAuthStateChange;
   }
 
   User? get currentUser {
-    return _firebaseAuth.currentUser;
+    return supabase.auth.currentUser;
   }
 
   Future<void> logOut() async {
-    return _firebaseAuth.signOut();
+    return supabase.auth.signOut();
   }
 }
 
 @riverpod
-AuthRepo authRepo(AuthRepoRef ref) {
+AuthRepo authRepo(Ref ref) {
   return AuthRepo();
 }
 
 @riverpod
-Stream<User?> authStateChanges(AuthStateChangesRef ref) {
+Stream<AuthState> authStateChanges(Ref ref) {
   return ref.watch(authRepoProvider).authStateChanges();
 }

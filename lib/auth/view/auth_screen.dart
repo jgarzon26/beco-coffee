@@ -4,6 +4,7 @@ import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/repo/user_local_repo.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
+import 'package:beco_coffee/core/email_exception.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -229,7 +230,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
                                           if (authState.hasError) {
                                             final exception = authState.error
-                                                as FirebaseAuthException;
+                                                as EmailException;
 
                                             if (exception.code ==
                                                 'email-already-in-use') {
