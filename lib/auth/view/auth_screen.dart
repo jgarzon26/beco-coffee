@@ -4,13 +4,12 @@ import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/repo/user_local_repo.dart';
 import 'package:beco_coffee/auth/widgets/auth_help_row_sign_up.dart';
 import 'package:beco_coffee/auth/widgets/auth_widgets.dart';
-import 'package:beco_coffee/core/email_exception.dart';
 import 'package:beco_coffee/theme/theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
@@ -24,7 +23,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   bool _isLogin = true;
 
-  String? _email, _password;
+  String? _emailOrPhone, _password;
   var _emailController = TextEditingController(),
       _passwordController = TextEditingController();
   String? _fullName, _address;
@@ -56,9 +55,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
     final user = await ref.read(userLocalRepoProvider).getUser();
     setState(() {
-      _email = user.item1;
+      _emailOrPhone = user.item1;
       _password = user.item2;
-      _emailController = TextEditingController(text: _email);
+      _emailController = TextEditingController(text: _emailOrPhone);
       _passwordController = TextEditingController(text: _password);
     });
 
@@ -199,7 +198,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                               .read(
                                                   authNotifierProvider.notifier)
                                               .logIn(
-                                                email: _email!,
+                                                email: _emailOrPhone!,
                                                 password: _password!,
                                               )
                                               .then(
@@ -219,20 +218,42 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                         onPressed: () async {
                                           _isTOSCheck = false;
 
-                                          await ref
-                                              .read(
-                                                  authNotifierProvider.notifier)
-                                              .initUserCredentialForSignUp(
-                                                fullName: _fullName!,
-                                                address: _address!,
-                                                email: _email!,
-                                              );
+                                          //if input is phone number
+                                          if (int.tryParse(_emailOrPhone!) !=
+                                              null) {
+                                            await ref
+                                                .read(authNotifierProvider
+                                                    .notifier)
+                                                .initUserCredentialForSignUp(
+                                                  fullName: _fullName!,
+                                                  address: _address!,
+                                                  phone: _emailOrPhone,
+                                                );
+                                          } else {
+                                            if (!_emailOrPhone!.contains('@')) {
+                                              setState(() {
+                                                _customErrorEmailText =
+                                                    'Enter a valid email address or phone number';
+                                              });
+
+                                              return;
+                                            } else {
+                                              await ref
+                                                  .read(authNotifierProvider
+                                                      .notifier)
+                                                  .initUserCredentialForSignUp(
+                                                    fullName: _fullName!,
+                                                    address: _address!,
+                                                    email: _emailOrPhone,
+                                                  );
+                                            }
+                                          }
 
                                           if (authState.hasError) {
                                             final exception = authState.error
-                                                as EmailException;
+                                                as AuthException;
 
-                                            if (exception.code ==
+                                            if (exception.message ==
                                                 'email-already-in-use') {
                                               setState(() {
                                                 _customErrorEmailText =
@@ -505,7 +526,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               _notifyInputCheck();
             },
             onSaved: (newValue) {
-              _email = newValue;
+              _emailOrPhone = newValue;
             },
           ),
           secondChild: AuthFormField(
@@ -564,14 +585,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             },
           ),
           secondChild: AuthFormField(
-            label: 'Email',
+            label: 'Email or Phone',
             iconData: Icons.email_outlined,
             keyBoardType: TextInputType.emailAddress,
             errorText: _customErrorEmailText,
             onChanged: (value) {
-              if (value == null ||
-                  value.trim().isEmpty ||
-                  !value.contains('@')) {
+              if (value == null || value.trim().isEmpty) {
                 _inputChecks[1] = false;
               } else {
                 _inputChecks[1] = true;
@@ -581,7 +600,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             },
             onSaved: (newValue) {
               if (_isLogin) return;
-              _email = newValue;
+              _emailOrPhone = newValue;
             },
           ),
         ),
@@ -619,6 +638,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       return;
     }
 
-    ref.read(userLocalRepoProvider).setUser(_email!, _password!);
+    ref.read(userLocalRepoProvider).setUser(_emailOrPhone!, _password!);
   }
 }

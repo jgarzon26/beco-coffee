@@ -64,6 +64,7 @@ class SignUpLoadingScreen extends ConsumerWidget {
               );
             }),
             error: ((error, stackTrace) {
+              print(error);
               return const Text(
                 'Cannot Sign Up',
                 style: TextStyle(color: Colors.white),
