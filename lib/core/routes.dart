@@ -5,7 +5,7 @@ import 'package:beco_coffee/auth/view/sign_up_loading_screen.dart';
 import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
 import 'package:beco_coffee/home/view/profile_screen.dart';
-import 'package:beco_coffee/home/widgets/home_nav_bar.dart';
+import 'package:beco_coffee/home/widget/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
