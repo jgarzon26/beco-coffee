@@ -1,27 +1,28 @@
-import 'package:beco_coffee/home/view/home_screen.dart';
-import 'package:beco_coffee/intro/view/intro_screen.dart';
+import 'package:beco_coffee/core/routes.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Future.delayed(
-    const Duration(milliseconds: 1000),
-    () {
-      FlutterNativeSplash.remove();
-    },
+  FlutterNativeSplash.remove();
+  await Supabase.initialize(
+    url: 'https://fwcldopzpykdcinlwenw.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ3Y2xkb3B6cHlrZGNpbmx3ZW53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzUzNTkzOTQsImV4cCI6MjA1MDkzNTM5NH0.gqRanv0J5Tg2DhxjH9uFZCqCdOL-aISM03OHn2vEkZ8',
   );
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final routes = ref.watch(routerProvider);
+
     return MaterialApp.router(
       theme: defaultTheme,
       title: 'beCo Coffee',
@@ -29,19 +30,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-final routes = GoRouter(
-  initialLocation: '/intro',
-  routes: [
-    GoRoute(
-      name: 'intro',
-      path: '/intro',
-      builder: (context, state) => const IntroScreen(),
-    ),
-    GoRoute(
-      name: 'home',
-      path: '/',
-      builder: (context, state) => const HomeScreen(),
-    ),
-  ],
-);

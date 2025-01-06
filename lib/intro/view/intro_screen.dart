@@ -121,8 +121,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       alignment: Alignment.centerLeft,
                     ),
                     onPressed: () {
-                      //TODO: go to auth screen
-                      context.goNamed('home');
+                      context.goNamed('auth');
                     },
                     child: Text(
                       'Skip',
@@ -135,8 +134,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     iconSize: 40,
                     onPressed: () {
                       if (_currentPage + 1 >= pages.length) {
-                        //TODO: go to auth screen
-                        context.goNamed('home');
+                        context.goNamed('auth');
                         return;
                       }
 
