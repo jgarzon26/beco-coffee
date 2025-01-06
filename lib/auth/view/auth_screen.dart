@@ -11,6 +11,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+final _emailRegExp = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+
+final _phoneRegExp = RegExp(r'^\+?[0-9]{12}');
+
 class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
@@ -517,11 +523,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             keyBoardType: TextInputType.emailAddress,
             iconData: Icons.email_outlined,
             onChanged: (value) {
-              if (value == null || value.trim().isEmpty) {
-                _inputChecks[0] = false;
-              } else {
-                _inputChecks[0] = true;
-              }
+              _inputChecks[0] = _isEmailOrPhoneInputValid(value);
 
               _notifyInputCheck();
             },
@@ -590,11 +592,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             keyBoardType: TextInputType.emailAddress,
             errorText: _customErrorEmailText,
             onChanged: (value) {
-              if (value == null || value.trim().isEmpty) {
-                _inputChecks[1] = false;
-              } else {
-                _inputChecks[1] = true;
-              }
+              _inputChecks[1] = _isEmailOrPhoneInputValid(value);
 
               _notifyInputCheck();
             },
@@ -639,5 +637,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
 
     ref.read(userLocalRepoProvider).setUser(_emailOrPhone!, _password!);
+  }
+
+  bool _isEmailOrPhoneInputValid(String? value) {
+    if (value == null || value.trim().isEmpty) return false;
+
+    if (_emailRegExp.hasMatch(value)) return true;
+
+    if (_phoneRegExp.hasMatch(value)) return true;
+
+    return false;
   }
 }
