@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesSelection extends StatelessWidget {

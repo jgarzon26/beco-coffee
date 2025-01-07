@@ -1,6 +1,7 @@
 import 'package:beco_coffee/home/widget/home/categories_selection.dart';
 import 'package:beco_coffee/home/widget/home/coffee_carousel.dart';
 import 'package:beco_coffee/home/widget/home/coffee_carousel_dots.dart';
+import 'package:beco_coffee/home/widget/home/coffees_selection.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -25,6 +26,7 @@ class HomeScreen extends StatelessWidget {
             delegate: SliverChildListDelegate.fixed(
               [
                 CategoriesSelection(),
+                CoffeesSelection(),
               ],
             ),
           ),
