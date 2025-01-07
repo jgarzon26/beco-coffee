@@ -1,11 +1,19 @@
 import 'dart:io';
 
+import 'package:beco_coffee/home/widget/home/category_widget.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesSelection extends StatelessWidget {
+class CategoriesSelection extends StatefulWidget {
   const CategoriesSelection({
     super.key,
   });
+
+  @override
+  State<CategoriesSelection> createState() => _CategoriesSelectionState();
+}
+
+class _CategoriesSelectionState extends State<CategoriesSelection> {
+  int currentSelection = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +29,7 @@ class CategoriesSelection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: MediaQuery.of(context).size.height * 0.2,
           child: Row(
             children: [
               Expanded(
@@ -31,19 +39,14 @@ class CategoriesSelection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: GestureDetector(
-                        child: AspectRatio(
-                          aspectRatio: 2 / 3,
-                          child: Container(
-                            padding: const EdgeInsets.all(15),
-                            decoration: const BoxDecoration(
-                              //color: Color.fromRGBO(255, 4, 95, 1),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            child: const Placeholder(),
-                          ),
-                        ),
+                      child: CategoryWidget(
+                        title: 'Coffee',
+                        onTap: () {
+                          setState(() {
+                            currentSelection = index;
+                          });
+                        },
+                        isSelected: currentSelection == index,
                       ),
                     );
                   },
