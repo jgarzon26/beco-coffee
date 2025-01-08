@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'carousel_notifier.dart';
+part of 'search_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$carouselNotifierHash() => r'9cc5d24550e99ff5ab59c96eadbb685fd3a6d663';
+String _$searchNotifierHash() => r'673c7cfccec5fb2e41ec4b0128e5f9432df0518f';
 
-/// See also [CarouselNotifier].
-@ProviderFor(CarouselNotifier)
-final carouselNotifierProvider =
-    AutoDisposeNotifierProvider<CarouselNotifier, CoffeeCarouselModel>.internal(
-  CarouselNotifier.new,
-  name: r'carouselNotifierProvider',
+/// See also [SearchNotifier].
+@ProviderFor(SearchNotifier)
+final searchNotifierProvider =
+    AutoDisposeNotifierProvider<SearchNotifier, SearchModel>.internal(
+  SearchNotifier.new,
+  name: r'searchNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$carouselNotifierHash,
+      : _$searchNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$CarouselNotifier = AutoDisposeNotifier<CoffeeCarouselModel>;
+typedef _$SearchNotifier = AutoDisposeNotifier<SearchModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
