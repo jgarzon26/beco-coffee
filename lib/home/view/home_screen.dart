@@ -9,7 +9,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    /* final searchState = ref.watch(searchNotifierProvider.select(
+    final searchState = ref.watch(searchNotifierProvider.select(
       (value) => value.isSearching,
     ));
 
@@ -17,7 +17,6 @@ class HomeScreen extends ConsumerWidget {
       return const SearchPage();
     }
 
-    return const HomePage(); */
-    return const SearchPage();
+    return const HomePage();
   }
 }

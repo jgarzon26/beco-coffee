@@ -1,5 +1,6 @@
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/constants/nav_icons.dart';
+import 'package:beco_coffee/home/controller/search_notifier.dart';
 import 'package:beco_coffee/home/widget/home/search_app_bar.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,7 @@ class HomeNavBar extends ConsumerWidget {
               ),
           ],
           onTap: (index) {
+            ref.read(searchNotifierProvider.notifier).setSearchState(false);
             statefulNavigationShell.goBranch(
               index,
               initialLocation: index == statefulNavigationShell.currentIndex,

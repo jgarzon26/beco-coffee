@@ -1,24 +1,24 @@
 import 'package:beco_coffee/home/widget/coffee_selection_panel.dart';
 import 'package:flutter/material.dart';
 
-class CoffeesSelection extends StatelessWidget {
-  const CoffeesSelection({super.key});
+class LastSearchView extends StatelessWidget {
+  const LastSearchView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          'Coffee',
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Last Search',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.65,
+        Expanded(
           child: GridView.count(
             physics: const NeverScrollableScrollPhysics(),
             mainAxisSpacing: 15,

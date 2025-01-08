@@ -39,7 +39,6 @@ class _SearchAppBarState extends State<SearchAppBar> {
             },
             onTapOutside: (event) {
               FocusScope.of(context).unfocus();
-              ref.read(searchNotifierProvider.notifier).setSearchState(false);
             },
             shape: const WidgetStatePropertyAll(
               RoundedRectangleBorder(
