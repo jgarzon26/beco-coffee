@@ -1,36 +1,23 @@
-import 'package:beco_coffee/home/widget/home/widgets.dart';
+import 'package:beco_coffee/home/controller/search_notifier.dart';
+import 'package:beco_coffee/home/page/home_page.dart';
+import 'package:beco_coffee/home/page/search_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: EdgeInsets.symmetric(vertical: 20),
-          sliver: SliverToBoxAdapter(
-            child: CoffeeCarousel(),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: CoffeeCarouselDots(),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate.fixed(
-              [
-                CategoriesSelection(),
-                CoffeesSelection(),
-                SizedBox(height: 10),
-                Promotions(),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    /* final searchState = ref.watch(searchNotifierProvider.select(
+      (value) => value.isSearching,
+    ));
+
+    if(searchState) {
+      return const SearchPage();
+    }
+
+    return const HomePage(); */
+    return const SearchPage();
   }
 }
