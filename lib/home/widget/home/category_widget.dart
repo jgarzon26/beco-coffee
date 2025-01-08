@@ -19,7 +19,6 @@ class CategoryWidget extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 9 / 16,
         child: Container(
-          padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: isSelected ? const Color.fromRGBO(255, 4, 95, 1) : null,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -35,7 +34,15 @@ class CategoryWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const Expanded(child: Placeholder()),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: const Placeholder(),
+                ),
+              ),
               const SizedBox(height: 10),
               Text(
                 title,
