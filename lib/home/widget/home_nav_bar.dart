@@ -1,7 +1,7 @@
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/constants/nav_icons.dart';
 import 'package:beco_coffee/home/controller/search_notifier.dart';
-import 'package:beco_coffee/home/widget/home/search_app_bar.dart';
+import 'package:beco_coffee/home/widget/search_app_bar.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

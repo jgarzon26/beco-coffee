@@ -18,12 +18,24 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _SearchAppBarState extends State<SearchAppBar> {
+  final TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       title: SizedBox(
         height: MediaQuery.of(context).size.height * 0.045,
         child: Consumer(builder: (context, ref, child) {
+          final searchState = ref.watch(
+            searchNotifierProvider.select(
+              (searchModel) => searchModel.isSearching,
+            ),
+          );
+
+          if (searchState == false) {
+            searchController.text = '';
+          }
+
           return SearchBar(
             hintStyle: WidgetStatePropertyAll(
               Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -31,6 +43,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
                   ),
             ),
             backgroundColor: const WidgetStatePropertyAll(Colors.white),
+            controller: searchController,
             onTap: () {
               ref.read(searchNotifierProvider.notifier).setSearchState(true);
             },
