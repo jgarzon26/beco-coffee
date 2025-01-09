@@ -1,26 +1,19 @@
 import 'package:beco_coffee/common/favorite_button.dart';
+import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class CoffeeSelectionPanel extends StatelessWidget {
-  final String name, imageSrc;
-  final int avgRating, numberOfRating;
-  final double price;
-  final double? discountPrice;
+  final Coffee coffee;
 
   const CoffeeSelectionPanel({
     super.key,
-    required this.name,
-    required this.price,
-    required this.imageSrc,
-    required this.avgRating,
-    required this.numberOfRating,
-    this.discountPrice,
+    required this.coffee,
   });
 
   @override
   Widget build(BuildContext context) {
-    final ratingClamp = avgRating.clamp(1, 5);
+    final ratingClamp = coffee.rating.clamp(1, 5);
 
     return Container(
       padding: const EdgeInsets.all(15),
@@ -45,7 +38,7 @@ class CoffeeSelectionPanel extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Text(
-            name,
+            coffee.name,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           Row(
@@ -56,16 +49,16 @@ class CoffeeSelectionPanel extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               Text(
-                '$price\$',
+                '${coffee.price}\$',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      decoration: discountPrice != null
+                      decoration: coffee.discountPrice != null
                           ? TextDecoration.lineThrough
                           : null,
                     ),
               ),
-              discountPrice != null
+              coffee.discountPrice != null
                   ? Text(
-                      '$discountPrice\$',
+                      '${coffee.discountPrice}\$',
                       style: Theme.of(context).textTheme.titleSmall,
                     )
                   : const SizedBox(),
@@ -93,7 +86,7 @@ class CoffeeSelectionPanel extends StatelessWidget {
                 },
               ),
               Text(
-                '$numberOfRating rating',
+                '${coffee.numberOfRatings} rating',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: kRatingColor,
                     ),

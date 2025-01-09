@@ -1,19 +1,13 @@
+import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultTile extends StatelessWidget {
-  final String title, company, imgSrc;
-  final double price, avgRating;
-  final double? discountPrice;
+  final Coffee coffee;
 
   const SearchResultTile({
     super.key,
-    required this.title,
-    required this.company,
-    required this.imgSrc,
-    required this.price,
-    required this.avgRating,
-    this.discountPrice,
+    required this.coffee,
   });
 
   @override
@@ -42,7 +36,7 @@ class SearchResultTile extends StatelessWidget {
               children: [
                 const Spacer(),
                 Text(
-                  title,
+                  coffee.name,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -53,15 +47,15 @@ class SearchResultTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '$price\$',
+                      '${coffee.price}\$',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontSize: 20,
                           ),
                     ),
                     const SizedBox(width: 15),
-                    discountPrice != null
+                    coffee.discountPrice != null
                         ? Text(
-                            '$discountPrice\$',
+                            '${coffee.discountPrice}\$',
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
@@ -82,7 +76,7 @@ class SearchResultTile extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      '$avgRating Rating',
+                      '${coffee.rating} Rating',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontSize: 16,
                           ),
@@ -100,7 +94,7 @@ class SearchResultTile extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      company,
+                      coffee.company,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
