@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/widget/coffee_selection_panel.dart';
 import 'package:flutter/material.dart';
 
@@ -29,12 +30,18 @@ class CoffeesSelection extends StatelessWidget {
               4,
               (index) {
                 return const CoffeeSelectionPanel(
-                  name: 'Coffee',
-                  imageSrc: '',
-                  price: 5.50,
-                  discountPrice: 2.50,
-                  avgRating: 2,
-                  numberOfRating: 92,
+                  coffee:  Coffee(
+                    coffeeId: '',
+                    category: '',
+                    company: '',
+                    name: 'Coffee',
+                    description: '',
+                    imageSrc: '',
+                    price: 5.50,
+                    rating: 2,
+                    numberOfRatings: 92,
+                    discountPrice: 2.50,
+                  ),
                 );
               },
             ),
