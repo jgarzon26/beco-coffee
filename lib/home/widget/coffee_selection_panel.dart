@@ -1,4 +1,5 @@
 import 'package:beco_coffee/common/favorite_button.dart';
+import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class CoffeeSelectionPanel extends StatelessWidget {
@@ -19,14 +20,12 @@ class CoffeeSelectionPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const ratingColor = Color.fromRGBO(255, 193, 0, 1);
-
     final ratingClamp = avgRating.clamp(1, 5);
 
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.05),
+        color: kCoffeeCardBackground,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -85,7 +84,7 @@ class CoffeeSelectionPanel extends StatelessWidget {
                           Icons.star,
                           size: 15,
                           color: index <= ratingClamp - 1 // Average Rating
-                              ? ratingColor
+                              ? kRatingColor
                               : Colors.black.withOpacity(0.1),
                         ),
                       ],
@@ -96,7 +95,7 @@ class CoffeeSelectionPanel extends StatelessWidget {
               Text(
                 '$numberOfRating rating',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: ratingColor,
+                      color: kRatingColor,
                     ),
               ),
             ],

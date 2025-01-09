@@ -9,6 +9,10 @@ const kOnSurface = Colors.black;
 const kSecondaryContainer = Color.fromRGBO(255, 31, 31, 1);
 const kOnSecondaryContainer = Colors.white;
 
+const kRatingColor = Color.fromRGBO(255, 193, 0, 1);
+
+final kCoffeeCardBackground = Colors.black.withOpacity(0.05);
+
 final defaultTheme = ThemeData().copyWith(
   appBarTheme: const AppBarTheme().copyWith(
     backgroundColor: kPrimaryContainer,

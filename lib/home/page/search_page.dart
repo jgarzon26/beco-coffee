@@ -1,6 +1,7 @@
 import 'package:beco_coffee/home/controller/search_notifier.dart';
 import 'package:beco_coffee/home/widget/search/filter_row.dart';
 import 'package:beco_coffee/home/widget/search/last_search_view.dart';
+import 'package:beco_coffee/home/widget/search/search_result_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,7 +26,7 @@ class SearchPage extends ConsumerWidget {
           Expanded(
             child: searchQuery.isEmpty
                 ? const LastSearchView()
-                : const Placeholder(),
+                : const SearchResultView(),
           ),
         ],
       ),
