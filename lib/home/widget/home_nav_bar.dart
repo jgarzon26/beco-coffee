@@ -9,10 +9,12 @@ import 'package:go_router/go_router.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 
 class HomeNavBar extends ConsumerWidget {
+  final GoRouterState state;
   final StatefulNavigationShell statefulNavigationShell;
 
   const HomeNavBar({
     super.key,
+    required this.state,
     required this.statefulNavigationShell,
   });
 
@@ -28,10 +30,16 @@ class HomeNavBar extends ConsumerWidget {
       );
     }
 
+    final PreferredSizeWidget? appBar = switch (state.fullPath) {
+      '/home' => const SearchAppBar(
+          hasNotifications: false,
+        ),
+      String() => null,
+      null => null,
+    };
+
     return Scaffold(
-      appBar: const SearchAppBar(
-        hasNotifications: false,
-      ),
+      appBar: appBar,
       body: statefulNavigationShell,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(

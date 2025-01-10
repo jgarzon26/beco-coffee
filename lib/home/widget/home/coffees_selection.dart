@@ -30,12 +30,12 @@ class CoffeesSelection extends StatelessWidget {
               4,
               (index) {
                 return const CoffeeSelectionPanel(
-                  coffee:  Coffee(
+                  coffee: Coffee(
                     coffeeId: '',
                     category: '',
                     company: '',
                     name: 'Coffee',
-                    description: '',
+                    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
                     imageSrc: '',
                     price: 5.50,
                     rating: 2,

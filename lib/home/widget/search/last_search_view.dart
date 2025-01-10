@@ -35,7 +35,7 @@ class LastSearchView extends StatelessWidget {
                     category: '',
                     company: '',
                     name: 'Coffee',
-                    description: '',
+                    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
                     imageSrc: '',
                     price: 5.50,
                     rating: 2,

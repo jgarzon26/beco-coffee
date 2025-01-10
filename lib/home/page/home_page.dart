@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/widget/search_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:beco_coffee/home/widget/home/widgets.dart';
 

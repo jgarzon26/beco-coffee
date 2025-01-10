@@ -3,7 +3,9 @@ import 'package:beco_coffee/auth/view/code_verify_screen.dart';
 import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/auth/view/sign_up_loading_screen.dart';
 import 'package:beco_coffee/core/main_widget.dart';
+import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
+import 'package:beco_coffee/home/view/product_detail_screen.dart';
 import 'package:beco_coffee/home/view/profile_screen.dart';
 import 'package:beco_coffee/home/widget/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
@@ -92,7 +94,10 @@ GoRouter router(Ref ref) {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return HomeNavBar(statefulNavigationShell: navigationShell);
+          return HomeNavBar(
+            state: state,
+            statefulNavigationShell: navigationShell,
+          );
         },
         branches: [
           StatefulShellBranch(
@@ -138,6 +143,18 @@ GoRouter router(Ref ref) {
                 name: 'profile',
                 path: '/profile',
                 builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: 'product-detail',
+                path: '/product-detail',
+                builder: (context, state) {
+                  final coffee = state.extra as Coffee;
+                  return ProductDetailScreen(coffee: coffee);
+                },
               ),
             ],
           ),

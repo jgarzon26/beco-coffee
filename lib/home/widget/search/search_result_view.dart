@@ -16,7 +16,7 @@ class SearchResultView extends ConsumerWidget {
             category: '',
             company: 'Starbuck',
             name: 'Coffee Name',
-            description: '',
+            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
             imageSrc: '',
             price: 1.50,
             rating: 8.1,
