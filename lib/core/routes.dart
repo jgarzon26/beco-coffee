@@ -4,6 +4,7 @@ import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/auth/view/sign_up_loading_screen.dart';
 import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
+import 'package:beco_coffee/home/view/cart_screen.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
 import 'package:beco_coffee/home/view/product_detail_screen.dart';
 import 'package:beco_coffee/home/view/profile_screen.dart';
@@ -133,7 +134,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 name: 'cart',
                 path: '/cart',
-                builder: (context, state) => const Placeholder(),
+                builder: (context, state) => const CartScreen(),
               ),
             ],
           ),
