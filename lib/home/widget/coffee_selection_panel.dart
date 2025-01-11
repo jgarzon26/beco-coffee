@@ -29,11 +29,14 @@ class CoffeeSelectionPanel extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Expanded(
+            Expanded(
               child: Stack(
                 children: [
-                  Placeholder(),
-                  Positioned(
+                  Hero(
+                    tag: coffee.coffeeId,
+                    child: const Placeholder(),
+                  ),
+                  const Positioned(
                     top: 0.5,
                     right: 0.5,
                     child: FavoriteButton(),

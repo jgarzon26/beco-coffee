@@ -12,10 +12,6 @@ class MainWidget extends ConsumerWidget {
     final authState = ref.watch(authStateChangesProvider);
     return authState.when(
       data: (data) {
-        if (data == null) {
-          return const AuthScreen();
-        }
-
         return const HomeScreen();
       },
       error: (error, stackTrace) {

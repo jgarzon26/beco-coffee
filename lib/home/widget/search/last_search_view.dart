@@ -29,9 +29,9 @@ class LastSearchView extends StatelessWidget {
             children: List.generate(
               4,
               (index) {
-                return const CoffeeSelectionPanel(
+                return CoffeeSelectionPanel(
                   coffee: Coffee(
-                    coffeeId: '',
+                    coffeeId: (index + 10).toString(),
                     category: '',
                     company: '',
                     name: 'Coffee',

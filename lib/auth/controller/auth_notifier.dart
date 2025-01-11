@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

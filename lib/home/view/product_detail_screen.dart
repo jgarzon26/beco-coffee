@@ -4,6 +4,7 @@ import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/widget/product%20detail/product_order_detail.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Coffee coffee;
@@ -21,10 +22,13 @@ class ProductDetailScreen extends StatelessWidget {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.4,
-              child: Image.network(
-                'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/flat-white-3402c4f.jpg?quality=90&webp=true&resize=300,272',
-                fit: BoxFit.cover,
-                width: double.infinity,
+              child: Hero(
+                tag: coffee.coffeeId,
+                child: Image.network(
+                  'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/flat-white-3402c4f.jpg?quality=90&webp=true&resize=300,272',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
               ),
             ),
             Container(
@@ -48,7 +52,7 @@ class ProductDetailScreen extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                     ),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      context.pop();
                     },
                     icon: Icon(
                       Platform.isIOS

@@ -10,9 +10,9 @@ class SearchResultView extends ConsumerWidget {
     return ListView.builder(
       itemCount: 5,
       itemBuilder: (context, index) {
-        return const SearchResultTile(
+        return SearchResultTile(
           coffee: Coffee(
-            coffeeId: '',
+            coffeeId: (index + 5).toString(),
             category: '',
             company: 'Starbuck',
             name: 'Coffee Name',

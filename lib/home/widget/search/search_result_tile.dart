@@ -1,4 +1,3 @@
-import 'package:beco_coffee/auth/view/auth_screen.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +26,16 @@ class SearchResultTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Flexible(
+            Flexible(
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   bottomLeft: Radius.circular(20),
                 ),
-                child: Placeholder(),
+                child: Hero(
+                  tag: coffee.coffeeId,
+                  child: const Placeholder(),
+                ),
               ),
             ),
             Flexible(

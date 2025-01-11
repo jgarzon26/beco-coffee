@@ -29,9 +29,9 @@ class CoffeesSelection extends StatelessWidget {
             children: List.generate(
               4,
               (index) {
-                return const CoffeeSelectionPanel(
+                return CoffeeSelectionPanel(
                   coffee: Coffee(
-                    coffeeId: '',
+                    coffeeId: index.toString(),
                     category: '',
                     company: '',
                     name: 'Coffee',

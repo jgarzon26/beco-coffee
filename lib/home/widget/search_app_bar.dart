@@ -2,7 +2,7 @@ import 'package:beco_coffee/home/controller/search_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
+class SearchAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   final bool hasNotifications;
 
   const SearchAppBar({
@@ -14,19 +14,30 @@ class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
-  State<SearchAppBar> createState() => _SearchAppBarState();
+  ConsumerState<SearchAppBar> createState() => _SearchAppBarState();
 }
 
-class _SearchAppBarState extends State<SearchAppBar> {
-  final TextEditingController searchController = TextEditingController();
+class _SearchAppBarState extends ConsumerState<SearchAppBar> {
+  late final TextEditingController searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    final searchModel = ref.read(searchNotifierProvider);
+    searchController = TextEditingController(
+      text: searchModel.query,
+    );
+  }
+
+  @override
+  void dispose() { 
+    super.dispose();
+    searchController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.045,
-        child: Consumer(builder: (context, ref, child) {
-          final searchState = ref.watch(
+    final searchState = ref.watch(
             searchNotifierProvider.select(
               (searchModel) => searchModel.isSearching,
             ),
@@ -36,7 +47,10 @@ class _SearchAppBarState extends State<SearchAppBar> {
             searchController.text = '';
           }
 
-          return SearchBar(
+    return AppBar(
+      title: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.045,
+        child: SearchBar(
             hintStyle: WidgetStatePropertyAll(
               Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Colors.black54,
@@ -63,8 +77,7 @@ class _SearchAppBarState extends State<SearchAppBar> {
               color: Colors.black54,
             ),
             hintText: 'Search',
-          );
-        }),
+          ),
       ),
       actions: [
         IconButton(
