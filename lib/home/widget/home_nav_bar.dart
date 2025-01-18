@@ -1,5 +1,8 @@
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/constants/nav_icons.dart';
+import 'package:beco_coffee/home/controller/search_notifier.dart';
+import 'package:beco_coffee/home/widget/profile/profile_app_bar.dart';
+import 'package:beco_coffee/home/widget/search_app_bar.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,10 +10,12 @@ import 'package:go_router/go_router.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 
 class HomeNavBar extends ConsumerWidget {
+  final GoRouterState state;
   final StatefulNavigationShell statefulNavigationShell;
 
   const HomeNavBar({
     super.key,
+    required this.state,
     required this.statefulNavigationShell,
   });
 
@@ -26,22 +31,24 @@ class HomeNavBar extends ConsumerWidget {
       );
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            style: IconButton.styleFrom(backgroundColor: Colors.transparent),
-            onPressed: () {
-              ref.read(authNotifierProvider.notifier).logOut().then(
-                (_) {
-                  context.goNamed('auth');
-                },
-              );
-            },
-            icon: const Icon(Icons.logout),
+    final PreferredSizeWidget? appBar = switch (state.fullPath) {
+      '/home' => const SearchAppBar(
+          hasNotifications: false,
+        ),
+      '/cart' => AppBar(
+          title: const Text(
+            'My Cart',
           ),
-        ],
-      ),
+        ),
+      '/profile' => ProfileAppBar(
+          context: context,
+        ),
+      String() => null,
+      null => null,
+    };
+
+    return Scaffold(
+      appBar: appBar,
       body: statefulNavigationShell,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
@@ -66,6 +73,7 @@ class HomeNavBar extends ConsumerWidget {
               ),
           ],
           onTap: (index) {
+            ref.read(searchNotifierProvider.notifier).setSearchState(false);
             statefulNavigationShell.goBranch(
               index,
               initialLocation: index == statefulNavigationShell.currentIndex,

@@ -1,5 +1,5 @@
-import 'dart:ffi';
-
+import 'package:beco_coffee/auth/model/coffee_user.dart';
+import 'package:beco_coffee/auth/model/user_profile.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,7 +12,13 @@ class AuthNotifier extends _$AuthNotifier {
   String? _email, _phone;
 
   @override
-  FutureOr<User?> build() {
+  FutureOr<CoffeeUser?> build() async {
+    if (ref.read(authRepoProvider).currentUser != null) {
+      final user = ref.read(authRepoProvider).currentUser;
+      final userProfile = await ref.read(authRepoProvider).currentUserProfile;
+      return CoffeeUser(user: user!, userProfile: userProfile);
+    }
+
     return null;
   }
 
@@ -45,25 +51,42 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
   }) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () {
-        if (_phone != null) {
-          return ref.read(authRepoProvider).signUpWithPhone(
-                fullName: _fullName,
-                phone: _phone!,
-                address: _address,
-                password: password,
-              );
-        }
 
-        return ref.read(authRepoProvider).signUpWithEmail(
+    User? response;
+
+    try {
+      if (_phone != null) {
+        response = await ref.read(authRepoProvider).signUpWithPhone(
+              fullName: _fullName,
+              phone: _phone!,
+              address: _address,
+              password: password,
+            );
+      } else {
+        response = await ref.read(authRepoProvider).signUpWithEmail(
               fullName: _fullName,
               email: _email!,
               password: password,
               address: _address,
             );
-      },
-    );
+      }
+
+      final userProfile = UserProfile(
+        email: _email ?? '',
+        phone: _phone ?? '',
+        address: _address,
+        fullName: _fullName,
+      );
+
+      state = AsyncData(
+        CoffeeUser(
+          user: response!,
+          userProfile: userProfile,
+        ),
+      );
+    } catch (error, s) {
+      state = AsyncError(error, s);
+    }
   }
 
   Future<void> logIn({
@@ -71,8 +94,20 @@ class AuthNotifier extends _$AuthNotifier {
     required String password,
   }) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(
-        () => ref.read(authRepoProvider).loginUser(email, password));
+
+    try {
+      final user = await ref.read(authRepoProvider).loginUser(
+            email,
+            password,
+          );
+      final userProfile = await ref.read(authRepoProvider).currentUserProfile;
+
+      state = AsyncData(
+        CoffeeUser(user: user!, userProfile: userProfile),
+      );
+    } catch (error, s) {
+      state = AsyncError(error, s);
+    }
   }
 
   Future<void> logOut() async {

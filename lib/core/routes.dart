@@ -1,11 +1,15 @@
+import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/view/auth_screen.dart';
 import 'package:beco_coffee/auth/view/code_verify_screen.dart';
 import 'package:beco_coffee/auth/view/password_create_screen.dart';
 import 'package:beco_coffee/auth/view/sign_up_loading_screen.dart';
 import 'package:beco_coffee/core/main_widget.dart';
+import 'package:beco_coffee/home/model/coffee.dart';
+import 'package:beco_coffee/home/view/cart_screen.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
+import 'package:beco_coffee/home/view/product_detail_screen.dart';
 import 'package:beco_coffee/home/view/profile_screen.dart';
-import 'package:beco_coffee/home/widgets/home_nav_bar.dart';
+import 'package:beco_coffee/home/widget/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +45,7 @@ CustomTransitionPage _buildPageWithCustomTransitionPage<T>({
 
 @riverpod
 GoRouter router(Ref ref) {
-  final isLogin = ref.watch(authRepoProvider).currentUser;
+  final user = ref.watch(authRepoProvider).currentUser;
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -66,7 +70,7 @@ GoRouter router(Ref ref) {
           child: const AuthScreen(),
         ),
         redirect: (context, state) {
-          if (isLogin != null) {
+          if (user != null) {
             return '/home';
           }
 
@@ -92,7 +96,10 @@ GoRouter router(Ref ref) {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return HomeNavBar(statefulNavigationShell: navigationShell);
+          return HomeNavBar(
+            state: state,
+            statefulNavigationShell: navigationShell,
+          );
         },
         branches: [
           StatefulShellBranch(
@@ -128,7 +135,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 name: 'cart',
                 path: '/cart',
-                builder: (context, state) => const Placeholder(),
+                builder: (context, state) => const CartScreen(),
               ),
             ],
           ),
@@ -138,6 +145,18 @@ GoRouter router(Ref ref) {
                 name: 'profile',
                 path: '/profile',
                 builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                name: 'product-detail',
+                path: '/product-detail',
+                builder: (context, state) {
+                  final coffee = state.extra as Coffee;
+                  return ProductDetailScreen(coffee: coffee);
+                },
               ),
             ],
           ),

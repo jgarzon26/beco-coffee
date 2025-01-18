@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'package:beco_coffee/auth/model/user_profile.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -104,6 +103,19 @@ class AuthRepo {
 
   User? get currentUser {
     return supabase.auth.currentUser;
+  }
+
+  Future<UserProfile> get currentUserProfile async {
+    final user = supabase.auth.currentUser;
+
+    if (user == null) {
+      throw Exception('User is not logged in');
+    }
+
+    final response =
+        await supabase.from('users').select().eq('user_id', user.id);
+
+    return UserProfile.fromMap(response[0]);
   }
 
   Future<void> logOut() async {

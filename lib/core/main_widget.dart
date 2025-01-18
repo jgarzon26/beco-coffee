@@ -1,4 +1,3 @@
-import 'package:beco_coffee/auth/view/auth_screen.dart';
 import 'package:beco_coffee/home/view/home_screen.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +11,6 @@ class MainWidget extends ConsumerWidget {
     final authState = ref.watch(authStateChangesProvider);
     return authState.when(
       data: (data) {
-        if (data == null) {
-          return const AuthScreen();
-        }
-
         return const HomeScreen();
       },
       error: (error, stackTrace) {

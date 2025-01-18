@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   basic_utils: ^5.7.0
+  carousel_slider: ^5.0.0
   cloud_firestore: ^5.4.3
   cupertino_icons: ^1.0.8
   dots_indicator: ^3.0.0
@@ -88,6 +89,9 @@ flutter:
     - assets/icon/facebook.png
     - assets/icon/google.png
     - assets/icon/twitter.png
+    - assets/icon/bell-notification.png
+    - assets/icon/bell.png
+    - assets/icon/wallet.png
 
 # An image asset can refer to one or more resolution-specific "variants", see
 # https://flutter.dev/to/resolution-aware-images
