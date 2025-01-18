@@ -1,6 +1,5 @@
 import 'package:beco_coffee/home/widget/cart/coupon_text_field.dart';
 import 'package:beco_coffee/home/widget/cart/item_counter.dart';
-import 'package:beco_coffee/home/widget/cart/order_summary_detail.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
