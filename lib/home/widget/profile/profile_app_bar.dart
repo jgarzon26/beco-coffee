@@ -1,5 +1,4 @@
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
-import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,7 +9,7 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(
-        MediaQuery.sizeOf(context).height * 0.2,
+        MediaQuery.sizeOf(context).height * 0.25,
       );
 
   @override
@@ -20,13 +19,15 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
     String userAt;
 
     if (authUser.hasValue) {
-      userAt = authUser.value!.userProfile.email.isNotEmpty ? authUser.value!.userProfile.email : authUser.value!.userProfile.phone;
+      userAt = authUser.value!.userProfile.email.isNotEmpty
+          ? authUser.value!.userProfile.email
+          : authUser.value!.userProfile.phone;
     } else {
       userAt = '';
     }
 
     return AppBar(
-      toolbarHeight: 100,
+      toolbarHeight: 150,
       actions: [
         TextButton(
           onPressed: () {},
@@ -49,7 +50,7 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
-            const SizedBox(height: 70),
+            const SizedBox(height: 90),
             Row(
               children: [
                 const CircleAvatar(
