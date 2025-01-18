@@ -1,3 +1,4 @@
+import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/view/auth_screen.dart';
 import 'package:beco_coffee/auth/view/code_verify_screen.dart';
 import 'package:beco_coffee/auth/view/password_create_screen.dart';
@@ -44,7 +45,7 @@ CustomTransitionPage _buildPageWithCustomTransitionPage<T>({
 
 @riverpod
 GoRouter router(Ref ref) {
-  final isLogin = ref.watch(authRepoProvider).currentUser;
+  final user = ref.watch(authRepoProvider).currentUser;
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -69,7 +70,7 @@ GoRouter router(Ref ref) {
           child: const AuthScreen(),
         ),
         redirect: (context, state) {
-          if (isLogin != null) {
+          if (user != null) {
             return '/home';
           }
 

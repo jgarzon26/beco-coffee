@@ -1,4 +1,5 @@
 import 'package:beco_coffee/auth/controller/auth_notifier.dart';
+import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,6 +16,14 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authUser = ref.watch(authNotifierProvider);
+
+    String userAt;
+
+    if (authUser.hasValue) {
+      userAt = authUser.value!.userProfile.email.isNotEmpty ? authUser.value!.userProfile.email : authUser.value!.userProfile.phone;
+    } else {
+      userAt = '';
+    }
 
     return AppBar(
       toolbarHeight: 100,
@@ -51,7 +60,7 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'user name',
+                      authUser.value?.userProfile.fullName ?? '',
                       style:
                           Theme.of(context).textTheme.headlineLarge?.copyWith(
                                 color: Colors.white,
@@ -60,7 +69,7 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      '@ user gmail',
+                      '@ $userAt',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             color: Colors.white,
                           ),
