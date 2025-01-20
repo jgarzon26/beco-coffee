@@ -71,12 +71,7 @@ class AuthNotifier extends _$AuthNotifier {
             );
       }
 
-      final userProfile = UserProfile(
-        email: _email ?? '',
-        phone: _phone ?? '',
-        address: _address,
-        fullName: _fullName,
-      );
+      final userProfile = await ref.read(authRepoProvider).currentUserProfile;
 
       state = AsyncData(
         CoffeeUser(

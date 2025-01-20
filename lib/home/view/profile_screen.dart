@@ -1,6 +1,7 @@
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileSettingsTile {
   final String title;
@@ -19,18 +20,29 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const profileSettings = [
-      ProfileSettingsTile(title: 'My Information', leading: Icons.person),
-      ProfileSettingsTile(title: 'Address', leading: Icons.location_on),
+    final profileSettings = [
+      const ProfileSettingsTile(title: 'My Information', leading: Icons.person),
+      const ProfileSettingsTile(title: 'Address', leading: Icons.location_on),
+      const ProfileSettingsTile(
+        title: 'Payment',
+        leading: Icons.credit_card_outlined,
+      ),
       ProfileSettingsTile(
-          title: 'Payment', leading: Icons.credit_card_outlined),
-      ProfileSettingsTile(title: 'My Wishlist', leading: Icons.favorite_border),
-      ProfileSettingsTile(title: 'Cafe Following', leading: Icons.store),
-      ProfileSettingsTile(title: 'Refund', leading: Icons.attach_money),
-      ProfileSettingsTile(title: 'Password', leading: Icons.lock),
-      ProfileSettingsTile(title: 'Settings', leading: Icons.settings),
-      ProfileSettingsTile(title: 'Policy and Privacy', leading: Icons.info),
-      ProfileSettingsTile(title: 'Sign Out', leading: Icons.logout),
+        title: 'My Wishlist',
+        leading: Icons.favorite_border,
+        onTap: () {
+          context.goNamed('wishlist');
+        },
+      ),
+      const ProfileSettingsTile(title: 'Cafe Following', leading: Icons.store),
+      const ProfileSettingsTile(title: 'Refund', leading: Icons.attach_money),
+      const ProfileSettingsTile(title: 'Password', leading: Icons.lock),
+      const ProfileSettingsTile(title: 'Settings', leading: Icons.settings),
+      const ProfileSettingsTile(
+        title: 'Policy and Privacy',
+        leading: Icons.info,
+      ),
+      const ProfileSettingsTile(title: 'Sign Out', leading: Icons.logout),
     ];
 
     return Stack(

@@ -48,6 +48,7 @@ dependencies:
   shared_preferences: ^2.3.3
   sqflite: ^2.4.1
   supabase_flutter: ^2.8.2
+  transparent_image: ^2.0.1
   tuple: ^2.0.2
   uuid: ^4.5.1
 
@@ -92,6 +93,7 @@ flutter:
     - assets/icon/bell-notification.png
     - assets/icon/bell.png
     - assets/icon/wallet.png
+    - assets/icon/options.png
 
 # An image asset can refer to one or more resolution-specific "variants", see
 # https://flutter.dev/to/resolution-aware-images

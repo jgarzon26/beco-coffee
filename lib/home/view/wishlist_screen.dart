@@ -1,0 +1,51 @@
+import 'package:beco_coffee/home/model/coffee.dart';
+import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class WishlistScreen extends ConsumerWidget {
+  const WishlistScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Wishlist'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const ImageIcon(
+              AssetImage(
+                'assets/icon/options.png',
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        child: CoffeeGridView(
+          isScrollable: true,
+          coffees: List.generate(
+            4,
+            (index) {
+              return Coffee(
+                coffeeId: index.toString(),
+                category: '',
+                company: '',
+                name: 'Coffee',
+                description:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                imageSrc: '',
+                price: 5.50,
+                rating: 2,
+                numberOfRatings: 92,
+                discountPrice: 2.50,
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

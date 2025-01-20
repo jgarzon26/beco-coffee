@@ -1,14 +1,7 @@
-import 'package:beco_coffee/auth/controller/auth_notifier.dart';
-import 'package:beco_coffee/auth/view/auth_screen.dart';
-import 'package:beco_coffee/auth/view/code_verify_screen.dart';
-import 'package:beco_coffee/auth/view/password_create_screen.dart';
-import 'package:beco_coffee/auth/view/sign_up_loading_screen.dart';
+import 'package:beco_coffee/auth/view/auth_views.dart';
+import 'package:beco_coffee/home/view/home_views.dart';
 import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
-import 'package:beco_coffee/home/view/cart_screen.dart';
-import 'package:beco_coffee/home/view/home_screen.dart';
-import 'package:beco_coffee/home/view/product_detail_screen.dart';
-import 'package:beco_coffee/home/view/profile_screen.dart';
 import 'package:beco_coffee/home/widget/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
@@ -145,6 +138,13 @@ GoRouter router(Ref ref) {
                 name: 'profile',
                 path: '/profile',
                 builder: (context, state) => const ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    name: 'wishlist',
+                    path: 'wishlist',
+                    builder: (context, state) => const WishlistScreen(),
+                  ),
+                ],
               ),
             ],
           ),

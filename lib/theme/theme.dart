@@ -21,10 +21,10 @@ final defaultTheme = ThemeData().copyWith(
   ),
   scaffoldBackgroundColor: kSurface,
   textTheme: GoogleFonts.poppinsTextTheme(),
-  iconButtonTheme: IconButtonThemeData(
+  iconButtonTheme: const IconButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: WidgetStatePropertyAll(kPrimaryContainer),
-      foregroundColor: const WidgetStatePropertyAll(kOnPrimaryContainer),
+      backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+      foregroundColor: WidgetStatePropertyAll(kOnPrimaryContainer),
       alignment: Alignment.center,
     ),
   ),
