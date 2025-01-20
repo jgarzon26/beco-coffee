@@ -1,6 +1,8 @@
-import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ep.dart';
 
 class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
   final BuildContext context;
@@ -53,8 +55,44 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
             const SizedBox(height: 90),
             Row(
               children: [
-                const CircleAvatar(
-                  radius: 50,
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 50,
+                      backgroundImage: Image.network(
+                        authUser.value!.userProfile.profilePicUrl,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          return Center(
+                            child: CircularProgressIndicator.adaptive(
+                              valueColor:
+                                  const AlwaysStoppedAnimation(Colors.white),
+                              value: loadingProgress != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      ).image,
+                      child: Material(
+                        shape: const CircleBorder(),
+                        clipBehavior: Clip.hardEdge,
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {},
+                        ),
+                      ),
+                    ),
+                    const Positioned(
+                      right: 5,
+                      bottom: 0,
+                      child: Iconify(
+                        Ep.edit,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(width: 30),
                 Column(

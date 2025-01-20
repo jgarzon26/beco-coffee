@@ -106,7 +106,7 @@ class AuthRepo {
   }
 
   Future<UserProfile> get currentUserProfile async {
-    final user = supabase.auth.currentUser;
+    final user = currentUser;
 
     if (user == null) {
       throw Exception('User is not logged in');
