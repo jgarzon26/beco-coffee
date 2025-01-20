@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Order {
-  String get orderId => throw _privateConstructorUsedError;
+  String get order_id => throw _privateConstructorUsedError;
   String get coffeeName => throw _privateConstructorUsedError;
   CoffeeSize get size => throw _privateConstructorUsedError;
   CoffeeSugar get sugar => throw _privateConstructorUsedError;
@@ -34,7 +34,7 @@ abstract class $OrderCopyWith<$Res> {
       _$OrderCopyWithImpl<$Res, Order>;
   @useResult
   $Res call(
-      {String orderId,
+      {String order_id,
       String coffeeName,
       CoffeeSize size,
       CoffeeSugar sugar,
@@ -56,16 +56,16 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = null,
+    Object? order_id = null,
     Object? coffeeName = null,
     Object? size = null,
     Object? sugar = null,
     Object? quantity = null,
   }) {
     return _then(_value.copyWith(
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
+      order_id: null == order_id
+          ? _value.order_id
+          : order_id // ignore: cast_nullable_to_non_nullable
               as String,
       coffeeName: null == coffeeName
           ? _value.coffeeName
@@ -95,7 +95,7 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String orderId,
+      {String order_id,
       String coffeeName,
       CoffeeSize size,
       CoffeeSugar sugar,
@@ -115,16 +115,16 @@ class __$$OrderImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = null,
+    Object? order_id = null,
     Object? coffeeName = null,
     Object? size = null,
     Object? sugar = null,
     Object? quantity = null,
   }) {
     return _then(_$OrderImpl(
-      orderId: null == orderId
-          ? _value.orderId
-          : orderId // ignore: cast_nullable_to_non_nullable
+      order_id: null == order_id
+          ? _value.order_id
+          : order_id // ignore: cast_nullable_to_non_nullable
               as String,
       coffeeName: null == coffeeName
           ? _value.coffeeName
@@ -150,14 +150,14 @@ class __$$OrderImplCopyWithImpl<$Res>
 
 class _$OrderImpl implements _Order {
   const _$OrderImpl(
-      {required this.orderId,
+      {required this.order_id,
       required this.coffeeName,
       required this.size,
       required this.sugar,
       this.quantity = 1});
 
   @override
-  final String orderId;
+  final String order_id;
   @override
   final String coffeeName;
   @override
@@ -170,7 +170,7 @@ class _$OrderImpl implements _Order {
 
   @override
   String toString() {
-    return 'Order(orderId: $orderId, coffeeName: $coffeeName, size: $size, sugar: $sugar, quantity: $quantity)';
+    return 'Order(order_id: $order_id, coffeeName: $coffeeName, size: $size, sugar: $sugar, quantity: $quantity)';
   }
 
   @override
@@ -178,7 +178,8 @@ class _$OrderImpl implements _Order {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderImpl &&
-            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.order_id, order_id) ||
+                other.order_id == order_id) &&
             (identical(other.coffeeName, coffeeName) ||
                 other.coffeeName == coffeeName) &&
             (identical(other.size, size) || other.size == size) &&
@@ -189,7 +190,7 @@ class _$OrderImpl implements _Order {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, orderId, coffeeName, size, sugar, quantity);
+      Object.hash(runtimeType, order_id, coffeeName, size, sugar, quantity);
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -202,14 +203,14 @@ class _$OrderImpl implements _Order {
 
 abstract class _Order implements Order {
   const factory _Order(
-      {required final String orderId,
+      {required final String order_id,
       required final String coffeeName,
       required final CoffeeSize size,
       required final CoffeeSugar sugar,
       final int quantity}) = _$OrderImpl;
 
   @override
-  String get orderId;
+  String get order_id;
   @override
   String get coffeeName;
   @override

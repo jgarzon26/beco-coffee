@@ -1,13 +1,13 @@
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
-import 'package:beco_coffee/home/widget/coffee_selection_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CoffeesSelection extends StatelessWidget {
+class CoffeesSelection extends ConsumerWidget {
   const CoffeesSelection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -22,24 +22,7 @@ class CoffeesSelection extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.65,
           child: CoffeeGridView(
-            coffees: List.generate(
-              4,
-              (index) {
-                return Coffee(
-                  coffeeId: index.toString(),
-                  category: '',
-                  company: '',
-                  name: 'Coffee',
-                  description:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-                  imageSrc: '',
-                  price: 5.50,
-                  rating: 2,
-                  numberOfRatings: 92,
-                  discountPrice: 2.50,
-                );
-              },
-            ),
+            coffees: [],
           ),
         ),
       ],

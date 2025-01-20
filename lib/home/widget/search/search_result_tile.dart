@@ -33,7 +33,7 @@ class SearchResultTile extends StatelessWidget {
                   bottomLeft: Radius.circular(20),
                 ),
                 child: Hero(
-                  tag: coffee.coffeeId,
+                  tag: coffee.coffee_id,
                   child: const Placeholder(),
                 ),
               ),
@@ -62,9 +62,9 @@ class SearchResultTile extends StatelessWidget {
                                 ),
                       ),
                       const SizedBox(width: 15),
-                      coffee.discountPrice != null
+                      coffee.discount_price != null
                           ? Text(
-                              '${coffee.discountPrice}\$',
+                              '${coffee.discount_price}\$',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium
@@ -103,7 +103,7 @@ class SearchResultTile extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        coffee.company,
+                        coffee.category.category_name,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

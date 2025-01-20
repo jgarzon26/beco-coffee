@@ -14,18 +14,25 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Coffee _$CoffeeFromJson(Map<String, dynamic> json) {
+  return _Coffee.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Coffee {
-  String get coffeeId => throw _privateConstructorUsedError;
-  String get category => throw _privateConstructorUsedError;
-  String get company => throw _privateConstructorUsedError;
+  String get coffee_id => throw _privateConstructorUsedError;
+  Category get category => throw _privateConstructorUsedError;
+  Company get company => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  String get imageSrc => throw _privateConstructorUsedError;
+  String get image_src => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
-  double? get discountPrice => throw _privateConstructorUsedError;
+  double? get discount_price => throw _privateConstructorUsedError;
   double get rating => throw _privateConstructorUsedError;
-  int get numberOfRatings => throw _privateConstructorUsedError;
+  int get number_of_ratings => throw _privateConstructorUsedError;
+
+  /// Serializes this Coffee to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Coffee
   /// with the given fields replaced by the non-null parameter values.
@@ -39,16 +46,19 @@ abstract class $CoffeeCopyWith<$Res> {
       _$CoffeeCopyWithImpl<$Res, Coffee>;
   @useResult
   $Res call(
-      {String coffeeId,
-      String category,
-      String company,
+      {String coffee_id,
+      Category category,
+      Company company,
       String name,
       String description,
-      String imageSrc,
+      String image_src,
       double price,
-      double? discountPrice,
+      double? discount_price,
       double rating,
-      int numberOfRatings});
+      int number_of_ratings});
+
+  $CategoryCopyWith<$Res> get category;
+  $CompanyCopyWith<$Res> get company;
 }
 
 /// @nodoc
@@ -66,30 +76,30 @@ class _$CoffeeCopyWithImpl<$Res, $Val extends Coffee>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? coffeeId = null,
+    Object? coffee_id = null,
     Object? category = null,
     Object? company = null,
     Object? name = null,
     Object? description = null,
-    Object? imageSrc = null,
+    Object? image_src = null,
     Object? price = null,
-    Object? discountPrice = freezed,
+    Object? discount_price = freezed,
     Object? rating = null,
-    Object? numberOfRatings = null,
+    Object? number_of_ratings = null,
   }) {
     return _then(_value.copyWith(
-      coffeeId: null == coffeeId
-          ? _value.coffeeId
-          : coffeeId // ignore: cast_nullable_to_non_nullable
+      coffee_id: null == coffee_id
+          ? _value.coffee_id
+          : coffee_id // ignore: cast_nullable_to_non_nullable
               as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Category,
       company: null == company
           ? _value.company
           : company // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Company,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -98,27 +108,47 @@ class _$CoffeeCopyWithImpl<$Res, $Val extends Coffee>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      imageSrc: null == imageSrc
-          ? _value.imageSrc
-          : imageSrc // ignore: cast_nullable_to_non_nullable
+      image_src: null == image_src
+          ? _value.image_src
+          : image_src // ignore: cast_nullable_to_non_nullable
               as String,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      discountPrice: freezed == discountPrice
-          ? _value.discountPrice
-          : discountPrice // ignore: cast_nullable_to_non_nullable
+      discount_price: freezed == discount_price
+          ? _value.discount_price
+          : discount_price // ignore: cast_nullable_to_non_nullable
               as double?,
       rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
-      numberOfRatings: null == numberOfRatings
-          ? _value.numberOfRatings
-          : numberOfRatings // ignore: cast_nullable_to_non_nullable
+      number_of_ratings: null == number_of_ratings
+          ? _value.number_of_ratings
+          : number_of_ratings // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
+  }
+
+  /// Create a copy of Coffee
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CategoryCopyWith<$Res> get category {
+    return $CategoryCopyWith<$Res>(_value.category, (value) {
+      return _then(_value.copyWith(category: value) as $Val);
+    });
+  }
+
+  /// Create a copy of Coffee
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CompanyCopyWith<$Res> get company {
+    return $CompanyCopyWith<$Res>(_value.company, (value) {
+      return _then(_value.copyWith(company: value) as $Val);
+    });
   }
 }
 
@@ -130,16 +160,21 @@ abstract class _$$CoffeeImplCopyWith<$Res> implements $CoffeeCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String coffeeId,
-      String category,
-      String company,
+      {String coffee_id,
+      Category category,
+      Company company,
       String name,
       String description,
-      String imageSrc,
+      String image_src,
       double price,
-      double? discountPrice,
+      double? discount_price,
       double rating,
-      int numberOfRatings});
+      int number_of_ratings});
+
+  @override
+  $CategoryCopyWith<$Res> get category;
+  @override
+  $CompanyCopyWith<$Res> get company;
 }
 
 /// @nodoc
@@ -155,30 +190,30 @@ class __$$CoffeeImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? coffeeId = null,
+    Object? coffee_id = null,
     Object? category = null,
     Object? company = null,
     Object? name = null,
     Object? description = null,
-    Object? imageSrc = null,
+    Object? image_src = null,
     Object? price = null,
-    Object? discountPrice = freezed,
+    Object? discount_price = freezed,
     Object? rating = null,
-    Object? numberOfRatings = null,
+    Object? number_of_ratings = null,
   }) {
     return _then(_$CoffeeImpl(
-      coffeeId: null == coffeeId
-          ? _value.coffeeId
-          : coffeeId // ignore: cast_nullable_to_non_nullable
+      coffee_id: null == coffee_id
+          ? _value.coffee_id
+          : coffee_id // ignore: cast_nullable_to_non_nullable
               as String,
       category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Category,
       company: null == company
           ? _value.company
           : company // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Company,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -187,69 +222,72 @@ class __$$CoffeeImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      imageSrc: null == imageSrc
-          ? _value.imageSrc
-          : imageSrc // ignore: cast_nullable_to_non_nullable
+      image_src: null == image_src
+          ? _value.image_src
+          : image_src // ignore: cast_nullable_to_non_nullable
               as String,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      discountPrice: freezed == discountPrice
-          ? _value.discountPrice
-          : discountPrice // ignore: cast_nullable_to_non_nullable
+      discount_price: freezed == discount_price
+          ? _value.discount_price
+          : discount_price // ignore: cast_nullable_to_non_nullable
               as double?,
       rating: null == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
-      numberOfRatings: null == numberOfRatings
-          ? _value.numberOfRatings
-          : numberOfRatings // ignore: cast_nullable_to_non_nullable
+      number_of_ratings: null == number_of_ratings
+          ? _value.number_of_ratings
+          : number_of_ratings // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$CoffeeImpl implements _Coffee {
   const _$CoffeeImpl(
-      {required this.coffeeId,
+      {required this.coffee_id,
       required this.category,
       required this.company,
       required this.name,
       required this.description,
-      required this.imageSrc,
+      required this.image_src,
       required this.price,
-      this.discountPrice,
+      this.discount_price,
       required this.rating,
-      required this.numberOfRatings});
+      required this.number_of_ratings});
+
+  factory _$CoffeeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CoffeeImplFromJson(json);
 
   @override
-  final String coffeeId;
+  final String coffee_id;
   @override
-  final String category;
+  final Category category;
   @override
-  final String company;
+  final Company company;
   @override
   final String name;
   @override
   final String description;
   @override
-  final String imageSrc;
+  final String image_src;
   @override
   final double price;
   @override
-  final double? discountPrice;
+  final double? discount_price;
   @override
   final double rating;
   @override
-  final int numberOfRatings;
+  final int number_of_ratings;
 
   @override
   String toString() {
-    return 'Coffee(coffeeId: $coffeeId, category: $category, company: $company, name: $name, description: $description, imageSrc: $imageSrc, price: $price, discountPrice: $discountPrice, rating: $rating, numberOfRatings: $numberOfRatings)';
+    return 'Coffee(coffee_id: $coffee_id, category: $category, company: $company, name: $name, description: $description, image_src: $image_src, price: $price, discount_price: $discount_price, rating: $rating, number_of_ratings: $number_of_ratings)';
   }
 
   @override
@@ -257,37 +295,38 @@ class _$CoffeeImpl implements _Coffee {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CoffeeImpl &&
-            (identical(other.coffeeId, coffeeId) ||
-                other.coffeeId == coffeeId) &&
+            (identical(other.coffee_id, coffee_id) ||
+                other.coffee_id == coffee_id) &&
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.company, company) || other.company == company) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.imageSrc, imageSrc) ||
-                other.imageSrc == imageSrc) &&
+            (identical(other.image_src, image_src) ||
+                other.image_src == image_src) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.discountPrice, discountPrice) ||
-                other.discountPrice == discountPrice) &&
+            (identical(other.discount_price, discount_price) ||
+                other.discount_price == discount_price) &&
             (identical(other.rating, rating) || other.rating == rating) &&
-            (identical(other.numberOfRatings, numberOfRatings) ||
-                other.numberOfRatings == numberOfRatings));
+            (identical(other.number_of_ratings, number_of_ratings) ||
+                other.number_of_ratings == number_of_ratings));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      coffeeId,
+      coffee_id,
       category,
       company,
       name,
       description,
-      imageSrc,
+      image_src,
       price,
-      discountPrice,
+      discount_price,
       rating,
-      numberOfRatings);
+      number_of_ratings);
 
   /// Create a copy of Coffee
   /// with the given fields replaced by the non-null parameter values.
@@ -296,41 +335,50 @@ class _$CoffeeImpl implements _Coffee {
   @pragma('vm:prefer-inline')
   _$$CoffeeImplCopyWith<_$CoffeeImpl> get copyWith =>
       __$$CoffeeImplCopyWithImpl<_$CoffeeImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CoffeeImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Coffee implements Coffee {
   const factory _Coffee(
-      {required final String coffeeId,
-      required final String category,
-      required final String company,
+      {required final String coffee_id,
+      required final Category category,
+      required final Company company,
       required final String name,
       required final String description,
-      required final String imageSrc,
+      required final String image_src,
       required final double price,
-      final double? discountPrice,
+      final double? discount_price,
       required final double rating,
-      required final int numberOfRatings}) = _$CoffeeImpl;
+      required final int number_of_ratings}) = _$CoffeeImpl;
+
+  factory _Coffee.fromJson(Map<String, dynamic> json) = _$CoffeeImpl.fromJson;
 
   @override
-  String get coffeeId;
+  String get coffee_id;
   @override
-  String get category;
+  Category get category;
   @override
-  String get company;
+  Company get company;
   @override
   String get name;
   @override
   String get description;
   @override
-  String get imageSrc;
+  String get image_src;
   @override
   double get price;
   @override
-  double? get discountPrice;
+  double? get discount_price;
   @override
   double get rating;
   @override
-  int get numberOfRatings;
+  int get number_of_ratings;
 
   /// Create a copy of Coffee
   /// with the given fields replaced by the non-null parameter values.

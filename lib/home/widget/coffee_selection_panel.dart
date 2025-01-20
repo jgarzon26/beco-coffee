@@ -33,7 +33,7 @@ class CoffeeSelectionPanel extends StatelessWidget {
               child: Stack(
                 children: [
                   Hero(
-                    tag: coffee.coffeeId,
+                    tag: coffee.coffee_id,
                     child: const Placeholder(),
                   ),
                   const Positioned(
@@ -59,14 +59,14 @@ class CoffeeSelectionPanel extends StatelessWidget {
                 Text(
                   '${coffee.price}\$',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        decoration: coffee.discountPrice != null
+                        decoration: coffee.discount_price != null
                             ? TextDecoration.lineThrough
                             : null,
                       ),
                 ),
-                coffee.discountPrice != null
+                coffee.discount_price != null
                     ? Text(
-                        '${coffee.discountPrice}\$',
+                        '${coffee.discount_price}\$',
                         style: Theme.of(context).textTheme.titleSmall,
                       )
                     : const SizedBox(),
@@ -94,7 +94,7 @@ class CoffeeSelectionPanel extends StatelessWidget {
                   },
                 ),
                 Text(
-                  '${coffee.numberOfRatings} rating',
+                  '${coffee.number_of_ratings} rating',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: kRatingColor,
                       ),

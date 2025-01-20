@@ -131,6 +131,10 @@ class _IntroScreenState extends State<IntroScreen> {
                     ),
                   ),
                   IconButton(
+                    style: IconButton.styleFrom(
+                      backgroundColor: kPrimaryContainer,
+                      foregroundColor: kOnPrimaryContainer,
+                    ),
                     iconSize: 40,
                     onPressed: () {
                       if (_currentPage + 1 >= pages.length) {

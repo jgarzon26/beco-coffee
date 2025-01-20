@@ -1,8 +1,11 @@
+import 'package:beco_coffee/home/controller/coffee_notifier.dart';
 import 'package:beco_coffee/home/controller/search_notifier.dart';
+import 'package:beco_coffee/home/repo/coffee_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
+class SearchAppBar extends ConsumerStatefulWidget
+    implements PreferredSizeWidget {
   final bool hasNotifications;
 
   const SearchAppBar({
@@ -30,7 +33,7 @@ class _SearchAppBarState extends ConsumerState<SearchAppBar> {
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     super.dispose();
     searchController.dispose();
   }
@@ -38,46 +41,46 @@ class _SearchAppBarState extends ConsumerState<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
     final searchState = ref.watch(
-            searchNotifierProvider.select(
-              (searchModel) => searchModel.isSearching,
-            ),
-          );
+      searchNotifierProvider.select(
+        (searchModel) => searchModel.isSearching,
+      ),
+    );
 
-          if (searchState == false) {
-            searchController.text = '';
-          }
+    if (searchState == false) {
+      searchController.text = '';
+    }
 
     return AppBar(
       title: SizedBox(
         height: MediaQuery.of(context).size.height * 0.045,
         child: SearchBar(
-            hintStyle: WidgetStatePropertyAll(
-              Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.black54,
-                  ),
-            ),
-            backgroundColor: const WidgetStatePropertyAll(Colors.white),
-            controller: searchController,
-            onTap: () {
-              ref.read(searchNotifierProvider.notifier).setSearchState(true);
-            },
-            onChanged: (value) {
-              ref.read(searchNotifierProvider.notifier).setQuery(value);
-            },
-            onTapOutside: (event) {
-              FocusScope.of(context).unfocus();
-            },
-            shape: const WidgetStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-            ),
-            leading: const Icon(
-              Icons.search,
-              color: Colors.black54,
-            ),
-            hintText: 'Search',
+          hintStyle: WidgetStatePropertyAll(
+            Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Colors.black54,
+                ),
           ),
+          backgroundColor: const WidgetStatePropertyAll(Colors.white),
+          controller: searchController,
+          onTap: () {
+            ref.read(searchNotifierProvider.notifier).setSearchState(true);
+          },
+          onChanged: (value) {
+            ref.read(searchNotifierProvider.notifier).setQuery(value);
+          },
+          onTapOutside: (event) {
+            FocusScope.of(context).unfocus();
+          },
+          shape: const WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+          ),
+          leading: const Icon(
+            Icons.search,
+            color: Colors.black54,
+          ),
+          hintText: 'Search',
+        ),
       ),
       actions: [
         IconButton(

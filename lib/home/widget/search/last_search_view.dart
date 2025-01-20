@@ -22,24 +22,7 @@ class LastSearchView extends StatelessWidget {
         const SizedBox(height: 10),
         Expanded(
           child: CoffeeGridView(
-            coffees: List.generate(
-              4,
-              (index) {
-                return Coffee(
-                  coffeeId: index.toString(),
-                  category: '',
-                  company: '',
-                  name: 'Coffee',
-                  description:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-                  imageSrc: '',
-                  price: 5.50,
-                  rating: 2,
-                  numberOfRatings: 92,
-                  discountPrice: 2.50,
-                );
-              },
-            ),
+            coffees: [],
           ),
         ),
       ],

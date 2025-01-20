@@ -23,7 +23,7 @@ class ProductDetailScreen extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.4,
               child: Hero(
-                tag: coffee.coffeeId,
+                tag: coffee.coffee_id,
                 child: Image.network(
                   'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/flat-white-3402c4f.jpg?quality=90&webp=true&resize=300,272',
                   fit: BoxFit.cover,
@@ -84,7 +84,7 @@ class ProductDetailScreen extends StatelessWidget {
                               ),
                     ),
                     Text(
-                      '${coffee.numberOfRatings} rating',
+                      '${coffee.number_of_ratings} rating',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             color: const Color.fromRGBO(255, 193, 0, 1),
                           ),
@@ -118,7 +118,7 @@ class ProductDetailScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     Text(
-                      '${coffee.discountPrice}\$',
+                      '${coffee.discount_price}\$',
                       style:
                           Theme.of(context).textTheme.headlineMedium?.copyWith(
                                 color: kSecondaryContainer,

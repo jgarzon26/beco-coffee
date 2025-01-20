@@ -1,25 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_notifier.dart';
+part of 'coffee_repo.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authNotifierHash() => r'edccfc472c7401431a0d59262100d37a6b2d62a9';
+String _$coffeeRepoHash() => r'4de4108f3b51689898abc6f4497945352b34efda';
 
-/// See also [AuthNotifier].
-@ProviderFor(AuthNotifier)
-final authNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<AuthNotifier, CoffeeUser?>.internal(
-  AuthNotifier.new,
-  name: r'authNotifierProvider',
+/// See also [coffeeRepo].
+@ProviderFor(coffeeRepo)
+final coffeeRepoProvider = AutoDisposeProvider<CoffeeRepo>.internal(
+  coffeeRepo,
+  name: r'coffeeRepoProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authNotifierHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$coffeeRepoHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AuthNotifier = AutoDisposeAsyncNotifier<CoffeeUser?>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef CoffeeRepoRef = AutoDisposeProviderRef<CoffeeRepo>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

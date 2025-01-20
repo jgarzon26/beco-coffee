@@ -18,7 +18,7 @@ enum CoffeeSugar {
 @freezed
 class Order with _$Order {
   const factory Order({
-    required String orderId,
+    required String order_id,
     required String coffeeName,
     required CoffeeSize size,
     required CoffeeSugar sugar,

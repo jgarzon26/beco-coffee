@@ -10,20 +10,7 @@ class SearchResultView extends ConsumerWidget {
     return ListView.builder(
       itemCount: 5,
       itemBuilder: (context, index) {
-        return SearchResultTile(
-          coffee: Coffee(
-            coffeeId: (index + 5).toString(),
-            category: '',
-            company: 'Starbuck',
-            name: 'Coffee Name',
-            description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-            imageSrc: '',
-            price: 1.50,
-            rating: 8.1,
-            numberOfRatings: 20,
-            discountPrice: 1.00,
-          ),
-        );
+        return null;
       },
     );
   }

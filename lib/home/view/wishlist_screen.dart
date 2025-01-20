@@ -26,24 +26,7 @@ class WishlistScreen extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: CoffeeGridView(
           isScrollable: true,
-          coffees: List.generate(
-            4,
-            (index) {
-              return Coffee(
-                coffeeId: index.toString(),
-                category: '',
-                company: '',
-                name: 'Coffee',
-                description:
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-                imageSrc: '',
-                price: 5.50,
-                rating: 2,
-                numberOfRatings: 92,
-                discountPrice: 2.50,
-              );
-            },
-          ),
+          coffees: [],
         ),
       ),
     );
