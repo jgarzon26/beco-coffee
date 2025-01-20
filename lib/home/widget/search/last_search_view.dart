@@ -1,4 +1,5 @@
 import 'package:beco_coffee/home/model/coffee.dart';
+import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
 import 'package:beco_coffee/home/widget/coffee_selection_panel.dart';
 import 'package:flutter/material.dart';
 
@@ -20,28 +21,22 @@ class LastSearchView extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Expanded(
-          child: GridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 15,
-            crossAxisSpacing: 20,
-            crossAxisCount: 2,
-            childAspectRatio: 2 / 3,
-            children: List.generate(
+          child: CoffeeGridView(
+            coffees: List.generate(
               4,
               (index) {
-                return CoffeeSelectionPanel(
-                  coffee: Coffee(
-                    coffeeId: (index + 10).toString(),
-                    category: '',
-                    company: '',
-                    name: 'Coffee',
-                    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-                    imageSrc: '',
-                    price: 5.50,
-                    rating: 2,
-                    numberOfRatings: 92,
-                    discountPrice: 2.50,
-                  ),
+                return Coffee(
+                  coffeeId: index.toString(),
+                  category: '',
+                  company: '',
+                  name: 'Coffee',
+                  description:
+                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                  imageSrc: '',
+                  price: 5.50,
+                  rating: 2,
+                  numberOfRatings: 92,
+                  discountPrice: 2.50,
                 );
               },
             ),
