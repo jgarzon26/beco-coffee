@@ -13,6 +13,8 @@ class SearchResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final companyName = coffee.company.company_name;
+
     return GestureDetector(
       onTap: () {
         context.pushNamed('product-detail', extra: coffee);
@@ -32,12 +34,16 @@ class SearchResultTile extends StatelessWidget {
                   topLeft: Radius.circular(20),
                   bottomLeft: Radius.circular(20),
                 ),
-                child: Hero(
-                  tag: coffee.coffee_id,
-                  child: const Placeholder(),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Hero(
+                    tag: coffee.coffee_id,
+                    child: Image.network(coffee.image_src, fit: BoxFit.cover),
+                  ),
                 ),
               ),
             ),
+            const SizedBox(width: 10),
             Flexible(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -45,6 +51,7 @@ class SearchResultTile extends StatelessWidget {
                   const Spacer(),
                   Text(
                     coffee.name,
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -103,7 +110,12 @@ class SearchResultTile extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        coffee.category.category_name,
+                        !companyName.contains(' ')
+                            ? companyName
+                            : companyName.substring(
+                                0,
+                                companyName.indexOf(' '),
+                              ),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

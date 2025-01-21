@@ -25,7 +25,7 @@ class SearchResultView extends ConsumerWidget {
         ).toList();
 
         return ListView.builder(
-          itemCount: 5,
+          itemCount: searchResults.length,
           itemBuilder: (context, index) {
             return SearchResultTile(coffee: searchResults[index]);
           },
