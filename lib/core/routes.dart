@@ -148,19 +148,15 @@ GoRouter router(Ref ref) {
               ),
             ],
           ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                name: 'product-detail',
-                path: '/product-detail',
-                builder: (context, state) {
-                  final coffee = state.extra as Coffee;
-                  return ProductDetailScreen(coffee: coffee);
-                },
-              ),
-            ],
-          ),
         ],
+      ),
+      GoRoute(
+        name: 'product-detail',
+        path: '/product-detail',
+        builder: (context, state) {
+          final coffee = state.extra as Coffee;
+          return ProductDetailScreen(coffee: coffee);
+        },
       ),
     ],
   );

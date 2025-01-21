@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:beco_coffee/home/repo/coffee_repo.dart';
 import 'package:beco_coffee/home/widget/home/category_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoriesSelection extends StatefulWidget {
   const CategoriesSelection({
@@ -33,21 +35,33 @@ class _CategoriesSelectionState extends State<CategoriesSelection> {
           child: Row(
             children: [
               Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: CategoryWidget(
-                        title: 'Coffee',
-                        onTap: () {
-                          setState(() {
-                            currentSelection = index;
-                          });
-                        },
-                        isSelected: currentSelection == index,
-                      ),
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final categories = ref.watch(getCategoriesProvider);
+
+                    return categories.when(
+                      data: (categories) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: categories.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: CategoryWidget(
+                                category: categories[index],
+                                onTap: () {
+                                  setState(() {
+                                    currentSelection = index;
+                                  });
+                                },
+                                isSelected: currentSelection == index,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      error: (error, stackTrace) => Container(),
+                      loading: () => Container(),
                     );
                   },
                 ),

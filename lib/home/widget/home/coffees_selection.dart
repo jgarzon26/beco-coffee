@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/controller/coffee_notifier.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ class CoffeesSelection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final randCoffees = ref.watch(getRandomCoffeesProvider.call());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -21,8 +24,18 @@ class CoffeesSelection extends ConsumerWidget {
         const SizedBox(height: 10),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.65,
-          child: CoffeeGridView(
-            coffees: [],
+          child: randCoffees.when(
+            data: (coffees) {
+              return CoffeeGridView(
+                coffees: coffees,
+              );
+            },
+            error: (error, stackTrace) => const Text('Cannot load coffees'),
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            },
           ),
         ),
       ],

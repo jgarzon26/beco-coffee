@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CoffeeCarouselModel {
-  List<dynamic> get coffeeImages => throw _privateConstructorUsedError;
+  List<Coffee> get coffeeImages => throw _privateConstructorUsedError;
   int get currentImageIndex => throw _privateConstructorUsedError;
 
   /// Create a copy of CoffeeCarouselModel
@@ -32,7 +32,7 @@ abstract class $CoffeeCarouselModelCopyWith<$Res> {
           CoffeeCarouselModel value, $Res Function(CoffeeCarouselModel) then) =
       _$CoffeeCarouselModelCopyWithImpl<$Res, CoffeeCarouselModel>;
   @useResult
-  $Res call({List<dynamic> coffeeImages, int currentImageIndex});
+  $Res call({List<Coffee> coffeeImages, int currentImageIndex});
 }
 
 /// @nodoc
@@ -57,7 +57,7 @@ class _$CoffeeCarouselModelCopyWithImpl<$Res, $Val extends CoffeeCarouselModel>
       coffeeImages: null == coffeeImages
           ? _value.coffeeImages
           : coffeeImages // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Coffee>,
       currentImageIndex: null == currentImageIndex
           ? _value.currentImageIndex
           : currentImageIndex // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,7 @@ abstract class _$$CoffeeCarouselModelImplCopyWith<$Res>
       __$$CoffeeCarouselModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<dynamic> coffeeImages, int currentImageIndex});
+  $Res call({List<Coffee> coffeeImages, int currentImageIndex});
 }
 
 /// @nodoc
@@ -97,7 +97,7 @@ class __$$CoffeeCarouselModelImplCopyWithImpl<$Res>
       coffeeImages: null == coffeeImages
           ? _value._coffeeImages
           : coffeeImages // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<Coffee>,
       currentImageIndex: null == currentImageIndex
           ? _value.currentImageIndex
           : currentImageIndex // ignore: cast_nullable_to_non_nullable
@@ -110,13 +110,13 @@ class __$$CoffeeCarouselModelImplCopyWithImpl<$Res>
 
 class _$CoffeeCarouselModelImpl implements _CoffeeCarouselModel {
   const _$CoffeeCarouselModelImpl(
-      {required final List<dynamic> coffeeImages,
+      {required final List<Coffee> coffeeImages,
       required this.currentImageIndex})
       : _coffeeImages = coffeeImages;
 
-  final List<dynamic> _coffeeImages;
+  final List<Coffee> _coffeeImages;
   @override
-  List<dynamic> get coffeeImages {
+  List<Coffee> get coffeeImages {
     if (_coffeeImages is EqualUnmodifiableListView) return _coffeeImages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_coffeeImages);
@@ -157,11 +157,11 @@ class _$CoffeeCarouselModelImpl implements _CoffeeCarouselModel {
 
 abstract class _CoffeeCarouselModel implements CoffeeCarouselModel {
   const factory _CoffeeCarouselModel(
-      {required final List<dynamic> coffeeImages,
+      {required final List<Coffee> coffeeImages,
       required final int currentImageIndex}) = _$CoffeeCarouselModelImpl;
 
   @override
-  List<dynamic> get coffeeImages;
+  List<Coffee> get coffeeImages;
   @override
   int get currentImageIndex;
 

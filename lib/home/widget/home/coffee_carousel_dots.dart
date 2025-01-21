@@ -9,18 +9,24 @@ class CoffeeCarouselDots extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final coffeeCarousel = ref.watch(carouselNotifierProvider);
 
-    return DotsIndicator(
-      dotsCount: coffeeCarousel.coffeeImages.length,
-      position: coffeeCarousel.currentImageIndex,
-      decorator: const DotsDecorator(
-        size: Size(15, 5),
-        activeSize: Size(25, 5),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        activeShape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        spacing: EdgeInsets.only(right: 2),
-      ),
+    return coffeeCarousel.when(
+      data: (carousel) {
+        return DotsIndicator(
+          dotsCount: carousel.coffeeImages.length,
+          position: carousel.currentImageIndex,
+          decorator: const DotsDecorator(
+            size: Size(15, 5),
+            activeSize: Size(25, 5),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            spacing: EdgeInsets.only(right: 2),
+          ),
+        );
+      },
+      error: (error, stackTrace) => Container(),
+      loading: () => Container(),
     );
   }
 }

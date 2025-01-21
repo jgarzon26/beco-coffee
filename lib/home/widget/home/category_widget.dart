@@ -1,13 +1,14 @@
+import 'package:beco_coffee/home/model/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
-  final String title;
+  final Category category;
   final VoidCallback onTap;
   final bool isSelected;
 
   const CategoryWidget({
     super.key,
-    required this.title,
+    required this.category,
     required this.onTap,
     this.isSelected = false,
   });
@@ -40,12 +41,18 @@ class CategoryWidget extends StatelessWidget {
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  child: const Placeholder(),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    child: Image.network(
+                      category.category_img,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
               Text(
-                title,
+                category.category_name,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: isSelected ? Colors.white : Colors.black,
                       fontWeight: isSelected ? FontWeight.w900 : null,

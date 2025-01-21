@@ -1,10 +1,15 @@
+import 'package:beco_coffee/home/controller/coffee_notifier.dart';
+import 'package:beco_coffee/home/widget/home/promotions/promotions_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Promotions extends StatelessWidget {
+class Promotions extends ConsumerWidget {
   const Promotions({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final promotions = ref.watch(getPromotionCoffeesProvider.call());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -17,21 +22,12 @@ class Promotions extends StatelessWidget {
         const SizedBox(height: 10),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.15,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return AspectRatio(
-                aspectRatio: 1,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.grey,
-                  ),
-                ),
-              );
+          child: promotions.when(
+            data: (coffees) => PromotionsListView(promotions: coffees),
+            error: (error, stackTrace) {
+              return Text('Error: $error');
             },
+            loading: () => const PromotionsListView(),
           ),
         ),
       ],

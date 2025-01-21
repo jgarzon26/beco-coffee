@@ -2,12 +2,13 @@ import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
 import 'package:beco_coffee/home/widget/coffee_selection_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LastSearchView extends StatelessWidget {
+class LastSearchView extends ConsumerWidget {
   const LastSearchView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         Align(

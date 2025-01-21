@@ -13,22 +13,47 @@ class CoffeeCarousel extends ConsumerWidget {
     final currentCarousel = ref.watch(carouselNotifierProvider);
 
     return CarouselSlider(
-      items: currentCarousel.coffeeImages
-          .map(
+      items: currentCarousel.when(
+        data: (carousel) {
+          return carousel.coffeeImages.map(
+            (coffee) {
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: AspectRatio(
+                  aspectRatio: 3 / 2,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: Image.network(
+                      coffee.image_src,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ).toList();
+        },
+        error: (error, stackTrace) {
+          return null;
+        },
+        loading: () {
+          return List.generate(
+            5,
             (image) => Container(
               decoration: const BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              child: Center(
-                child: Text(
-                  '$image',
-                  style: const TextStyle(fontSize: 30),
-                ),
+              child: const Center(
+                child: CircularProgressIndicator.adaptive(),
               ),
             ),
-          )
-          .toList(),
+          );
+        },
+      ),
       options: CarouselOptions(
         enlargeCenterPage: true,
         onPageChanged: (index, reason) {

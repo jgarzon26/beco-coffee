@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/model/category.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -20,9 +21,22 @@ class CoffeeRepo {
 
     return coffees;
   }
+
+  Future<List<Category>> getAllCategories() async {
+    final categories = await supabase.from('coffee_category').select();
+
+    return categories.map((category) {
+      return Category.fromJson(category);
+    }).toList();
+  }
 }
 
 @riverpod
 CoffeeRepo coffeeRepo(Ref ref) {
   return CoffeeRepo();
+}
+
+@riverpod
+Future<List<Category>> getCategories(Ref ref) {
+  return ref.read(coffeeRepoProvider).getAllCategories();
 }

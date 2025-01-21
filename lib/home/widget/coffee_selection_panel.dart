@@ -1,4 +1,5 @@
 import 'package:beco_coffee/common/favorite_button.dart';
+import 'package:beco_coffee/common/loading_image_builder.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +33,21 @@ class CoffeeSelectionPanel extends StatelessWidget {
             Expanded(
               child: Stack(
                 children: [
-                  Hero(
-                    tag: coffee.coffee_id,
-                    child: const Placeholder(),
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                      child: Hero(
+                        tag: coffee.coffee_id,
+                        child: Image.network(
+                          coffee.image_src,
+                          fit: BoxFit.cover,
+                          loadingBuilder: loadingImageBuilder,
+                        ),
+                      ),
+                    ),
                   ),
                   const Positioned(
                     top: 0.5,
@@ -47,7 +60,9 @@ class CoffeeSelectionPanel extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               coffee.name,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
