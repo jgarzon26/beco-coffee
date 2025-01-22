@@ -29,6 +29,13 @@ class CoffeeRepo {
       return Category.fromJson(category);
     }).toList();
   }
+
+  Future<Coffee> getCoffeeById(String id) async {
+    final coffee =
+        (await supabase.from('coffee').select('*, category:coffee_category!category_id(*),company:company!company_id(*)').eq('coffee_id', id))[0];
+
+    return Coffee.fromJson(coffee);
+  }
 }
 
 @riverpod

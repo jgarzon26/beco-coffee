@@ -1,5 +1,4 @@
 import 'package:beco_coffee/auth/model/coffee_user.dart';
-import 'package:beco_coffee/auth/model/user_profile.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

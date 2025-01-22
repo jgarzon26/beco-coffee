@@ -1,4 +1,3 @@
-import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

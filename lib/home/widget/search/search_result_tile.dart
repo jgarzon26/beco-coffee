@@ -1,6 +1,8 @@
+import 'package:beco_coffee/home/controller/search_history_notifier.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class SearchResultTile extends StatelessWidget {
@@ -15,9 +17,17 @@ class SearchResultTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final companyName = coffee.company.company_name;
 
-    return GestureDetector(
-      onTap: () {
-        context.pushNamed('product-detail', extra: coffee);
+    return Consumer(
+      builder: (context, ref, child) {
+        return GestureDetector(
+          onTap: () {
+            ref
+                .read(searchHistoryNotifierProvider.notifier)
+                .addCoffeeToSearchHistory(coffee);
+            context.pushNamed('product-detail', extra: coffee);
+          },
+          child: child,
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 15),

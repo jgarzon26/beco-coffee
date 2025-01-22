@@ -1,6 +1,4 @@
-import 'package:beco_coffee/home/controller/coffee_notifier.dart';
 import 'package:beco_coffee/home/controller/search_notifier.dart';
-import 'package:beco_coffee/home/repo/coffee_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

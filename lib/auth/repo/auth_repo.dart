@@ -121,6 +121,68 @@ class AuthRepo {
   Future<void> logOut() async {
     return supabase.auth.signOut();
   }
+
+  //User Profiles
+
+  //this returns list of coffee Ids
+  Future<List<String>> getUserSearchQueries() async {
+    final currentUser = this.currentUser;
+
+    if (currentUser == null) {
+      throw Exception('User is not logged in');
+    }
+
+    final searchQueriesRes = await supabase
+        .from('users')
+        .select('search_queries')
+        .eq('user_id', currentUser.id);
+
+    final List<dynamic> searchQueries = searchQueriesRes[0]['search_queries'] ?? [];
+
+    if(searchQueries.isEmpty) {
+      return [];
+    }
+
+    /*
+      converting dynamic to string
+    */
+
+    final actualSearchQueries = searchQueries.map(
+      (query) {
+        return query.toString();
+      },
+    ).toList();
+
+    return actualSearchQueries;
+  }
+
+  Future<List<String>> updateSearchQueries(List<String> coffeeIds) async {
+    final currentUser = this.currentUser;
+
+    if (currentUser == null) {
+      throw Exception('User is not logged in');
+    }
+
+    final res = await supabase
+        .from('users')
+        .update({'search_queries': coffeeIds})
+        .eq('user_id', currentUser.id)
+        .select();
+
+    final List<dynamic> searchQueries = res[0]['search_queries'] ?? [];
+
+    if (searchQueries.isEmpty) {
+      return [];
+    }
+
+    final updatedSearchQueries = searchQueries.map(
+      (query) {
+        return query.toString();
+      },
+    ).toList();
+
+    return updatedSearchQueries;
+  }
 }
 
 @riverpod
