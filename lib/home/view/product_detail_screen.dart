@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:beco_coffee/home/model/coffee.dart';
-import 'package:beco_coffee/home/widget/product_detail/product_order_detail.dart';
 import 'package:beco_coffee/home/widget/product_detail/product_order_form.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -151,7 +150,7 @@ class ProductDetailScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  const Expanded(child: ProductOrderForm()),
+                  Expanded(child: ProductOrderForm(coffee: coffee,)),
                 ],
               ),
             ),

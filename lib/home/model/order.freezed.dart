@@ -14,13 +14,20 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Order _$OrderFromJson(Map<String, dynamic> json) {
+  return _Order.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Order {
   String get order_id => throw _privateConstructorUsedError;
-  String get coffeeName => throw _privateConstructorUsedError;
-  CoffeeSize get size => throw _privateConstructorUsedError;
-  CoffeeSugar get sugar => throw _privateConstructorUsedError;
+  Coffee get coffee => throw _privateConstructorUsedError;
+  CoffeeSize get coffee_size => throw _privateConstructorUsedError;
+  CoffeeSugar get coffee_sugar => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
+
+  /// Serializes this Order to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -35,10 +42,12 @@ abstract class $OrderCopyWith<$Res> {
   @useResult
   $Res call(
       {String order_id,
-      String coffeeName,
-      CoffeeSize size,
-      CoffeeSugar sugar,
+      Coffee coffee,
+      CoffeeSize coffee_size,
+      CoffeeSugar coffee_sugar,
       int quantity});
+
+  $CoffeeCopyWith<$Res> get coffee;
 }
 
 /// @nodoc
@@ -57,9 +66,9 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @override
   $Res call({
     Object? order_id = null,
-    Object? coffeeName = null,
-    Object? size = null,
-    Object? sugar = null,
+    Object? coffee = null,
+    Object? coffee_size = null,
+    Object? coffee_sugar = null,
     Object? quantity = null,
   }) {
     return _then(_value.copyWith(
@@ -67,23 +76,33 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.order_id
           : order_id // ignore: cast_nullable_to_non_nullable
               as String,
-      coffeeName: null == coffeeName
-          ? _value.coffeeName
-          : coffeeName // ignore: cast_nullable_to_non_nullable
-              as String,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
+      coffee: null == coffee
+          ? _value.coffee
+          : coffee // ignore: cast_nullable_to_non_nullable
+              as Coffee,
+      coffee_size: null == coffee_size
+          ? _value.coffee_size
+          : coffee_size // ignore: cast_nullable_to_non_nullable
               as CoffeeSize,
-      sugar: null == sugar
-          ? _value.sugar
-          : sugar // ignore: cast_nullable_to_non_nullable
+      coffee_sugar: null == coffee_sugar
+          ? _value.coffee_sugar
+          : coffee_sugar // ignore: cast_nullable_to_non_nullable
               as CoffeeSugar,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
+  }
+
+  /// Create a copy of Order
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CoffeeCopyWith<$Res> get coffee {
+    return $CoffeeCopyWith<$Res>(_value.coffee, (value) {
+      return _then(_value.copyWith(coffee: value) as $Val);
+    });
   }
 }
 
@@ -96,10 +115,13 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @useResult
   $Res call(
       {String order_id,
-      String coffeeName,
-      CoffeeSize size,
-      CoffeeSugar sugar,
+      Coffee coffee,
+      CoffeeSize coffee_size,
+      CoffeeSugar coffee_sugar,
       int quantity});
+
+  @override
+  $CoffeeCopyWith<$Res> get coffee;
 }
 
 /// @nodoc
@@ -116,9 +138,9 @@ class __$$OrderImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? order_id = null,
-    Object? coffeeName = null,
-    Object? size = null,
-    Object? sugar = null,
+    Object? coffee = null,
+    Object? coffee_size = null,
+    Object? coffee_sugar = null,
     Object? quantity = null,
   }) {
     return _then(_$OrderImpl(
@@ -126,17 +148,17 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.order_id
           : order_id // ignore: cast_nullable_to_non_nullable
               as String,
-      coffeeName: null == coffeeName
-          ? _value.coffeeName
-          : coffeeName // ignore: cast_nullable_to_non_nullable
-              as String,
-      size: null == size
-          ? _value.size
-          : size // ignore: cast_nullable_to_non_nullable
+      coffee: null == coffee
+          ? _value.coffee
+          : coffee // ignore: cast_nullable_to_non_nullable
+              as Coffee,
+      coffee_size: null == coffee_size
+          ? _value.coffee_size
+          : coffee_size // ignore: cast_nullable_to_non_nullable
               as CoffeeSize,
-      sugar: null == sugar
-          ? _value.sugar
-          : sugar // ignore: cast_nullable_to_non_nullable
+      coffee_sugar: null == coffee_sugar
+          ? _value.coffee_sugar
+          : coffee_sugar // ignore: cast_nullable_to_non_nullable
               as CoffeeSugar,
       quantity: null == quantity
           ? _value.quantity
@@ -148,29 +170,33 @@ class __$$OrderImplCopyWithImpl<$Res>
 
 /// @nodoc
 
+@JsonSerializable(explicitToJson: true)
 class _$OrderImpl implements _Order {
   const _$OrderImpl(
       {required this.order_id,
-      required this.coffeeName,
-      required this.size,
-      required this.sugar,
+      required this.coffee,
+      required this.coffee_size,
+      required this.coffee_sugar,
       this.quantity = 1});
+
+  factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderImplFromJson(json);
 
   @override
   final String order_id;
   @override
-  final String coffeeName;
+  final Coffee coffee;
   @override
-  final CoffeeSize size;
+  final CoffeeSize coffee_size;
   @override
-  final CoffeeSugar sugar;
+  final CoffeeSugar coffee_sugar;
   @override
   @JsonKey()
   final int quantity;
 
   @override
   String toString() {
-    return 'Order(order_id: $order_id, coffeeName: $coffeeName, size: $size, sugar: $sugar, quantity: $quantity)';
+    return 'Order(order_id: $order_id, coffee: $coffee, coffee_size: $coffee_size, coffee_sugar: $coffee_sugar, quantity: $quantity)';
   }
 
   @override
@@ -180,17 +206,19 @@ class _$OrderImpl implements _Order {
             other is _$OrderImpl &&
             (identical(other.order_id, order_id) ||
                 other.order_id == order_id) &&
-            (identical(other.coffeeName, coffeeName) ||
-                other.coffeeName == coffeeName) &&
-            (identical(other.size, size) || other.size == size) &&
-            (identical(other.sugar, sugar) || other.sugar == sugar) &&
+            (identical(other.coffee, coffee) || other.coffee == coffee) &&
+            (identical(other.coffee_size, coffee_size) ||
+                other.coffee_size == coffee_size) &&
+            (identical(other.coffee_sugar, coffee_sugar) ||
+                other.coffee_sugar == coffee_sugar) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, order_id, coffeeName, size, sugar, quantity);
+  int get hashCode => Object.hash(
+      runtimeType, order_id, coffee, coffee_size, coffee_sugar, quantity);
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -199,24 +227,33 @@ class _$OrderImpl implements _Order {
   @pragma('vm:prefer-inline')
   _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
       __$$OrderImplCopyWithImpl<_$OrderImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OrderImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Order implements Order {
   const factory _Order(
       {required final String order_id,
-      required final String coffeeName,
-      required final CoffeeSize size,
-      required final CoffeeSugar sugar,
+      required final Coffee coffee,
+      required final CoffeeSize coffee_size,
+      required final CoffeeSugar coffee_sugar,
       final int quantity}) = _$OrderImpl;
+
+  factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
 
   @override
   String get order_id;
   @override
-  String get coffeeName;
+  Coffee get coffee;
   @override
-  CoffeeSize get size;
+  CoffeeSize get coffee_size;
   @override
-  CoffeeSugar get sugar;
+  CoffeeSugar get coffee_sugar;
   @override
   int get quantity;
 

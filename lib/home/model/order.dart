@@ -1,6 +1,8 @@
+import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'order.freezed.dart';
+part 'order.g.dart';
 
 enum CoffeeSize {
   small,
@@ -17,11 +19,14 @@ enum CoffeeSugar {
 
 @freezed
 class Order with _$Order {
+  @JsonSerializable(explicitToJson: true,)
   const factory Order({
     required String order_id,
-    required String coffeeName,
-    required CoffeeSize size,
-    required CoffeeSugar sugar,
+    required Coffee coffee,
+    required CoffeeSize coffee_size,
+    required CoffeeSugar coffee_sugar,
     @Default(1) int quantity,
   }) = _Order;
+
+  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 }

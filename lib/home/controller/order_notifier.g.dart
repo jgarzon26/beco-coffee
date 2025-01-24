@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'search_history_notifier.dart';
+part of 'order_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchHistoryNotifierHash() =>
-    r'12efa325db452b02360d51551e60ec8889bf308e';
+String _$orderNotifierHash() => r'03578e07d1dc510607cecf0d3558cdb5a5f82030';
 
-/// See also [SearchHistoryNotifier].
-@ProviderFor(SearchHistoryNotifier)
-final searchHistoryNotifierProvider = AutoDisposeAsyncNotifierProvider<
-    SearchHistoryNotifier, List<Coffee>>.internal(
-  SearchHistoryNotifier.new,
-  name: r'searchHistoryNotifierProvider',
+/// See also [OrderNotifier].
+@ProviderFor(OrderNotifier)
+final orderNotifierProvider =
+    AutoDisposeAsyncNotifierProvider<OrderNotifier, List<Order>>.internal(
+  OrderNotifier.new,
+  name: r'orderNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$searchHistoryNotifierHash,
+      : _$orderNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SearchHistoryNotifier = AutoDisposeAsyncNotifier<List<Coffee>>;
+typedef _$OrderNotifier = AutoDisposeAsyncNotifier<List<Order>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
