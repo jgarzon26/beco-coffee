@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:beco_coffee/home/model/coffee.dart';
-import 'package:beco_coffee/home/widget/product%20detail/product_order_detail.dart';
+import 'package:beco_coffee/home/widget/product_detail/product_order_detail.dart';
+import 'package:beco_coffee/home/widget/product_detail/product_order_form.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -16,75 +17,78 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: Hero(
-                  tag: coffee.coffee_id,
-                  child: Image.network(
-                    coffee.image_src,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
+    return Column(
+      children: [
+        Stack(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Hero(
+                tag: coffee.coffee_id,
+                child: Image.network(
+                  coffee.image_src,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).padding.top,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withOpacity(0.2),
-                      Colors.black.withOpacity(0),
-                    ],
-                  ),
-                ),
-              ),
-              SafeArea(
-                child: Row(
-                  children: [
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                      ),
-                      onPressed: () {
-                        context.pop();
-                      },
-                      icon: Icon(
-                        Platform.isIOS
-                            ? Icons.arrow_back_ios_new
-                            : Icons.arrow_back,
-                        size: 40,
-                      ),
-                    ),
-                    const Spacer(),
+            ),
+            Container(
+              height: MediaQuery.of(context).padding.top,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.2),
+                    Colors.black.withOpacity(0),
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Expanded(
+            ),
+            SafeArea(
+              child: Row(
+                children: [
+                  IconButton(
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                    ),
+                    onPressed: () {
+                      context.pop();
+                    },
+                    icon: Icon(
+                      Platform.isIOS
+                          ? Icons.arrow_back_ios_new
+                          : Icons.arrow_back,
+                      size: 40,
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Material(
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 children: [
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        coffee.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                      Flexible(
+                        child: Text(
+                          coffee.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
                       ),
                       Text(
                         '${coffee.number_of_ratings} rating',
@@ -96,11 +100,18 @@ class ProductDetailScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    coffee.description,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.black54,
-                        ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints.loose(
+                      Size.fromHeight(MediaQuery.sizeOf(context).height * 0.2),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Text(
+                        coffee.description,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Colors.black54,
+                            ),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -140,57 +151,13 @@ class ProductDetailScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  const ProductOrderDetail(),
-                  const Spacer(flex: 2),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: BorderSide(color: kPrimaryContainer),
-                            foregroundColor: kPrimaryContainer,
-                          ),
-                          onPressed: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Add Cart',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: kPrimaryContainer,
-                          ),
-                          onPressed: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Buy Now',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    color: kOnPrimaryContainer,
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
+                  const Expanded(child: ProductOrderForm()),
                 ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

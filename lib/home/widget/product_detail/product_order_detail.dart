@@ -2,7 +2,14 @@ import 'package:beco_coffee/home/model/order.dart';
 import 'package:flutter/material.dart';
 
 class ProductOrderDetail extends StatefulWidget {
-  const ProductOrderDetail({super.key});
+  final void Function(CoffeeSize? value)? onCoffeeSizeChange;
+  final void Function(CoffeeSugar? value)? onCoffeeSugarChange;
+
+  const ProductOrderDetail({
+    super.key,
+    this.onCoffeeSizeChange,
+    this.onCoffeeSugarChange,
+  });
 
   @override
   State<ProductOrderDetail> createState() => _ProductOrderDetailState();
@@ -41,6 +48,8 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                         setState(() {
                           coffeeSize = value;
                         });
+
+                        widget.onCoffeeSizeChange?.call(value);
                       },
                     ),
                     const SizedBox(width: 10),
@@ -80,6 +89,7 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                           setState(() {
                             coffeeSugar = value;
                           });
+                          widget.onCoffeeSugarChange?.call(value);
                         },
                       ),
                       const SizedBox(width: 10),
