@@ -4,6 +4,7 @@ import 'package:beco_coffee/home/widget/cart/order_list_tile.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -132,7 +133,7 @@ class CartScreen extends ConsumerWidget {
                               backgroundColor: kPrimaryContainer,
                             ),
                             onPressed: () {
-                              //TODO: go to checkout screen
+                              context.pushNamed('checkout');
                               ref
                                   .read(orderNotifierProvider.notifier)
                                   .updateOrders();

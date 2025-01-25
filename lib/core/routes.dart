@@ -1,4 +1,5 @@
 import 'package:beco_coffee/auth/view/auth_views.dart';
+import 'package:beco_coffee/home/view/checkout_screen.dart';
 import 'package:beco_coffee/home/view/home_views.dart';
 import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
@@ -129,6 +130,13 @@ GoRouter router(Ref ref) {
                 name: 'cart',
                 path: '/cart',
                 builder: (context, state) => const CartScreen(),
+                routes: [
+                  GoRoute(
+                    name: 'checkout',
+                    path: 'checkout',
+                    builder: (context, state) => const CheckoutScreen(),
+                  ),
+                ],
               ),
             ],
           ),

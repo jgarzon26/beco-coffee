@@ -18,6 +18,11 @@ final defaultTheme = ThemeData().copyWith(
     backgroundColor: kPrimaryContainer,
     foregroundColor: kOnPrimaryContainer,
     centerTitle: true,
+    titleTextStyle: GoogleFonts.poppinsTextTheme().displayMedium?.copyWith(
+                fontSize: 26,
+                color: Colors.white,
+                letterSpacing: 1.5,
+              ),
   ),
   scaffoldBackgroundColor: kSurface,
   textTheme: GoogleFonts.poppinsTextTheme(),
