@@ -17,4 +17,8 @@ class CheckoutNotifier extends _$CheckoutNotifier {
   void updateShopAddressIndex(int index) {
     state = state.copyWith(shopAddressIndex: index);
   }
+
+  void updatePaymentIndex(int index) {
+    state = state.copyWith(paymentIndex: index);
+  }
 }

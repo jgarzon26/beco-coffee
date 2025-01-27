@@ -42,6 +42,7 @@ class OrderRepo {
           coffee: coffee,
           coffee_size: CoffeeSize.values.byName(order['coffee_size']),
           coffee_sugar: CoffeeSugar.values.byName(order['coffee_sugar']),
+          quantity: userOrder['quantity'],
         ),
       );
     }

@@ -1,5 +1,7 @@
 import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:beco_coffee/home/widget/checkout/checkout_options_column.dart';
+import 'package:beco_coffee/home/widget/checkout/summary_items.dart';
+import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -19,14 +21,39 @@ class CheckoutScreen extends ConsumerWidget {
       ),
       body: checkoutOptions.when(
         data: (options) {
+          final (shopAddresses, bankNames) = options;
           return Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Gap(20),
-                Expanded(
-                  child: CheckoutOptionsColumn(
-                    shopAddresses: options,
+                CheckoutOptionsColumn(
+                  shopAddresses: shopAddresses,
+                  bankNames: bankNames,
+                ),
+                const Divider(),
+                const SummaryItems(),
+                const Spacer(),
+                TextButton(
+                  onPressed: () {
+                    //TODO: go to delivery page and update and order 
+                  },
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width * 0.6,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: kPrimaryContainer,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Pay',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: kOnPrimaryContainer,
+                            ),
+                      ),
+                    ),
                   ),
                 ),
               ],

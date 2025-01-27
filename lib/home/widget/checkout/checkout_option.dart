@@ -80,15 +80,14 @@ class _CheckoutOptionState extends State<CheckoutOption> {
                     color: kPrimaryContainer,
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  child: DefaultTextStyle(
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  child: OptionValueTile(
+                    leadingIconSize: 30,
+                    optionTitle: widget.optionValueTitle,
+                    titleStyle:
+                        Theme.of(context).textTheme.headlineMedium?.copyWith(
                               color: Colors.white,
-                            ) ??
-                        const TextStyle(),
-                    child: OptionValueTile(
-                      leadingIconSize: 30,
-                      optionTitle: widget.optionValueTitle,
-                    ),
+                              fontWeight: FontWeight.bold,
+                            ),
                   ),
                 ),
           ),

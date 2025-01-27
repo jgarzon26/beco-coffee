@@ -9,11 +9,13 @@ class OptionValueTile extends StatelessWidget {
     required this.optionTitle,
     this.iconColor,
     this.textColor,
+    this.titleStyle,
   });
 
   final double leadingIconSize;
   final String optionTitle;
   final Color? iconColor, textColor;
+  final TextStyle? titleStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +50,11 @@ class OptionValueTile extends StatelessWidget {
         const Spacer(),
         Text(
           optionTitle,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w900,
-          ),
+          style: titleStyle ??
+              const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         const Spacer(),
       ],

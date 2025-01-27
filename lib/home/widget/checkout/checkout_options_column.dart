@@ -10,8 +10,13 @@ import 'package:toggle_switch/toggle_switch.dart';
 
 class CheckoutOptionsColumn extends ConsumerWidget {
   final List<String> shopAddresses;
+  final List<String> bankNames;
 
-  const CheckoutOptionsColumn({super.key, required this.shopAddresses});
+  const CheckoutOptionsColumn({
+    super.key,
+    required this.shopAddresses,
+    required this.bankNames,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +24,9 @@ class CheckoutOptionsColumn extends ConsumerWidget {
         ref.watch(checkoutNotifierProvider.select((value) => value.mode));
     final shopAddressIndex = ref.watch(
         checkoutNotifierProvider.select((value) => value.shopAddressIndex));
+
+    final paymentIndex = ref
+        .watch(checkoutNotifierProvider.select((value) => value.paymentIndex));
 
     return Column(
       children: [
@@ -60,28 +68,33 @@ class CheckoutOptionsColumn extends ConsumerWidget {
               ? null
               : const Text('Current Location'),
           overlayBuilder: (context, controller) {
-            return Stack(
-              children: [
-                Container(
-                  color: Colors.black87,
-                  child: GestureDetector(
-                    onTap: () => controller.hide(),
-                  ),
-                ),
-                Positioned.fill(
-                  top: MediaQuery.sizeOf(context).height * 0.15,
-                  bottom: MediaQuery.sizeOf(context).height * 0.25,
-                  child: select_overlay.SelectionOverlay(
-                    initialIndex: shopAddressIndex,
-                    options: shopAddresses,
-                    onSelectOption: (index) {
-                      ref
-                          .read(checkoutNotifierProvider.notifier)
-                          .updateShopAddressIndex(index);
-                    },
-                  ),
-                ),
-              ],
+            return select_overlay.SelectionOverlay(
+              initialIndex: shopAddressIndex,
+              controller: controller,
+              options: shopAddresses,
+              onSelectOption: (index) {
+                ref
+                    .read(checkoutNotifierProvider.notifier)
+                    .updateShopAddressIndex(index);
+              },
+            );
+          },
+        ),
+        const Gap(5),
+        CheckoutOption(
+          optionTitle: 'Payment',
+          optionMenuLabel: 'Select',
+          optionValueTitle: bankNames[paymentIndex],
+          overlayBuilder: (context, controller) {
+            return select_overlay.SelectionOverlay(
+              initialIndex: paymentIndex,
+              controller: controller,
+              options: bankNames,
+              onSelectOption: (index) {
+                ref
+                    .read(checkoutNotifierProvider.notifier)
+                    .updatePaymentIndex(index);
+              },
             );
           },
         ),
