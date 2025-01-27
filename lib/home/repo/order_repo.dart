@@ -43,6 +43,7 @@ class OrderRepo {
           coffee_size: CoffeeSize.values.byName(order['coffee_size']),
           coffee_sugar: CoffeeSugar.values.byName(order['coffee_sugar']),
           quantity: userOrder['quantity'],
+          order_date: DateTime.tryParse(userOrder['transaction_date'] ?? '') ?? DateTime.now(),
         ),
       );
     }

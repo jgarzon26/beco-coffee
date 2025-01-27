@@ -11,6 +11,7 @@ _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
       coffee: Coffee.fromJson(json['coffee'] as Map<String, dynamic>),
       coffee_size: $enumDecode(_$CoffeeSizeEnumMap, json['coffee_size']),
       coffee_sugar: $enumDecode(_$CoffeeSugarEnumMap, json['coffee_sugar']),
+      order_date: DateTime.parse(json['order_date'] as String),
       quantity: (json['quantity'] as num?)?.toInt() ?? 1,
     );
 
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
       'coffee': instance.coffee.toJson(),
       'coffee_size': _$CoffeeSizeEnumMap[instance.coffee_size]!,
       'coffee_sugar': _$CoffeeSugarEnumMap[instance.coffee_sugar]!,
+      'order_date': instance.order_date.toIso8601String(),
       'quantity': instance.quantity,
     };
 

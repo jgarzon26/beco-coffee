@@ -5,6 +5,7 @@ import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class CheckoutScreen extends ConsumerWidget {
   const CheckoutScreen({super.key});
@@ -37,7 +38,9 @@ class CheckoutScreen extends ConsumerWidget {
                 const Spacer(),
                 TextButton(
                   onPressed: () {
-                    //TODO: go to delivery page and update and order 
+                    //TODO: go to delivery page and update and order
+                    context.goNamed('paid-screen');
+                    
                   },
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 0.6,

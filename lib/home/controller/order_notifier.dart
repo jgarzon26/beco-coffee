@@ -44,6 +44,7 @@ class OrderNotifier extends _$OrderNotifier {
               coffee: coffee,
               coffee_size: coffeeSize,
               coffee_sugar: coffeeSugar,
+              order_date: DateTime.now(),
             ),
           );
 
@@ -77,5 +78,9 @@ class OrderNotifier extends _$OrderNotifier {
     } catch (e, stack) {
       state = AsyncError(e, stack);
     }
+  }
+
+  Future<void> updateDate() async {
+    
   }
 }

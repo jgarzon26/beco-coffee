@@ -24,6 +24,7 @@ mixin _$Order {
   Coffee get coffee => throw _privateConstructorUsedError;
   CoffeeSize get coffee_size => throw _privateConstructorUsedError;
   CoffeeSugar get coffee_sugar => throw _privateConstructorUsedError;
+  DateTime get order_date => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
 
   /// Serializes this Order to a JSON map.
@@ -45,6 +46,7 @@ abstract class $OrderCopyWith<$Res> {
       Coffee coffee,
       CoffeeSize coffee_size,
       CoffeeSugar coffee_sugar,
+      DateTime order_date,
       int quantity});
 
   $CoffeeCopyWith<$Res> get coffee;
@@ -69,6 +71,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? coffee = null,
     Object? coffee_size = null,
     Object? coffee_sugar = null,
+    Object? order_date = null,
     Object? quantity = null,
   }) {
     return _then(_value.copyWith(
@@ -88,6 +91,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.coffee_sugar
           : coffee_sugar // ignore: cast_nullable_to_non_nullable
               as CoffeeSugar,
+      order_date: null == order_date
+          ? _value.order_date
+          : order_date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -118,6 +125,7 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
       Coffee coffee,
       CoffeeSize coffee_size,
       CoffeeSugar coffee_sugar,
+      DateTime order_date,
       int quantity});
 
   @override
@@ -141,6 +149,7 @@ class __$$OrderImplCopyWithImpl<$Res>
     Object? coffee = null,
     Object? coffee_size = null,
     Object? coffee_sugar = null,
+    Object? order_date = null,
     Object? quantity = null,
   }) {
     return _then(_$OrderImpl(
@@ -160,6 +169,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.coffee_sugar
           : coffee_sugar // ignore: cast_nullable_to_non_nullable
               as CoffeeSugar,
+      order_date: null == order_date
+          ? _value.order_date
+          : order_date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
@@ -177,6 +190,7 @@ class _$OrderImpl implements _Order {
       required this.coffee,
       required this.coffee_size,
       required this.coffee_sugar,
+      required this.order_date,
       this.quantity = 1});
 
   factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
@@ -191,12 +205,14 @@ class _$OrderImpl implements _Order {
   @override
   final CoffeeSugar coffee_sugar;
   @override
+  final DateTime order_date;
+  @override
   @JsonKey()
   final int quantity;
 
   @override
   String toString() {
-    return 'Order(order_id: $order_id, coffee: $coffee, coffee_size: $coffee_size, coffee_sugar: $coffee_sugar, quantity: $quantity)';
+    return 'Order(order_id: $order_id, coffee: $coffee, coffee_size: $coffee_size, coffee_sugar: $coffee_sugar, order_date: $order_date, quantity: $quantity)';
   }
 
   @override
@@ -211,14 +227,16 @@ class _$OrderImpl implements _Order {
                 other.coffee_size == coffee_size) &&
             (identical(other.coffee_sugar, coffee_sugar) ||
                 other.coffee_sugar == coffee_sugar) &&
+            (identical(other.order_date, order_date) ||
+                other.order_date == order_date) &&
             (identical(other.quantity, quantity) ||
                 other.quantity == quantity));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, order_id, coffee, coffee_size, coffee_sugar, quantity);
+  int get hashCode => Object.hash(runtimeType, order_id, coffee, coffee_size,
+      coffee_sugar, order_date, quantity);
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -242,6 +260,7 @@ abstract class _Order implements Order {
       required final Coffee coffee,
       required final CoffeeSize coffee_size,
       required final CoffeeSugar coffee_sugar,
+      required final DateTime order_date,
       final int quantity}) = _$OrderImpl;
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
@@ -254,6 +273,8 @@ abstract class _Order implements Order {
   CoffeeSize get coffee_size;
   @override
   CoffeeSugar get coffee_sugar;
+  @override
+  DateTime get order_date;
   @override
   int get quantity;
 

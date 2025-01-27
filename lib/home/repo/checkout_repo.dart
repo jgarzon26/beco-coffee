@@ -1,5 +1,3 @@
-import 'package:beco_coffee/home/controller/order_notifier.dart';
-import 'package:beco_coffee/home/model/order.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

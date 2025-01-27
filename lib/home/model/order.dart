@@ -25,6 +25,7 @@ class Order with _$Order {
     required Coffee coffee,
     required CoffeeSize coffee_size,
     required CoffeeSugar coffee_sugar,
+    required DateTime order_date,
     @Default(1) int quantity,
   }) = _Order;
 
