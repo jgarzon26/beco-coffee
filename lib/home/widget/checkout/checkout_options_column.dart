@@ -1,0 +1,91 @@
+import 'package:beco_coffee/home/controller/checkout_notifier.dart';
+import 'package:beco_coffee/home/model/chckout.dart';
+import 'package:beco_coffee/home/widget/checkout/checkout_option.dart';
+import 'package:beco_coffee/home/widget/checkout/selection_overlay.dart'
+    as select_overlay;
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+
+class CheckoutOptionsColumn extends ConsumerWidget {
+  final List<String> shopAddresses;
+
+  const CheckoutOptionsColumn({super.key, required this.shopAddresses});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mode =
+        ref.watch(checkoutNotifierProvider.select((value) => value.mode));
+    final shopAddressIndex = ref.watch(
+        checkoutNotifierProvider.select((value) => value.shopAddressIndex));
+
+    return Column(
+      children: [
+        Center(
+          child: ToggleSwitch(
+            initialLabelIndex: CheckoutMode.values.indexOf(mode),
+            totalSwitches: CheckoutMode.values.length,
+            minWidth: MediaQuery.sizeOf(context).width * 0.7,
+            minHeight: 50,
+            cornerRadius: 20,
+            borderColor: const [Colors.black87],
+            borderWidth: 2,
+            inactiveBgColor: Colors.white,
+            inactiveFgColor: Colors.black87,
+            activeBgColor: const [Colors.black87],
+            activeFgColor: Colors.white,
+            customTextStyles: const [
+              TextStyle(
+                fontSize: 26,
+              )
+            ],
+            labels: CheckoutMode.values
+                .map((mode) =>
+                    mode.name[0].toUpperCase() + mode.name.substring(1))
+                .toList(),
+            onToggle: (index) {
+              ref
+                  .read(checkoutNotifierProvider.notifier)
+                  .updateMode(CheckoutMode.values[index ?? 0]);
+            },
+          ),
+        ),
+        const Gap(10),
+        CheckoutOption(
+          optionTitle: 'Shop Address',
+          optionValueTitle: shopAddresses[shopAddressIndex],
+          optionMenuLabel: mode == CheckoutMode.pickup ? 'Select' : 'Edit',
+          customSelectedWidget: mode == CheckoutMode.pickup
+              ? null
+              : const Text('Current Location'),
+          overlayBuilder: (context, controller) {
+            return Stack(
+              children: [
+                Container(
+                  color: Colors.black87,
+                  child: GestureDetector(
+                    onTap: () => controller.hide(),
+                  ),
+                ),
+                Positioned.fill(
+                  top: MediaQuery.sizeOf(context).height * 0.15,
+                  bottom: MediaQuery.sizeOf(context).height * 0.25,
+                  child: select_overlay.SelectionOverlay(
+                    initialIndex: shopAddressIndex,
+                    options: shopAddresses,
+                    onSelectOption: (index) {
+                      ref
+                          .read(checkoutNotifierProvider.notifier)
+                          .updateShopAddressIndex(index);
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}

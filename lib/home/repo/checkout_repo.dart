@@ -4,11 +4,11 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'checkout_repo.g.dart';
 
-class CheckoutRepo {
-  final supabase = Supabase.instance.client;
+final _supabase = Supabase.instance.client;
 
-  Future<List<String>> getBecoOfficeLocations() async {
-    final response = await supabase.from('beco_office').select();
+@riverpod
+FutureOr<List<String>> becoOfficeLocations(Ref ref) async {
+  final response = await _supabase.from('beco_office').select();
 
     final List<String> locations = response.map(
       (location) {
@@ -17,10 +17,11 @@ class CheckoutRepo {
     ).toList();
 
     return locations;
-  }
 }
 
 @riverpod
-CheckoutRepo checkoutRepo(Ref ref) {
-  return CheckoutRepo();
+Future<List<String>> checkoutOptions(Ref ref) async {
+  final officeLocations = await ref.watch(becoOfficeLocationsProvider.future);
+
+  return officeLocations;
 }

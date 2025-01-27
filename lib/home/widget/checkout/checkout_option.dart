@@ -1,4 +1,3 @@
-import 'package:beco_coffee/home/widget/checkout/option_button.dart';
 import 'package:beco_coffee/home/widget/checkout/option_value_tile.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,10 @@ class CheckoutOption extends StatefulWidget {
   final String optionTitle, optionMenuLabel;
   final String optionValueTitle;
   final Widget Function(
-      BuildContext context, OverlayPortalController controller,) overlayBuilder;
+    BuildContext context,
+    OverlayPortalController controller,
+  ) overlayBuilder;
+  final Widget? customSelectedWidget;
 
   const CheckoutOption({
     super.key,
@@ -16,6 +18,7 @@ class CheckoutOption extends StatefulWidget {
     required this.optionMenuLabel,
     required this.optionValueTitle,
     required this.overlayBuilder,
+    this.customSelectedWidget,
   });
 
   @override
@@ -52,7 +55,9 @@ class _CheckoutOptionState extends State<CheckoutOption> {
                   controller: selectionOverlayController,
                   overlayChildBuilder: (context) {
                     return widget.overlayBuilder(
-                        context, selectionOverlayController,);
+                      context,
+                      selectionOverlayController,
+                    );
                   },
                   child: Text(
                     widget.optionMenuLabel,
@@ -67,23 +72,25 @@ class _CheckoutOptionState extends State<CheckoutOption> {
           const Gap(10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              decoration: BoxDecoration(
-                color: kPrimaryContainer,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: DefaultTextStyle(
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
-                        ) ??
-                    const TextStyle(),
-                child: OptionValueTile(
-                  leadingIconSize: 30,
-                  optionTitle: widget.optionValueTitle,
+            child: widget.customSelectedWidget ??
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  decoration: BoxDecoration(
+                    color: kPrimaryContainer,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: DefaultTextStyle(
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                              color: Colors.white,
+                            ) ??
+                        const TextStyle(),
+                    child: OptionValueTile(
+                      leadingIconSize: 30,
+                      optionTitle: widget.optionValueTitle,
+                    ),
+                  ),
                 ),
-              ),
-            ),
           ),
         ],
       ),
