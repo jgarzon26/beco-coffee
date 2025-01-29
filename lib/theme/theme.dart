@@ -19,10 +19,10 @@ final defaultTheme = ThemeData().copyWith(
     foregroundColor: kOnPrimaryContainer,
     centerTitle: true,
     titleTextStyle: GoogleFonts.poppinsTextTheme().displayMedium?.copyWith(
-                fontSize: 26,
-                color: Colors.white,
-                letterSpacing: 1.5,
-              ),
+          fontSize: 26,
+          color: Colors.white,
+          letterSpacing: 1.5,
+        ),
   ),
   scaffoldBackgroundColor: kSurface,
   textTheme: GoogleFonts.poppinsTextTheme(),
@@ -31,6 +31,17 @@ final defaultTheme = ThemeData().copyWith(
       backgroundColor: WidgetStatePropertyAll(Colors.transparent),
       foregroundColor: WidgetStatePropertyAll(kOnPrimaryContainer),
       alignment: Alignment.center,
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStatePropertyAll(kPrimaryContainer),
+      foregroundColor: const WidgetStatePropertyAll(kOnPrimaryContainer),
+      textStyle: WidgetStatePropertyAll(
+        GoogleFonts.poppinsTextTheme().headlineSmall?.copyWith(
+              color: kOnPrimaryContainer,
+            ),
+      ),
     ),
   ),
 );

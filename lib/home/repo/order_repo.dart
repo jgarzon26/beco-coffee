@@ -37,7 +37,7 @@ class OrderRepo {
       order_id: json['order_id'],
       buyer_id: json['buyer_id'],
       cartItems: items,
-      transaction_date: json['transaction_date'] ?? DateTime.now(),
+      transaction_date: DateTime.tryParse(json['transaction_date']) ?? DateTime.now(),
     );
 
     return order;

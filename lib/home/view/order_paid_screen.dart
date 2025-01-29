@@ -1,5 +1,4 @@
 import 'package:beco_coffee/home/controller/order_notifier.dart';
-import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,9 +48,7 @@ class OrderPaidScreen extends ConsumerWidget {
                   width: MediaQuery.sizeOf(context).width * 0.9,
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: kPrimaryContainer,
-                      foregroundColor: Colors.white,
-                      textStyle: Theme.of(context).textTheme.headlineMedium,
+                      textStyle: Theme.of(context).textTheme.headlineSmall,
                     ),
                     onPressed: () {},
                     child: const Text(

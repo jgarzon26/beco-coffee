@@ -26,7 +26,10 @@ class _IntroScreenState extends State<IntroScreen> {
             .getElementForInheritedWidgetOfExactType<MediaQuery>()!
             .widget as MediaQuery)
         .data;
-    _currentImage = _buildImageAsset(key: const ValueKey(0), name: pages[0].image, height: mediaQuery.size.height * 0.5);
+    _currentImage = _buildImageAsset(
+        key: const ValueKey(0),
+        name: pages[0].image,
+        height: mediaQuery.size.height * 0.5);
   }
 
   Widget _buildImageAsset({
@@ -119,6 +122,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       alignment: Alignment.centerLeft,
+                      backgroundColor: Colors.transparent,
                     ),
                     onPressed: () {
                       context.goNamed('auth');
@@ -127,6 +131,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       'Skip',
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             fontWeight: FontWeight.w600,
+                            color: kPrimaryContainer,
                           ),
                     ),
                   ),
@@ -144,8 +149,9 @@ class _IntroScreenState extends State<IntroScreen> {
 
                       setState(() {
                         _currentPage++;
-                        _currentImage =
-                            _buildImageAsset(key: ValueKey(_currentPage), name: pages[_currentPage].image);
+                        _currentImage = _buildImageAsset(
+                            key: ValueKey(_currentPage),
+                            name: pages[_currentPage].image);
                       });
                     },
                     icon: Icon(

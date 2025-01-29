@@ -48,6 +48,9 @@ class _CheckoutOptionState extends State<CheckoutOption> {
                     ),
               ),
               TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                ),
                 onPressed: () {
                   selectionOverlayController.show();
                 },

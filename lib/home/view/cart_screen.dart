@@ -1,7 +1,6 @@
 import 'package:beco_coffee/home/controller/cart_notifier.dart';
 import 'package:beco_coffee/home/widget/cart/coupon_text_field.dart';
 import 'package:beco_coffee/home/widget/cart/order_list_tile.dart';
-import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -129,9 +128,6 @@ class CartScreen extends ConsumerWidget {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: kPrimaryContainer,
-                            ),
                             onPressed: () {
                               context.pushNamed('checkout');
                               ref

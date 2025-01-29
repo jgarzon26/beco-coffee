@@ -1,8 +1,8 @@
+import 'package:beco_coffee/home/controller/cart_notifier.dart';
 import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:beco_coffee/home/widget/checkout/checkout_options_column.dart';
 import 'package:beco_coffee/home/widget/checkout/summary_items.dart';
-import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -37,26 +37,18 @@ class CheckoutScreen extends ConsumerWidget {
                 const Divider(),
                 const SummaryItems(),
                 const Spacer(),
-                TextButton(
-                  onPressed: () {
-                    ref.read(orderNotifierProvider.notifier).checkout();
-                    context.goNamed('paid-screen');
-                  },
-                  child: Container(
-                    width: MediaQuery.sizeOf(context).width * 0.6,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: kPrimaryContainer,
-                      borderRadius: BorderRadius.circular(30),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.7,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    child: Center(
-                      child: Text(
-                        'Pay',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: kOnPrimaryContainer,
-                            ),
-                      ),
-                    ),
+                    onPressed: () {
+                      context.goNamed('paid-screen');
+                      ref.read(orderNotifierProvider.notifier).checkout();
+                      ref.read(cartNotifierProvider.notifier).clearCart();
+                    },
+                    child: const Text('Pay'),
                   ),
                 ),
               ],
