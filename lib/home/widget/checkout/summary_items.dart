@@ -1,4 +1,4 @@
-import 'package:beco_coffee/home/controller/order_notifier.dart';
+import 'package:beco_coffee/home/controller/cart_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -10,9 +10,9 @@ class SummaryItems extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ordersRef = ref.watch(orderNotifierProvider);
-    final subtotal = ref.watch(orderNotifierProvider.notifier).subtotal;
-    final vat = ref.watch(orderNotifierProvider.notifier).vat;
+    final ordersRef = ref.watch(cartNotifierProvider);
+    final subtotal = ref.watch(cartNotifierProvider.notifier).subtotal;
+    final vat = ref.watch(cartNotifierProvider.notifier).vat;
 
     return ordersRef.when(
       data: (orders) {

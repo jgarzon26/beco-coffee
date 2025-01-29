@@ -1,5 +1,6 @@
+import 'package:beco_coffee/home/model/item.dart';
 import 'package:beco_coffee/home/model/order.dart';
-import 'package:beco_coffee/home/repo/coffee_repo.dart';
+import 'package:beco_coffee/home/repo/cart_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,91 +23,67 @@ class OrderRepo {
     return user;
   }
 
-  Future<List<Order>> getListOfOrders() async {
-    final List<Order> orders = [];
-
-    final user = _getCurrentUser();
-
-    final userOrders = await _supabase
-        .from('user_order')
-        .select('*, user_id:users!user_id(user_id), order:order!order_id(*)')
-        .eq('user_id', user.id);
-
-    for (final userOrder in userOrders) {
-      final order = userOrder['order'];
-      final coffee =
-          await ref.read(coffeeRepoProvider).getCoffeeById(order['coffee_id']);
-      orders.add(
-        Order(
-          order_id: userOrder['order_id'],
-          coffee: coffee,
-          coffee_size: CoffeeSize.values.byName(order['coffee_size']),
-          coffee_sugar: CoffeeSugar.values.byName(order['coffee_sugar']),
-          quantity: userOrder['quantity'],
-          order_date: DateTime.tryParse(userOrder['transaction_date'] ?? '') ?? DateTime.now(),
-        ),
-      );
-    }
-
-    return orders;
-  }
-
-  Future<void> addOrder(Order order) async {
-    final user = _getCurrentUser();
-
-    final orderRes = await _supabase
-        .from('order')
-        .select()
-        .eq('coffee_id', order.coffee.coffee_id);
+  Future<Order?> getOrderByUserId(String userId) async {
+    final orderRes =
+        await _supabase.from('order').select().eq('buyer_id', userId);
 
     if (orderRes.isEmpty) {
-      final response = await _supabase.from('order').insert({
-        'coffee_id': order.coffee.coffee_id,
-        'coffee_size': order.coffee_size.name,
-        'coffee_sugar': order.coffee_sugar.name,
-      }).select();
-
-      final addedOrder = response[0];
-
-      await _supabase.from('user_order').insert({
-        'user_id': user.id,
-        'order_id': addedOrder['order_id'],
-      });
-    } else {
-      await _supabase.from('order').update({
-        'coffee_size': order.coffee_size.name,
-        'coffee_sugar': order.coffee_sugar.name,
-      }).eq('order_id', orderRes[0]['order_id']);
+      return null;
     }
-  }
 
-  Future<Map<String, dynamic>> getOrderById(String orderId) async {
-    final orderRes =
-        await _supabase.from('order').select().eq('order_id', orderId);
+    final orderMap = orderRes[0];
 
-    return orderRes[0];
-  }
+    final itemIds = await getItemsFromCart(orderId: orderMap['order_id']);
 
-  Future<Order> updateQuantity(int quantity, Order prevOrder) async {
-    final order = prevOrder.copyWith(
-      quantity: quantity,
+    if (itemIds == null) {
+      return null;
+    }
+
+    final List<Item> items = await ref.read(cartRepoProvider).convertItemIdsToItem(itemIds);
+
+    final order = Order(
+      order_id: orderMap['order_id'],
+      buyer_id: orderMap['buyer_id'],
+      cartItems: items,
+      transaction_date: orderMap['transaction_date'] ?? DateTime.now(),
     );
-
-    await _supabase.from('user_order').update({
-      'quantity': quantity,
-    }).eq('order_id', prevOrder.order_id);
 
     return order;
   }
 
-  Future<void> updateOrders(List<Order> newOrders) async {
-    for (final order in newOrders) {
-      await updateQuantity(order.quantity, order);
+  /// Either provide the buyer_id or the order_id | never both
+  Future<List<String>?> getItemsFromCart(
+      {String? userId, String? orderId}) async {
+    final columnName = userId != null ? 'buyer_id' : 'order_id';
+    final columnValue = userId ?? orderId!;
+
+    final response =
+        await _supabase.from('order').select().eq(columnName, columnValue);
+
+    if (response.isEmpty) {
+      return null;
     }
+
+    final items = List<String>.from(response[0]['cart'] as List);
+
+    return items;
   }
 
-  void deleteOrder(Order order) {
-    _supabase.from('order').delete().eq('order_id', order.order_id);
+  Future<String> addOrder(List<String> itemIds) async {
+    final user = _getCurrentUser();
+
+    final response = await _supabase.from('order').insert({
+      'buyer_id': user.id,
+      'cart': itemIds,
+    }).select('order_id');
+
+    return response[0]['order_id'];
+  }
+
+  Future<void> updateCart(List<String> itemIds) async {
+    await _supabase.from('order').update({
+      'cart': itemIds,
+    }).eq('buyer_id', _getCurrentUser().id);
   }
 }
 

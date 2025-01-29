@@ -1,4 +1,4 @@
-import 'package:beco_coffee/home/model/order.dart';
+import 'package:beco_coffee/home/model/item.dart';
 import 'package:flutter/material.dart';
 
 class ProductOrderDetail extends StatefulWidget {

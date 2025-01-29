@@ -1,4 +1,4 @@
-import 'package:beco_coffee/home/controller/order_notifier.dart';
+import 'package:beco_coffee/home/controller/cart_notifier.dart';
 import 'package:beco_coffee/home/widget/cart/coupon_text_field.dart';
 import 'package:beco_coffee/home/widget/cart/order_list_tile.dart';
 import 'package:beco_coffee/theme/theme.dart';
@@ -11,37 +11,37 @@ class CartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ordersRef = ref.watch(orderNotifierProvider);
+    final ordersRef = ref.watch(cartNotifierProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       child: ordersRef.when(
-        data: (orders) {
-          if (orders.isEmpty) {
+        data: (items) {
+          if (items.isEmpty) {
             return Center(
               child: Text(
-                'No orders yet. Order some coffee!',
+                'No items yet. Order some coffee!',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             );
           }
 
-          final subtotal = ref.watch(orderNotifierProvider.notifier).subtotal;
-          final vat = ref.watch(orderNotifierProvider.notifier).vat;
+          final subtotal = ref.watch(cartNotifierProvider.notifier).subtotal;
+          final vat = ref.watch(cartNotifierProvider.notifier).vat;
 
           return Column(
             children: [
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.2,
+                  maxHeight: MediaQuery.of(context).size.height * 0.25,
                 ),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: orders.length,
+                  itemCount: items.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: OrderListTile(order: orders[index]),
+                      child: OrderListTile(item: items[index]),
                     );
                   },
                 ),
@@ -135,7 +135,7 @@ class CartScreen extends ConsumerWidget {
                             onPressed: () {
                               context.pushNamed('checkout');
                               ref
-                                  .read(orderNotifierProvider.notifier)
+                                  .read(cartNotifierProvider.notifier)
                                   .updateOrders();
                             },
                             child: Text(

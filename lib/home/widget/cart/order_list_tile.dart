@@ -1,13 +1,13 @@
-import 'package:beco_coffee/home/controller/order_notifier.dart';
-import 'package:beco_coffee/home/model/order.dart';
+import 'package:beco_coffee/home/controller/cart_notifier.dart';
+import 'package:beco_coffee/home/model/item.dart';
 import 'package:beco_coffee/home/widget/cart/item_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderListTile extends StatelessWidget {
-  final Order order;
+  final Item item;
 
-  const OrderListTile({super.key, required this.order});
+  const OrderListTile({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +22,23 @@ class OrderListTile extends StatelessWidget {
       ),
       leading: CircleAvatar(
         radius: 30,
-        foregroundImage: NetworkImage(order.coffee.image_src),
+        foregroundImage: NetworkImage(item.coffee.image_src),
       ),
       title: Text(
-        order.coffee.name,
+        item.coffee.name,
         style: Theme.of(context).textTheme.titleLarge,
       ),
       subtitle: Text(
-        '${order.coffee.discount_price ?? order.coffee.price}\$',
+        '${item.coffee.discount_price ?? item.coffee.price}\$',
         style: Theme.of(context).textTheme.titleMedium,
       ),
       trailing: Consumer(builder: (context, ref, child) {
         return ItemCounter(
-          initialCount: order.quantity,
+          initialCount: item.quantity,
           onChange: (counter) {
             ref
-                .read(orderNotifierProvider.notifier)
-                .updateQuantity(counter, order);
+                .read(cartNotifierProvider.notifier)
+                .updateQuantity(counter, item);
           },
         );
       }),

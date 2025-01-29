@@ -1,6 +1,7 @@
-import 'package:beco_coffee/home/controller/order_notifier.dart';
+
+import 'package:beco_coffee/home/controller/cart_notifier.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
-import 'package:beco_coffee/home/model/order.dart';
+import 'package:beco_coffee/home/model/item.dart';
 import 'package:beco_coffee/home/widget/product_detail/product_order_detail.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _ProductOrderFormState extends State<ProductOrderForm> {
   }
 
   void addToCart(WidgetRef ref) {
-    ref.read(orderNotifierProvider.notifier).addOrder(
+    ref.read(cartNotifierProvider.notifier).addItemToCart(
           coffee: widget.coffee,
           coffeeSize: coffeeSize!,
           coffeeSugar: coffeeSugar!,
