@@ -4,6 +4,7 @@ import 'package:beco_coffee/home/view/home_views.dart';
 import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/view/order_paid_screen.dart';
+import 'package:beco_coffee/home/view/waiting_screen.dart';
 import 'package:beco_coffee/home/widget/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
@@ -171,6 +172,11 @@ GoRouter router(Ref ref) {
         name: 'paid-screen',
         path: '/paid-screen',
         builder: (context, state) => const OrderPaidScreen(),
+      ),
+      GoRoute(
+        name: 'waiting',
+        path: '/waiting',
+        builder: (context, state) => const WaitingScreen(),
       ),
     ],
   );

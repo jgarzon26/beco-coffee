@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderPaidScreen extends ConsumerWidget {
   const OrderPaidScreen({super.key});
@@ -50,7 +51,9 @@ class OrderPaidScreen extends ConsumerWidget {
                     style: TextButton.styleFrom(
                       textStyle: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.goNamed('waiting');
+                    },
                     child: const Text(
                       'Let\'s Cook',
                     ),

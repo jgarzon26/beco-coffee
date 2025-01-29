@@ -80,4 +80,9 @@ class CartNotifier extends _$CartNotifier {
       state = AsyncError(e, stack);
     }
   }
+
+  void clearCart() {
+    state = const AsyncLoading();
+    state = const AsyncData([]);
+  }
 }

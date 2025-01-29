@@ -89,6 +89,7 @@ flutter:
     - assets/img/intro/intro_1.jpg
     - assets/img/intro/intro_2.jpg
     - assets/img/intro/intro_3.jpg
+    - assets/img/coffee_status/cooking.png
     - assets/icon/facebook.png
     - assets/icon/google.png
     - assets/icon/twitter.png

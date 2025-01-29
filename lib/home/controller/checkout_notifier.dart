@@ -10,6 +10,10 @@ class CheckoutNotifier extends _$CheckoutNotifier {
     return const Checkout.initialize();
   }
 
+  CheckoutMode get currentMode {
+    return state.mode;
+  }
+
   void updateMode(CheckoutMode mode) {
     state = state.copyWith(mode: mode);
   }
