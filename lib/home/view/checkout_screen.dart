@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:beco_coffee/home/widget/checkout/checkout_options_column.dart';
 import 'package:beco_coffee/home/widget/checkout/summary_items.dart';
@@ -38,9 +39,8 @@ class CheckoutScreen extends ConsumerWidget {
                 const Spacer(),
                 TextButton(
                   onPressed: () {
-                    //TODO: go to delivery page and update and order
+                    ref.read(orderNotifierProvider.notifier).checkout();
                     context.goNamed('paid-screen');
-                    
                   },
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 0.6,

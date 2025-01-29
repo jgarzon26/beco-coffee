@@ -80,6 +80,4 @@ class CartNotifier extends _$CartNotifier {
       state = AsyncError(e, stack);
     }
   }
-
-  Future<void> updateDate() async {}
 }

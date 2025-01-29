@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,8 @@ class OrderPaidScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final orderRef = ref.watch(orderNotifierProvider);
+
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -16,48 +19,54 @@ class OrderPaidScreen extends ConsumerWidget {
       ),
     );
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            const Spacer(),
-            Icon(
-              Icons.check_circle_outline_outlined,
-              size: MediaQuery.sizeOf(context).height * 0.25,
-              color: const Color.fromRGBO(228, 0, 82, 1),
-            ),
-            const Gap(20),
-            Text(
-              'Your order is paid',
-              style: Theme.of(context).textTheme.displayMedium,
-              textAlign: TextAlign.center,
-            ),
-            const Gap(20),
-            Text(
-              'You can track order below',
-              style: Theme.of(context).textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const Spacer(),
-            SizedBox(
-              width: MediaQuery.sizeOf(context).width * 0.9,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: kPrimaryContainer,
-                  foregroundColor: Colors.white,
-                  textStyle: Theme.of(context).textTheme.headlineMedium,
+      color: Colors.white,
+      child: orderRef.when(
+        data: (order) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                const Spacer(),
+                Icon(
+                  Icons.check_circle_outline_outlined,
+                  size: MediaQuery.sizeOf(context).height * 0.25,
+                  color: const Color.fromRGBO(228, 0, 82, 1),
                 ),
-                onPressed: () {},
-                child: const Text(
-                  'Let\'s Cook',
+                const Gap(20),
+                Text(
+                  'Your order is paid',
+                  style: Theme.of(context).textTheme.displayMedium,
+                  textAlign: TextAlign.center,
                 ),
-              ),
+                const Gap(20),
+                Text(
+                  'You can track order below',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width * 0.9,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: kPrimaryContainer,
+                      foregroundColor: Colors.white,
+                      textStyle: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    onPressed: () {},
+                    child: const Text(
+                      'Let\'s Cook',
+                    ),
+                  ),
+                ),
+                const Spacer(),
+              ],
             ),
-            const Spacer(),
-          ],
+          );
+        },
+        error: (error, stackTrace) => Container(),
+        loading: () => const Center(
+          child: CircularProgressIndicator.adaptive(),
         ),
       ),
     );

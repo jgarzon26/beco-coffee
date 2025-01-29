@@ -23,6 +23,26 @@ class OrderRepo {
     return user;
   }
 
+  Future<Order?> _convertFromMap(Map<String, dynamic> json) async {
+    final itemIds = await getItemsFromCart(orderId: json['order_id']);
+
+    if (itemIds == null) {
+      return null;
+    }
+
+    final List<Item> items =
+        await ref.read(cartRepoProvider).convertItemIdsToItem(itemIds);
+
+    final order = Order(
+      order_id: json['order_id'],
+      buyer_id: json['buyer_id'],
+      cartItems: items,
+      transaction_date: json['transaction_date'] ?? DateTime.now(),
+    );
+
+    return order;
+  }
+
   Future<Order?> getOrderByUserId(String userId) async {
     final orderRes =
         await _supabase.from('order').select().eq('buyer_id', userId);
@@ -33,22 +53,7 @@ class OrderRepo {
 
     final orderMap = orderRes[0];
 
-    final itemIds = await getItemsFromCart(orderId: orderMap['order_id']);
-
-    if (itemIds == null) {
-      return null;
-    }
-
-    final List<Item> items = await ref.read(cartRepoProvider).convertItemIdsToItem(itemIds);
-
-    final order = Order(
-      order_id: orderMap['order_id'],
-      buyer_id: orderMap['buyer_id'],
-      cartItems: items,
-      transaction_date: orderMap['transaction_date'] ?? DateTime.now(),
-    );
-
-    return order;
+    return _convertFromMap(orderMap);
   }
 
   /// Either provide the buyer_id or the order_id | never both
@@ -84,6 +89,27 @@ class OrderRepo {
     await _supabase.from('order').update({
       'cart': itemIds,
     }).eq('buyer_id', _getCurrentUser().id);
+  }
+
+  Future<Order?> checkout(String? orderId) async {
+    final String orderIdLocal;
+    final user = _getCurrentUser();
+
+    if (orderId == null) {
+      orderIdLocal = (await getOrderByUserId(user.id))?.order_id ?? '';
+    } else {
+      orderIdLocal = orderId;
+    }
+
+    final updatedOrder = await _supabase
+        .from('order')
+        .update({
+          'transaction_date': DateTime.now().toString(),
+        })
+        .eq('order_id', orderIdLocal)
+        .select();
+
+    return _convertFromMap(updatedOrder[0]);
   }
 }
 
