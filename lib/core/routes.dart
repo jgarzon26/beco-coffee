@@ -1,9 +1,11 @@
 import 'package:beco_coffee/auth/view/auth_views.dart';
 import 'package:beco_coffee/home/view/checkout_screen.dart';
+import 'package:beco_coffee/home/view/delivery_screens/delivery_screen.dart';
 import 'package:beco_coffee/home/view/home_views.dart';
 import 'package:beco_coffee/core/main_widget.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/home/view/order_paid_screen.dart';
+import 'package:beco_coffee/home/view/pickup_screens/pickup_done_screen.dart';
 import 'package:beco_coffee/home/view/waiting_screen.dart';
 import 'package:beco_coffee/home/widget/home_nav_bar.dart';
 import 'package:beco_coffee/intro/view/intro_screen.dart';
@@ -177,6 +179,18 @@ GoRouter router(Ref ref) {
         name: 'waiting',
         path: '/waiting',
         builder: (context, state) => const WaitingScreen(),
+        routes: [
+          GoRoute(
+            name: 'pickup-done',
+            path: 'pickup-done',
+            builder: (context, state) => const PickupDoneScreen(),
+          ),
+          GoRoute(
+            name: 'delivery',
+            path: 'delivery',
+            builder: (context, state) => const DeliveryScreen(),
+          ),
+        ],
       ),
     ],
   );

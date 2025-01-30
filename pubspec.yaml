@@ -90,6 +90,8 @@ flutter:
     - assets/img/intro/intro_2.jpg
     - assets/img/intro/intro_3.jpg
     - assets/img/coffee_status/cooking.png
+    - assets/img/coffee_status/pickup_done.png
+    - assets/img/coffee_status/delivery.png
     - assets/icon/facebook.png
     - assets/icon/google.png
     - assets/icon/twitter.png

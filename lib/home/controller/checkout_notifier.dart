@@ -3,15 +3,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'checkout_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class CheckoutNotifier extends _$CheckoutNotifier {
   @override
   Checkout build() {
     return const Checkout.initialize();
-  }
-
-  CheckoutMode get currentMode {
-    return state.mode;
   }
 
   void updateMode(CheckoutMode mode) {

@@ -55,7 +55,7 @@ class CheckoutOptionsColumn extends ConsumerWidget {
             onToggle: (index) {
               ref
                   .read(checkoutNotifierProvider.notifier)
-                  .updateMode(CheckoutMode.values[index ?? 0]);
+                  .updateMode(CheckoutMode.values[index!]);
             },
           ),
         ),
