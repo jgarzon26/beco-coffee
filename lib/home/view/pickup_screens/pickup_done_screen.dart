@@ -1,5 +1,6 @@
 import 'package:beco_coffee/home/widget/pickup_delivery/process_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PickupDoneScreen extends StatelessWidget {
   const PickupDoneScreen({super.key});
@@ -12,7 +13,9 @@ class PickupDoneScreen extends StatelessWidget {
       processTitle: 'Wait Your Pickup',
       processStatus: 'Done',
       processDesc: 'Process done wait your pickup',
-      onPressed: () {},
+      onPressed: () {
+        context.goNamed('order-detail');
+      },
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:beco_coffee/home/controller/checkout_notifier.dart';
-import 'package:beco_coffee/home/model/chckout.dart';
+import 'package:beco_coffee/home/model/checkout.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/process_screen.dart';
 import 'package:flutter/material.dart';

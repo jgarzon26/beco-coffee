@@ -1,19 +1,8 @@
-import 'package:beco_coffee/auth/view/auth_views.dart';
-import 'package:beco_coffee/home/view/checkout_screen.dart';
-import 'package:beco_coffee/home/view/delivery_screens/delivery_screen.dart';
-import 'package:beco_coffee/home/view/home_views.dart';
-import 'package:beco_coffee/core/main_widget.dart';
-import 'package:beco_coffee/home/model/coffee.dart';
-import 'package:beco_coffee/home/view/order_paid_screen.dart';
-import 'package:beco_coffee/home/view/pickup_screens/pickup_done_screen.dart';
-import 'package:beco_coffee/home/view/waiting_screen.dart';
-import 'package:beco_coffee/home/widget/home_nav_bar.dart';
-import 'package:beco_coffee/intro/view/intro_screen.dart';
-import 'package:beco_coffee/auth/repo/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:beco_coffee/core/route_imports.dart';
 
 part 'routes.g.dart';
 
@@ -191,6 +180,11 @@ GoRouter router(Ref ref) {
             builder: (context, state) => const DeliveryScreen(),
           ),
         ],
+      ),
+      GoRoute(
+        name: 'order-detail',
+        path: '/order-detail',
+        builder: (context, state) => const OrderDetailScreen(),
       ),
     ],
   );

@@ -1,5 +1,5 @@
 import 'package:beco_coffee/home/controller/checkout_notifier.dart';
-import 'package:beco_coffee/home/model/chckout.dart';
+import 'package:beco_coffee/home/model/checkout.dart';
 import 'package:beco_coffee/home/widget/checkout/checkout_option.dart';
 import 'package:beco_coffee/home/widget/checkout/selection_overlay.dart'
     as select_overlay;

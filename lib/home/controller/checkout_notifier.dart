@@ -1,4 +1,7 @@
-import 'package:beco_coffee/home/model/chckout.dart';
+import 'dart:collection';
+
+import 'package:beco_coffee/home/model/checkout.dart';
+import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'checkout_notifier.g.dart';
@@ -20,5 +23,10 @@ class CheckoutNotifier extends _$CheckoutNotifier {
 
   void updatePaymentIndex(int index) {
     state = state.copyWith(paymentIndex: index);
+  }
+
+  Future<String> currentPayment() async {
+    final banks = await ref.read(becobankNamesProvider.future);
+    return banks[state.paymentIndex];
   }
 }
