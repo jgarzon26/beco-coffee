@@ -186,6 +186,11 @@ GoRouter router(Ref ref) {
         path: '/order-detail',
         builder: (context, state) => const OrderDetailScreen(),
       ),
+      GoRoute(
+        name: 'order-done',
+        path: '/order-done',
+        builder: (context, state) => const OrderDoneScreen(),
+      ),
     ],
   );
 }

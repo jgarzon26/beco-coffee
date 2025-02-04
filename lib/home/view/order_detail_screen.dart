@@ -10,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class OrderDetailScreen extends ConsumerWidget {
@@ -98,6 +99,7 @@ class OrderDetailScreen extends ConsumerWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
+                  //TODO: either get the company's address or the user's address
                   child: Text(
                     'St 71, Terk Thlar, Sen Sok, Phnom Penh',
                     style: Theme.of(context).textTheme.bodyLarge,
@@ -143,7 +145,9 @@ class OrderDetailScreen extends ConsumerWidget {
                       style: TextButton.styleFrom(
                         textStyle: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.goNamed('order-done');
+                      },
                       child: const Text('Confirm'),
                     ),
                   ),
