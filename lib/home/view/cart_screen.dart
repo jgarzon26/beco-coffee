@@ -1,4 +1,5 @@
 import 'package:beco_coffee/home/controller/cart_notifier.dart';
+import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:beco_coffee/home/widget/cart/coupon_text_field.dart';
 import 'package:beco_coffee/home/widget/cart/order_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -131,8 +132,8 @@ class CartScreen extends ConsumerWidget {
                             onPressed: () {
                               context.pushNamed('checkout');
                               ref
-                                  .read(cartNotifierProvider.notifier)
-                                  .updateOrders();
+                                  .read(orderNotifierProvider.notifier)
+                                  .addOrder();
                             },
                             child: Text(
                               'Place Order',

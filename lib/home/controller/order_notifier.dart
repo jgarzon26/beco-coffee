@@ -1,26 +1,43 @@
-import 'package:beco_coffee/auth/repo/auth_repo.dart';
+import 'package:beco_coffee/home/controller/cart_notifier.dart';
 import 'package:beco_coffee/home/model/order.dart';
 import 'package:beco_coffee/home/repo/order_repo.dart';
+import 'package:latlng/latlng.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'order_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class OrderNotifier extends _$OrderNotifier {
   @override
   FutureOr<Order?> build() async {
-    final user = ref.read(authRepoProvider).currentUser;
-
-    if (user == null) {
-      return null;
-    }
-
-    return ref.read(orderRepoProvider).getOrderByUserId(user.id);
+    return ref.read(orderRepoProvider).getLatestOrder();
   }
 
-  Future<void> checkout() async {
+  Future<void> addOrder() async {
+    if (state.hasValue || state.value != null) {
+      return;
+    }
+
     state = const AsyncLoading();
-    state = await AsyncValue.guard(
-        () => ref.read(orderRepoProvider).checkout(state.value?.order_id));
+    try {
+      final items = await ref.read(cartNotifierProvider.future);
+      final itemIds = items.map((item) => item.item_id).toList();
+      final addedOrder = await ref.read(orderRepoProvider).addOrder(itemIds);
+      state = AsyncData(addedOrder);
+    } catch (e, stack) {
+      state = AsyncError(e, stack);
+    }
+  }
+
+  Future<void> checkout(LatLng address) async {
+    state = const AsyncLoading();
+    try {
+      final res = await ref
+          .read(orderRepoProvider)
+          .checkout(state.value!.order_id, address);
+      state = AsyncData(res);
+    } catch (error, stackTrace) {
+      state = AsyncError(error, stackTrace);
+    }
   }
 }

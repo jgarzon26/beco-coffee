@@ -1,5 +1,6 @@
 import 'package:beco_coffee/home/model/checkout.dart';
 import 'package:beco_coffee/home/repo/checkout_repo.dart';
+import 'package:latlng/latlng.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'checkout_notifier.g.dart';
@@ -8,7 +9,12 @@ part 'checkout_notifier.g.dart';
 class CheckoutNotifier extends _$CheckoutNotifier {
   @override
   Checkout build() {
-    return const Checkout.initialize();
+    return Checkout(
+      mode: CheckoutMode.pickup,
+      paymentIndex: 0,
+      shopAddressIndex: 0,
+      targetLocation: LatLng.degree(0, 0),
+    );
   }
 
   void updateMode(CheckoutMode mode) {
@@ -17,6 +23,10 @@ class CheckoutNotifier extends _$CheckoutNotifier {
 
   void updateShopAddressIndex(int index) {
     state = state.copyWith(shopAddressIndex: index);
+  }
+
+  void updateTargetLocation(LatLng latLng) {
+    state = state.copyWith(targetLocation: latLng);
   }
 
   void updatePaymentIndex(int index) {

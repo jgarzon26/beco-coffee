@@ -1,4 +1,5 @@
 import 'package:beco_coffee/home/controller/checkout_notifier.dart';
+import 'package:beco_coffee/home/model/beco_office.dart';
 import 'package:beco_coffee/home/model/checkout.dart';
 import 'package:beco_coffee/home/widget/checkout/checkout_option.dart';
 import 'package:beco_coffee/home/widget/checkout/selection_overlay.dart'
@@ -9,7 +10,7 @@ import 'package:gap/gap.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class CheckoutOptionsColumn extends ConsumerWidget {
-  final List<String> shopAddresses;
+  final List<BecoOffice> shopAddresses;
   final List<String> bankNames;
 
   const CheckoutOptionsColumn({
@@ -62,20 +63,27 @@ class CheckoutOptionsColumn extends ConsumerWidget {
         const Gap(10),
         CheckoutOption(
           optionTitle: 'Shop Address',
-          optionValueTitle: shopAddresses[shopAddressIndex],
+          optionValueTitle: shopAddresses[shopAddressIndex].office_location,
           optionMenuLabel: mode == CheckoutMode.pickup ? 'Select' : 'Edit',
           customSelectedWidget: mode == CheckoutMode.pickup
               ? null
-              : const Text('Current Location'),
+              : const Text(
+                  'Current Location'), //TODO: get current location of user
           overlayBuilder: (context, controller) {
             return select_overlay.SelectionOverlay(
               initialIndex: shopAddressIndex,
               controller: controller,
-              options: shopAddresses,
+              options: shopAddresses
+                  .map((office) => office.office_location)
+                  .toList(),
               onSelectOption: (index) {
                 ref
                     .read(checkoutNotifierProvider.notifier)
                     .updateShopAddressIndex(index);
+
+                ref
+                    .read(checkoutNotifierProvider.notifier)
+                    .updateTargetLocation(shopAddresses[index].latlng);
               },
             );
           },

@@ -7,12 +7,12 @@ part of 'checkout_repo.dart';
 // **************************************************************************
 
 String _$becoOfficeLocationsHash() =>
-    r'43c355feb8544b8fd52575764a22fa4c9946a65f';
+    r'e2bedad25d83c246874db73544c51dc2b9897029';
 
 /// See also [becoOfficeLocations].
 @ProviderFor(becoOfficeLocations)
 final becoOfficeLocationsProvider =
-    AutoDisposeFutureProvider<List<String>>.internal(
+    AutoDisposeFutureProvider<List<BecoOffice>>.internal(
   becoOfficeLocations,
   name: r'becoOfficeLocationsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -24,7 +24,7 @@ final becoOfficeLocationsProvider =
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef BecoOfficeLocationsRef = AutoDisposeFutureProviderRef<List<String>>;
+typedef BecoOfficeLocationsRef = AutoDisposeFutureProviderRef<List<BecoOffice>>;
 String _$becobankNamesHash() => r'69b0a74b1fc6c0caba975c2fc2604f0ffc96f6ae';
 
 /// See also [becobankNames].
@@ -42,12 +42,12 @@ final becobankNamesProvider = AutoDisposeFutureProvider<List<String>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BecobankNamesRef = AutoDisposeFutureProviderRef<List<String>>;
-String _$checkoutOptionsHash() => r'd8030134db1792e8561e3234bd1806b3a7c280f8';
+String _$checkoutOptionsHash() => r'b83a2d6d77d426c86527dc477f56897f6736872c';
 
 /// See also [checkoutOptions].
 @ProviderFor(checkoutOptions)
 final checkoutOptionsProvider =
-    AutoDisposeFutureProvider<(List<String>, List<String>)>.internal(
+    AutoDisposeFutureProvider<(List<BecoOffice>, List<String>)>.internal(
   checkoutOptions,
   name: r'checkoutOptionsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -60,6 +60,6 @@ final checkoutOptionsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CheckoutOptionsRef
-    = AutoDisposeFutureProviderRef<(List<String>, List<String>)>;
+    = AutoDisposeFutureProviderRef<(List<BecoOffice>, List<String>)>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

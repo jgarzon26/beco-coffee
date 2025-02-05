@@ -71,7 +71,7 @@ class CartNotifier extends _$CartNotifier {
 
   /// This function assumes the user has ordered something, otherwise does nothing.
   /// This updates the database
-  Future<void> updateOrders() async {
+  Future<void> updateItems() async {
     state = const AsyncLoading();
     try {
       await ref.read(cartRepoProvider).updateItems(state.value!);
