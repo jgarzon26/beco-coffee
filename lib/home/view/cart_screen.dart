@@ -1,5 +1,7 @@
 import 'package:beco_coffee/home/controller/cart_notifier.dart';
+import 'package:beco_coffee/home/controller/checkout_notifier.dart';
 import 'package:beco_coffee/home/controller/order_notifier.dart';
+import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:beco_coffee/home/widget/cart/coupon_text_field.dart';
 import 'package:beco_coffee/home/widget/cart/order_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -129,8 +131,16 @@ class CartScreen extends ConsumerWidget {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               context.pushNamed('checkout');
+                              final index = ref
+                                  .read(checkoutNotifierProvider)
+                                  .shopAddressIndex;
+                              final offices = await ref
+                                  .read(becoOfficeLocationsProvider.future);
+                              ref
+                                  .read(checkoutNotifierProvider.notifier)
+                                  .updateTargetLocation(offices[index].latlng);
                               ref
                                   .read(orderNotifierProvider.notifier)
                                   .addOrder();
