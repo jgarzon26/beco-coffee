@@ -1,9 +1,7 @@
 import 'package:beco_coffee/home/controller/checkout_notifier.dart';
 import 'package:beco_coffee/home/controller/order_notifier.dart';
-import 'package:beco_coffee/home/model/item.dart';
 import 'package:beco_coffee/home/model/order.dart';
 import 'package:beco_coffee/home/repo/location_repo.dart';
-import 'package:beco_coffee/home/repo/order_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlng/latlng.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

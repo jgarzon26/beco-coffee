@@ -15,7 +15,6 @@ class CheckoutScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final checkoutOptions = ref.watch(checkoutOptionsProvider);
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -54,11 +53,12 @@ class CheckoutScreen extends ConsumerWidget {
                       ref
                           .read(orderNotifierProvider.notifier)
                           .checkout(targetLocation);
-                          ref.read(cartNotifierProvider.notifier).clearCart();
+                      ref.read(cartNotifierProvider.notifier).clearCart();
                     },
                     child: const Text('Pay'),
                   ),
                 ),
+                const Spacer(),
               ],
             ),
           );

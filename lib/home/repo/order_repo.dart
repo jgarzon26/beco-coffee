@@ -141,6 +141,13 @@ class OrderRepo {
 
     return Order.fromJsonWhileManuallyAddCart(response, items);
   }
+
+  Future<void> finishOrder(String orderId) async {
+    final order =
+        (await _supabase.from('order').delete().eq('order_id', orderId).select())[0];
+
+    await _supabase.from('finished_order').insert(order);
+  }
 }
 
 @riverpod

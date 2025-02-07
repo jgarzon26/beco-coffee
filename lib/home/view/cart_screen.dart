@@ -134,6 +134,9 @@ class CartScreen extends ConsumerWidget {
                           child: TextButton(
                             onPressed: () async {
                               context.pushNamed('checkout');
+                              await ref
+                                  .read(cartNotifierProvider.notifier)
+                                  .updateItems();
                               final index = ref
                                   .read(checkoutNotifierProvider)
                                   .shopAddressIndex;

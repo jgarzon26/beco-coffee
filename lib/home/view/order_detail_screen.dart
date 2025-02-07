@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:beco_coffee/home/controller/checkout_notifier.dart';
 import 'package:beco_coffee/home/controller/order_detail_notifier.dart';
+import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/order_detail_items.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/order_summary.dart';
 import 'package:beco_coffee/theme/theme.dart';
@@ -127,8 +128,11 @@ class OrderDetailScreen extends ConsumerWidget {
                       style: TextButton.styleFrom(
                         textStyle: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         context.goNamed('order-done');
+                        await ref
+                            .read(orderNotifierProvider.notifier)
+                            .onFinishOrder();
                       },
                       child: const Text('Confirm'),
                     ),

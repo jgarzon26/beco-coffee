@@ -48,13 +48,20 @@ class OptionValueTile extends StatelessWidget {
           ],
         ),
         const Spacer(),
-        Text(
-          optionTitle,
-          style: titleStyle ??
-              const TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
+        Flexible(
+          flex: 3,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              maxLines: 1,
+              optionTitle,
+              style: titleStyle ??
+                  const TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ),
         ),
         const Spacer(),
       ],

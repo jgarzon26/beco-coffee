@@ -40,4 +40,14 @@ class OrderNotifier extends _$OrderNotifier {
       state = AsyncError(error, stackTrace);
     }
   }
+
+  Future<void> onFinishOrder() async {
+    state = const AsyncLoading();
+    try {
+      await ref.read(orderRepoProvider).finishOrder(state.value!.order_id);
+      state = const AsyncData(null);
+    } catch (error, stackTrace) {
+      state = AsyncError(error, stackTrace);
+    }
+  }
 }
