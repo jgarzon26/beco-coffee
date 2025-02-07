@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:beco_coffee/home/controller/checkout_notifier.dart';
-import 'package:beco_coffee/home/controller/order_notifier.dart';
-import 'package:beco_coffee/home/model/order.dart';
+import 'package:beco_coffee/home/controller/order_detail_notifier.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/order_detail_items.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/order_summary.dart';
 import 'package:beco_coffee/theme/theme.dart';
@@ -22,9 +21,7 @@ class OrderDetailScreen extends ConsumerWidget {
       (value) => value.mode,
     ));
 
-    final order = ref.watch(orderNotifierProvider.future);
-    final currentBank =
-        ref.watch(checkoutNotifierProvider.notifier).currentPayment();
+    final orderDetail = ref.watch(orderDetailProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -38,27 +35,13 @@ class OrderDetailScreen extends ConsumerWidget {
           mode.name[0].toUpperCase() + mode.name.substring(1),
         ),
       ),
-      body: FutureBuilder(
-        future: Future.wait([
-          order,
-          currentBank,
-        ]),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
+      body: orderDetail.when(
+        data: (data) {
+          final (order, currentBank, targetAddress) = data;
+
+          if (order == null) {
+            return const Center(child: CircularProgressIndicator.adaptive());
           }
-
-          final order = snapshot.data![0] as Order?;
-
-          if (snapshot.hasError || order == null) {
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
-          }
-
-          final currentBank = snapshot.data![1] as String;
 
           final items = order.cartItems;
 
@@ -99,9 +82,8 @@ class OrderDetailScreen extends ConsumerWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  //TODO: either get the company's address or the user's address
                   child: Text(
-                    'St 71, Terk Thlar, Sen Sok, Phnom Penh',
+                    targetAddress,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
@@ -134,7 +116,7 @@ class OrderDetailScreen extends ConsumerWidget {
                 ),
                 const Gap(10),
                 const Divider(),
-                const OrderSummary(),
+                OrderSummary(items: items),
                 const Spacer(flex: 2),
                 Align(
                   alignment: Alignment.center,
@@ -157,6 +139,12 @@ class OrderDetailScreen extends ConsumerWidget {
             ),
           );
         },
+        error: (error, stackTrace) => Center(
+          child: Text(error.toString()),
+        ),
+        loading: () => const Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
       ),
     );
   }

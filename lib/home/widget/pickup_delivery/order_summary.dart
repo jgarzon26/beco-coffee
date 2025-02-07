@@ -1,14 +1,19 @@
-import 'package:beco_coffee/home/controller/checkout_notifier.dart';
+import 'package:beco_coffee/home/model/item.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/dash_line.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/summary_row.dart';
+import 'package:beco_coffee/utilities/item_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OrderSummary extends ConsumerWidget {
-  const OrderSummary({super.key});
+class OrderSummary extends StatelessWidget {
+  final List<Item> items;
+
+  const OrderSummary({super.key, required this.items});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final subTotal = ItemUtil.getSubtotal(items);
+    final vat = ItemUtil.vat;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,8 +29,8 @@ class OrderSummary extends ConsumerWidget {
               1: FractionColumnWidth(0.5),
             },
             children: [
-              SummaryRow(title: 'Sub total', value: 1.5),
-              SummaryRow(title: 'VAT', value: 0.5),
+              SummaryRow(title: 'Sub total', value: subTotal),
+              SummaryRow(title: 'VAT', value: vat),
             ],
           ),
         ),
@@ -44,12 +49,12 @@ class OrderSummary extends ConsumerWidget {
               0: FractionColumnWidth(0.3),
               1: FractionColumnWidth(0.5),
             },
-            children: const [
+            children: [
               TableRow(
                 children: [
-                  Text('Total'),
+                  const Text('Total'),
                   Text(
-                    '2\$',
+                    '${subTotal + vat}\$',
                     textAlign: TextAlign.right,
                   ),
                 ],

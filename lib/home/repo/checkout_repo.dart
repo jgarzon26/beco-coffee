@@ -2,7 +2,6 @@ import 'package:beco_coffee/home/model/beco_office.dart';
 import 'package:beco_coffee/home/repo/location_repo.dart';
 import 'package:beco_coffee/utilities/user_location.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location/location.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

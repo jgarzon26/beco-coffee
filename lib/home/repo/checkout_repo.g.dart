@@ -42,7 +42,7 @@ final becobankNamesProvider = AutoDisposeFutureProvider<List<String>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BecobankNamesRef = AutoDisposeFutureProviderRef<List<String>>;
-String _$checkoutOptionsHash() => r'0b0b2e7cd19dfef920d65ec41fc3f5aa0a08116f';
+String _$checkoutOptionsHash() => r'39cf0c99c046683dbb850accfdb4969b21df7d8a';
 
 /// See also [checkoutOptions].
 @ProviderFor(checkoutOptions)

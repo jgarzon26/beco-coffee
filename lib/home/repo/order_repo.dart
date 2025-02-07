@@ -72,6 +72,26 @@ class OrderRepo {
     return items;
   }
 
+  Future<List<Item>> getItemsFromOrderItems(String orderId) async {
+    final itemIds = await getItemsFromCart(orderId: orderId);
+
+    if (itemIds == null) {
+      return [];
+    }
+
+    final List<Item> orderedItems = [];
+
+    for (final itemId in itemIds) {
+      final itemRes = (await _supabase
+          .from('order_items')
+          .select('*, coffee(*)')
+          .eq('item_id', itemId))[0];
+      orderedItems.add(Item.fromJson(itemRes));
+    }
+
+    return orderedItems;
+  }
+
   Future<Order> addOrder(List<String> itemIds) async {
     final user = _getCurrentUser();
 
@@ -109,7 +129,15 @@ class OrderRepo {
         .eq('order_id', orderId)
         .select())[0];
 
-    final items = await ref.read(cartRepoProvider).convertItemIdsToItem((response['cart'] as List<dynamic>).map((itemId) => itemId.toString()).toList());
+    final itemIds = (response['cart'] as List<dynamic>)
+        .map((itemId) => itemId.toString())
+        .toList();
+
+    await ref.read(cartRepoProvider).onCheckout(itemIds);
+
+    final items = await ref
+        .read(cartRepoProvider)
+        .convertItemIdsToItem(itemIds, itemDatabase: ItemDatabase.order_items);
 
     return Order.fromJsonWhileManuallyAddCart(response, items);
   }

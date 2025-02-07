@@ -53,9 +53,8 @@ class CheckoutScreen extends ConsumerWidget {
                       context.goNamed('paid-screen');
                       ref
                           .read(orderNotifierProvider.notifier)
-                          .checkout(targetLocation).then((value) {
-                            ref.read(cartNotifierProvider.notifier).clearCart();
-                          },);
+                          .checkout(targetLocation);
+                          ref.read(cartNotifierProvider.notifier).clearCart();
                     },
                     child: const Text('Pay'),
                   ),

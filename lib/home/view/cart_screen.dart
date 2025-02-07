@@ -4,6 +4,7 @@ import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:beco_coffee/home/widget/cart/coupon_text_field.dart';
 import 'package:beco_coffee/home/widget/cart/order_list_tile.dart';
+import 'package:beco_coffee/utilities/item_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,8 +29,8 @@ class CartScreen extends ConsumerWidget {
             );
           }
 
-          final subtotal = ref.watch(cartNotifierProvider.notifier).subtotal;
-          final vat = ref.watch(cartNotifierProvider.notifier).vat;
+          final subtotal = ItemUtil.getSubtotal(items);
+          final vat = ItemUtil.vat;
 
           return Column(
             children: [

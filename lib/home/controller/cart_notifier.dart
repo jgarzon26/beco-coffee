@@ -12,25 +12,6 @@ class CartNotifier extends _$CartNotifier {
     return ref.read(cartRepoProvider).getItemsFromCart();
   }
 
-  double get vat => 0.5;
-
-  double get subtotal {
-    var subtotal = 0.0;
-
-    if (!state.hasValue) {
-      return 0;
-    }
-
-    for (final item in state.value!) {
-      final price = item.coffee.discount_price ?? item.coffee.price;
-      final quantity = price * item.quantity;
-
-      subtotal += quantity;
-    }
-
-    return subtotal;
-  }
-
   Future<void> addItemToCart({
     required Coffee coffee,
     required CoffeeSize coffeeSize,
