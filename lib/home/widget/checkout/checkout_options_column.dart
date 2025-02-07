@@ -12,11 +12,13 @@ import 'package:toggle_switch/toggle_switch.dart';
 class CheckoutOptionsColumn extends ConsumerWidget {
   final List<BecoOffice> shopAddresses;
   final List<String> bankNames;
+  final String userAddress;
 
   const CheckoutOptionsColumn({
     super.key,
     required this.shopAddresses,
     required this.bankNames,
+    required this.userAddress,
   });
 
   @override
@@ -67,8 +69,7 @@ class CheckoutOptionsColumn extends ConsumerWidget {
           optionMenuLabel: mode == CheckoutMode.pickup ? 'Select' : 'Edit',
           customSelectedWidget: mode == CheckoutMode.pickup
               ? null
-              : const Text(
-                  'Current Location'), //TODO: get current location of user
+              : Text(userAddress),
           overlayBuilder: (context, controller) {
             return select_overlay.SelectionOverlay(
               initialIndex: shopAddressIndex,

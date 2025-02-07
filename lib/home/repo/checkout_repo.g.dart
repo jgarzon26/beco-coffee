@@ -42,12 +42,12 @@ final becobankNamesProvider = AutoDisposeFutureProvider<List<String>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef BecobankNamesRef = AutoDisposeFutureProviderRef<List<String>>;
-String _$checkoutOptionsHash() => r'b83a2d6d77d426c86527dc477f56897f6736872c';
+String _$checkoutOptionsHash() => r'0b0b2e7cd19dfef920d65ec41fc3f5aa0a08116f';
 
 /// See also [checkoutOptions].
 @ProviderFor(checkoutOptions)
-final checkoutOptionsProvider =
-    AutoDisposeFutureProvider<(List<BecoOffice>, List<String>)>.internal(
+final checkoutOptionsProvider = AutoDisposeFutureProvider<
+    (List<BecoOffice>, List<String>, String)>.internal(
   checkoutOptions,
   name: r'checkoutOptionsProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -60,6 +60,6 @@ final checkoutOptionsProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CheckoutOptionsRef
-    = AutoDisposeFutureProviderRef<(List<BecoOffice>, List<String>)>;
+    = AutoDisposeFutureProviderRef<(List<BecoOffice>, List<String>, String)>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

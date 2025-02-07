@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/controller/checkout_notifier.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/dash_line.dart';
 import 'package:beco_coffee/home/widget/pickup_delivery/summary_row.dart';
 import 'package:flutter/material.dart';

@@ -25,7 +25,7 @@ class CheckoutScreen extends ConsumerWidget {
       ),
       body: checkoutOptions.when(
         data: (options) {
-          final (shopAddresses, bankNames) = options;
+          final (shopAddresses, bankNames, userAddress) = options;
           final targetLocation = ref.watch(
               checkoutNotifierProvider.select((value) => value.targetLocation));
 
@@ -38,6 +38,7 @@ class CheckoutScreen extends ConsumerWidget {
                 CheckoutOptionsColumn(
                   shopAddresses: shopAddresses,
                   bankNames: bankNames,
+                  userAddress: userAddress,
                 ),
                 const Divider(),
                 const SummaryItems(),
