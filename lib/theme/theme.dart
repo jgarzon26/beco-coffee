@@ -26,10 +26,9 @@ final defaultTheme = ThemeData().copyWith(
   ),
   scaffoldBackgroundColor: kSurface,
   textTheme: GoogleFonts.poppinsTextTheme().copyWith(
-    headlineSmall: GoogleFonts.poppinsTextTheme().headlineSmall?.copyWith(
-      fontWeight: FontWeight.bold,
-    )
-  ),
+      headlineSmall: GoogleFonts.poppinsTextTheme().headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          )),
   iconButtonTheme: const IconButtonThemeData(
     style: ButtonStyle(
       backgroundColor: WidgetStatePropertyAll(Colors.transparent),

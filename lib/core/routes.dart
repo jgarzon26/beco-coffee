@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/view/delivery_screens/track_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -180,6 +181,11 @@ GoRouter router(Ref ref) {
             builder: (context, state) => const DeliveryScreen(),
           ),
         ],
+      ),
+      GoRoute(
+        name: 'track-order',
+        path: '/track-order',
+        builder: (context, state) => const TrackOrderScreen(),
       ),
       GoRoute(
         name: 'order-detail',

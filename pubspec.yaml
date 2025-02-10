@@ -43,6 +43,7 @@ dependencies:
   gap: ^3.0.1
   go_router: ^14.2.7
   google_fonts: ^6.2.1
+  google_maps_flutter: ^2.10.0
   http: ^1.3.0
   iconify_flutter_plus: ^1.0.3
   intl: ^0.20.2
@@ -103,6 +104,9 @@ flutter:
     - assets/icon/bell.png
     - assets/icon/wallet.png
     - assets/icon/options.png
+    - assets/icon/chat.png
+    - assets/icon/star.png
+    - lib/theme/map_light_theme.json
 
 # An image asset can refer to one or more resolution-specific "variants", see
 # https://flutter.dev/to/resolution-aware-images
