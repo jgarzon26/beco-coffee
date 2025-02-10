@@ -1,6 +1,7 @@
 import 'package:beco_coffee/home/controller/coffee_notifier.dart';
 import 'package:beco_coffee/home/controller/search_notifier.dart';
 import 'package:beco_coffee/home/widget/search/search_result_tile.dart';
+import 'package:beco_coffee/utilities/search_filter_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +14,9 @@ class SearchResultView extends ConsumerWidget {
     final searchQuery = ref.watch(searchNotifierProvider.select(
       (search) => search.query,
     ));
+    final filterType = ref.watch(searchNotifierProvider.select(
+      (value) => value.filterSearchType,
+    ));
 
     return coffees.when(
       data: (coffees) {
@@ -24,10 +28,13 @@ class SearchResultView extends ConsumerWidget {
           },
         ).toList();
 
+        final filteredSearchResults = SearchFilterHelper.filterCoffee(
+            coffees: searchResults, filterType: filterType);
+
         return ListView.builder(
-          itemCount: searchResults.length,
+          itemCount: filteredSearchResults.length,
           itemBuilder: (context, index) {
-            return SearchResultTile(coffee: searchResults[index]);
+            return SearchResultTile(coffee: filteredSearchResults[index]);
           },
         );
       },

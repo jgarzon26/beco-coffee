@@ -1,5 +1,7 @@
 import 'package:beco_coffee/home/controller/search_history_notifier.dart';
+import 'package:beco_coffee/home/controller/search_notifier.dart';
 import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
+import 'package:beco_coffee/utilities/search_filter_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,6 +11,9 @@ class LastSearchView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final searchQueries = ref.watch(searchHistoryNotifierProvider);
+    final filterType = ref.watch(searchNotifierProvider.select(
+      (value) => value.filterSearchType,
+    ));
 
     return Column(
       children: [
@@ -25,8 +30,9 @@ class LastSearchView extends ConsumerWidget {
         Expanded(
           child: searchQueries.when(
             data: (coffees) {
+              final filteredCoffees = SearchFilterHelper.filterCoffee(coffees: coffees, filterType: filterType);
               return CoffeeGridView(
-                coffees: coffees,
+                coffees: filteredCoffees,
               );
             },
             error: (error, stackTrace) => Center(child: Text(error.toString())),

@@ -1,7 +1,6 @@
 export 'package:beco_coffee/auth/repo/auth_repo.dart';
 export 'package:beco_coffee/auth/view/auth_views.dart';
 export 'package:beco_coffee/core/main_widget.dart';
-export 'package:beco_coffee/home/model/coffee.dart';
 export 'package:beco_coffee/home/view/checkout_screen.dart';
 export 'package:beco_coffee/home/view/delivery_screens/delivery_screen.dart';
 export 'package:beco_coffee/home/view/home_views.dart';

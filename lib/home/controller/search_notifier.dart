@@ -26,7 +26,7 @@ class SearchNotifier extends _$SearchNotifier {
     );
   }
 
-  void setState(FilterSearchType filterSearchType) {
+  void setFilterSearchType(FilterSearchType filterSearchType) {
     state = state.copyWith(
       filterSearchType: filterSearchType,
     );

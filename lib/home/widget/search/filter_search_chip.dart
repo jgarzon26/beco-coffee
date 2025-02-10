@@ -1,22 +1,17 @@
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class FilterSearchChip extends StatefulWidget {
+class FilterSearchChip extends StatelessWidget {
   final String label;
   final void Function(bool value) onSelected;
+  final bool isSelected;
 
   const FilterSearchChip({
     super.key,
     required this.label,
     required this.onSelected,
+    required this.isSelected,
   });
-
-  @override
-  State<FilterSearchChip> createState() => _FilterSearchChipState();
-}
-
-class _FilterSearchChipState extends State<FilterSearchChip> {
-  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +25,17 @@ class _FilterSearchChipState extends State<FilterSearchChip> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       label: Text(
-        widget.label,
+        label,
         style: Theme.of(context).textTheme.titleSmall?.copyWith(
               color: Colors.white,
             ),
       ),
       onSelected: (value) {
-        setState(() {
-          isSelected = !isSelected;
-        });
-        widget.onSelected(isSelected);
+        if (isSelected == true) {
+          onSelected(false);
+          return;
+        }
+        onSelected(value);
       },
     );
   }
