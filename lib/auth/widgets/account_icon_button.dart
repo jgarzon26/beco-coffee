@@ -15,6 +15,7 @@ class AccountIconButton extends StatelessWidget {
     return TextButton(
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
+        backgroundColor: Colors.transparent,
       ),
       onPressed: onPressed,
       child: Image.asset(
