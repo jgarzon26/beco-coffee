@@ -28,6 +28,7 @@ class AuthHelpRow extends StatelessWidget {
           style: TextButton.styleFrom(
             padding: const EdgeInsets.only(left: 5),
             alignment: Alignment.centerLeft,
+            backgroundColor: Colors.transparent,
           ),
           onPressed: onPressed,
           child: Text(

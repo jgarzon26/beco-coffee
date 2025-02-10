@@ -12,8 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final _emailRegExp = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-    );
+  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+);
 
 final _phoneRegExp = RegExp(r'^\+?[0-9]{12}');
 
@@ -379,79 +379,88 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   }
 
   Widget _buildTOSandPolicy() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'I agree with',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: kOnPrimaryContainer,
-                fontSize: 10,
-              ),
-        ),
-        TextButton(
+    return Theme(
+      data: Theme.of(context).copyWith(
+        textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 5,
-            ),
+            backgroundColor: Colors.transparent,
           ),
-          onPressed: () {
-            // TODO go to TOS
-          },
-          child: Text(
-            'Terms of Services',
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'I agree with',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: kSecondaryContainer,
+                  color: kOnPrimaryContainer,
                   fontSize: 10,
                 ),
           ),
-        ),
-        Text(
-          'and',
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: kOnPrimaryContainer,
-                fontSize: 10,
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
               ),
-        ),
-        TextButton(
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 5,
+            ),
+            onPressed: () {
+              // TODO go to TOS
+            },
+            child: Text(
+              'Terms of Services',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: kSecondaryContainer,
+                    fontSize: 10,
+                  ),
             ),
           ),
-          onPressed: () {
-            //TODO go to Policy Privacy
-          },
-          child: Text(
-            'Policy Privacy',
+          Text(
+            'and',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: kSecondaryContainer,
+                  color: kOnPrimaryContainer,
                   fontSize: 10,
                 ),
           ),
-        ),
-        StatefulBuilder(
-          builder: (context, setState) {
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isTOSCheck = !_isTOSCheck;
-                });
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
+              ),
+            ),
+            onPressed: () {
+              //TODO go to Policy Privacy
+            },
+            child: Text(
+              'Policy Privacy',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: kSecondaryContainer,
+                    fontSize: 10,
+                  ),
+            ),
+          ),
+          StatefulBuilder(
+            builder: (context, setState) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isTOSCheck = !_isTOSCheck;
+                  });
 
-                _inputChecks[3] = _isTOSCheck;
-                _notifyInputCheck();
-              },
-              child: Icon(
-                _isTOSCheck
-                    ? Icons.check_box_outlined
-                    : Icons.check_box_outline_blank_outlined,
-                size: 10.5,
-                color: kOnPrimaryContainer,
-              ),
-            );
-          },
-        ),
-      ],
+                  _inputChecks[3] = _isTOSCheck;
+                  _notifyInputCheck();
+                },
+                child: Icon(
+                  _isTOSCheck
+                      ? Icons.check_box_outlined
+                      : Icons.check_box_outline_blank_outlined,
+                  size: 10.5,
+                  color: kOnPrimaryContainer,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -461,32 +470,41 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       children: [
         StatefulBuilder(
           builder: (context, setstate) {
-            return TextButton(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.only(left: 5),
+            return Theme(
+              data: Theme.of(context).copyWith(
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                  ),
+                ),
               ),
-              onPressed: () {
-                setstate(() => _isRememberMe = !_isRememberMe);
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Remember me',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: kOnPrimaryContainer,
-                          fontSize: 10,
-                        ),
-                  ),
-                  const SizedBox(width: 2),
-                  Icon(
-                    _isRememberMe
-                        ? Icons.check_box_outlined
-                        : Icons.check_box_outline_blank,
-                    color: kOnPrimaryContainer,
-                    size: 10.5,
-                  ),
-                ],
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.only(left: 5),
+                ),
+                onPressed: () {
+                  setstate(() => _isRememberMe = !_isRememberMe);
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Remember me',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: kOnPrimaryContainer,
+                            fontSize: 10,
+                          ),
+                    ),
+                    const SizedBox(width: 2),
+                    Icon(
+                      _isRememberMe
+                          ? Icons.check_box_outlined
+                          : Icons.check_box_outline_blank,
+                      color: kOnPrimaryContainer,
+                      size: 10.5,
+                    ),
+                  ],
+                ),
               ),
             );
           },
