@@ -12,7 +12,8 @@ class SelectionOverlay extends StatefulWidget {
     super.key,
     required this.options,
     required this.onSelectOption,
-    this.initialIndex = 0, required this.controller,
+    this.initialIndex = 0,
+    required this.controller,
   });
 
   @override
@@ -46,8 +47,8 @@ class _SelectionOverlayState extends State<SelectionOverlay> {
               borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Colors.white,
             ),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -58,23 +59,30 @@ class _SelectionOverlayState extends State<SelectionOverlay> {
                         ),
                   ),
                   const Gap(10),
-                  ...List.generate(
-                    widget.options.length,
-                    (index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(vertical: 5),
-                        child: OptionButton(
-                          optionTitle: widget.options[index],
-                          isSelected: selectedIndex == index,
-                          onPressed: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                            widget.onSelectOption(index);
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: List.generate(
+                          widget.options.length,
+                          (index) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              child: OptionButton(
+                                optionTitle: widget.options[index],
+                                isSelected: selectedIndex == index,
+                                onPressed: () {
+                                  setState(() {
+                                    selectedIndex = index;
+                                  });
+                                  widget.onSelectOption(index);
+                                },
+                              ),
+                            );
                           },
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   ),
                 ],
               ),

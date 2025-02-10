@@ -1,6 +1,10 @@
 import 'package:beco_coffee/home/controller/cart_notifier.dart';
+import 'package:beco_coffee/home/controller/checkout_notifier.dart';
+import 'package:beco_coffee/home/controller/order_notifier.dart';
+import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:beco_coffee/home/widget/cart/coupon_text_field.dart';
 import 'package:beco_coffee/home/widget/cart/order_list_tile.dart';
+import 'package:beco_coffee/utilities/item_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,8 +29,8 @@ class CartScreen extends ConsumerWidget {
             );
           }
 
-          final subtotal = ref.watch(cartNotifierProvider.notifier).subtotal;
-          final vat = ref.watch(cartNotifierProvider.notifier).vat;
+          final subtotal = ItemUtil.getSubtotal(items);
+          final vat = ItemUtil.vat;
 
           return Column(
             children: [
@@ -128,11 +132,22 @@ class CartScreen extends ConsumerWidget {
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               context.pushNamed('checkout');
-                              ref
+                              await ref
                                   .read(cartNotifierProvider.notifier)
-                                  .updateOrders();
+                                  .updateItems();
+                              final index = ref
+                                  .read(checkoutNotifierProvider)
+                                  .shopAddressIndex;
+                              final offices = await ref
+                                  .read(becoOfficeLocationsProvider.future);
+                              ref
+                                  .read(checkoutNotifierProvider.notifier)
+                                  .updateTargetLocation(offices[index].latlng);
+                              ref
+                                  .read(orderNotifierProvider.notifier)
+                                  .addOrder();
                             },
                             child: Text(
                               'Place Order',

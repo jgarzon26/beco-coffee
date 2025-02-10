@@ -1,16 +1,9 @@
-import 'package:beco_coffee/auth/view/auth_views.dart';
-import 'package:beco_coffee/home/view/checkout_screen.dart';
-import 'package:beco_coffee/home/view/home_views.dart';
-import 'package:beco_coffee/core/main_widget.dart';
-import 'package:beco_coffee/home/model/coffee.dart';
-import 'package:beco_coffee/home/view/order_paid_screen.dart';
-import 'package:beco_coffee/home/widget/home_nav_bar.dart';
-import 'package:beco_coffee/intro/view/intro_screen.dart';
-import 'package:beco_coffee/auth/repo/auth_repo.dart';
+import 'package:beco_coffee/home/view/delivery_screens/track_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:beco_coffee/core/route_imports.dart';
 
 part 'routes.g.dart';
 
@@ -171,6 +164,38 @@ GoRouter router(Ref ref) {
         name: 'paid-screen',
         path: '/paid-screen',
         builder: (context, state) => const OrderPaidScreen(),
+      ),
+      GoRoute(
+        name: 'waiting',
+        path: '/waiting',
+        builder: (context, state) => const WaitingScreen(),
+        routes: [
+          GoRoute(
+            name: 'pickup-done',
+            path: 'pickup-done',
+            builder: (context, state) => const PickupDoneScreen(),
+          ),
+          GoRoute(
+            name: 'delivery',
+            path: 'delivery',
+            builder: (context, state) => const DeliveryScreen(),
+          ),
+        ],
+      ),
+      GoRoute(
+        name: 'track-order',
+        path: '/track-order',
+        builder: (context, state) => const TrackOrderScreen(),
+      ),
+      GoRoute(
+        name: 'order-detail',
+        path: '/order-detail',
+        builder: (context, state) => const OrderDetailScreen(),
+      ),
+      GoRoute(
+        name: 'order-done',
+        path: '/order-done',
+        builder: (context, state) => const OrderDoneScreen(),
       ),
     ],
   );

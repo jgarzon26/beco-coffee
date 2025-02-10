@@ -14,19 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Order _$OrderFromJson(Map<String, dynamic> json) {
-  return _Order.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Order {
   String get order_id => throw _privateConstructorUsedError;
   String get buyer_id => throw _privateConstructorUsedError;
   List<Item> get cartItems => throw _privateConstructorUsedError;
   DateTime get transaction_date => throw _privateConstructorUsedError;
-
-  /// Serializes this Order to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  LatLng get transaction_address => throw _privateConstructorUsedError;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -43,7 +37,8 @@ abstract class $OrderCopyWith<$Res> {
       {String order_id,
       String buyer_id,
       List<Item> cartItems,
-      DateTime transaction_date});
+      DateTime transaction_date,
+      LatLng transaction_address});
 }
 
 /// @nodoc
@@ -65,6 +60,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? buyer_id = null,
     Object? cartItems = null,
     Object? transaction_date = null,
+    Object? transaction_address = null,
   }) {
     return _then(_value.copyWith(
       order_id: null == order_id
@@ -83,6 +79,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.transaction_date
           : transaction_date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      transaction_address: null == transaction_address
+          ? _value.transaction_address
+          : transaction_address // ignore: cast_nullable_to_non_nullable
+              as LatLng,
     ) as $Val);
   }
 }
@@ -98,7 +98,8 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
       {String order_id,
       String buyer_id,
       List<Item> cartItems,
-      DateTime transaction_date});
+      DateTime transaction_date,
+      LatLng transaction_address});
 }
 
 /// @nodoc
@@ -118,6 +119,7 @@ class __$$OrderImplCopyWithImpl<$Res>
     Object? buyer_id = null,
     Object? cartItems = null,
     Object? transaction_date = null,
+    Object? transaction_address = null,
   }) {
     return _then(_$OrderImpl(
       order_id: null == order_id
@@ -136,22 +138,24 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.transaction_date
           : transaction_date // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      transaction_address: null == transaction_address
+          ? _value.transaction_address
+          : transaction_address // ignore: cast_nullable_to_non_nullable
+              as LatLng,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$OrderImpl implements _Order {
   const _$OrderImpl(
       {required this.order_id,
       required this.buyer_id,
       required final List<Item> cartItems,
-      required this.transaction_date})
+      required this.transaction_date,
+      required this.transaction_address})
       : _cartItems = cartItems;
-
-  factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
-      _$$OrderImplFromJson(json);
 
   @override
   final String order_id;
@@ -167,10 +171,12 @@ class _$OrderImpl implements _Order {
 
   @override
   final DateTime transaction_date;
+  @override
+  final LatLng transaction_address;
 
   @override
   String toString() {
-    return 'Order(order_id: $order_id, buyer_id: $buyer_id, cartItems: $cartItems, transaction_date: $transaction_date)';
+    return 'Order(order_id: $order_id, buyer_id: $buyer_id, cartItems: $cartItems, transaction_date: $transaction_date, transaction_address: $transaction_address)';
   }
 
   @override
@@ -185,13 +191,19 @@ class _$OrderImpl implements _Order {
             const DeepCollectionEquality()
                 .equals(other._cartItems, _cartItems) &&
             (identical(other.transaction_date, transaction_date) ||
-                other.transaction_date == transaction_date));
+                other.transaction_date == transaction_date) &&
+            (identical(other.transaction_address, transaction_address) ||
+                other.transaction_address == transaction_address));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, order_id, buyer_id,
-      const DeepCollectionEquality().hash(_cartItems), transaction_date);
+  int get hashCode => Object.hash(
+      runtimeType,
+      order_id,
+      buyer_id,
+      const DeepCollectionEquality().hash(_cartItems),
+      transaction_date,
+      transaction_address);
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -200,13 +212,6 @@ class _$OrderImpl implements _Order {
   @pragma('vm:prefer-inline')
   _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
       __$$OrderImplCopyWithImpl<_$OrderImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$OrderImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Order implements Order {
@@ -214,9 +219,8 @@ abstract class _Order implements Order {
       {required final String order_id,
       required final String buyer_id,
       required final List<Item> cartItems,
-      required final DateTime transaction_date}) = _$OrderImpl;
-
-  factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
+      required final DateTime transaction_date,
+      required final LatLng transaction_address}) = _$OrderImpl;
 
   @override
   String get order_id;
@@ -226,6 +230,8 @@ abstract class _Order implements Order {
   List<Item> get cartItems;
   @override
   DateTime get transaction_date;
+  @override
+  LatLng get transaction_address;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.

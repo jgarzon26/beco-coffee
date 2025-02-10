@@ -1,15 +1,18 @@
+import 'package:beco_coffee/home/controller/cart_notifier.dart';
 import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderPaidScreen extends ConsumerWidget {
   const OrderPaidScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final orderRef = ref.watch(orderNotifierProvider);
+    final orderRef = ref.watch(orderNotifierProvider.future);
+    final cartRef = ref.watch(cartNotifierProvider.future);
 
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -19,8 +22,19 @@ class OrderPaidScreen extends ConsumerWidget {
     );
     return Container(
       color: Colors.white,
-      child: orderRef.when(
-        data: (order) {
+      child: FutureBuilder(
+        future: Future.wait([
+          orderRef,
+          cartRef,
+        ]),
+        builder: (context, snapshot) {
+          
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -50,7 +64,9 @@ class OrderPaidScreen extends ConsumerWidget {
                     style: TextButton.styleFrom(
                       textStyle: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.goNamed('waiting');
+                    },
                     child: const Text(
                       'Let\'s Cook',
                     ),
@@ -61,10 +77,6 @@ class OrderPaidScreen extends ConsumerWidget {
             ),
           );
         },
-        error: (error, stackTrace) => Container(),
-        loading: () => const Center(
-          child: CircularProgressIndicator.adaptive(),
-        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:beco_coffee/home/controller/cart_notifier.dart';
+import 'package:beco_coffee/home/controller/checkout_notifier.dart';
 import 'package:beco_coffee/home/controller/order_notifier.dart';
 import 'package:beco_coffee/home/repo/checkout_repo.dart';
 import 'package:beco_coffee/home/widget/checkout/checkout_options_column.dart';
@@ -23,7 +24,10 @@ class CheckoutScreen extends ConsumerWidget {
       ),
       body: checkoutOptions.when(
         data: (options) {
-          final (shopAddresses, bankNames) = options;
+          final (shopAddresses, bankNames, userAddress) = options;
+          final targetLocation = ref.watch(
+              checkoutNotifierProvider.select((value) => value.targetLocation));
+
           return Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -33,6 +37,7 @@ class CheckoutScreen extends ConsumerWidget {
                 CheckoutOptionsColumn(
                   shopAddresses: shopAddresses,
                   bankNames: bankNames,
+                  userAddress: userAddress,
                 ),
                 const Divider(),
                 const SummaryItems(),
@@ -45,12 +50,15 @@ class CheckoutScreen extends ConsumerWidget {
                     ),
                     onPressed: () {
                       context.goNamed('paid-screen');
-                      ref.read(orderNotifierProvider.notifier).checkout();
+                      ref
+                          .read(orderNotifierProvider.notifier)
+                          .checkout(targetLocation);
                       ref.read(cartNotifierProvider.notifier).clearCart();
                     },
                     child: const Text('Pay'),
                   ),
                 ),
+                const Spacer(),
               ],
             ),
           );
