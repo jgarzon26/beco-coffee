@@ -21,6 +21,7 @@ mixin _$Order {
   List<Item> get cartItems => throw _privateConstructorUsedError;
   DateTime get transaction_date => throw _privateConstructorUsedError;
   LatLng get transaction_address => throw _privateConstructorUsedError;
+  OrderStatus get status => throw _privateConstructorUsedError;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -38,7 +39,8 @@ abstract class $OrderCopyWith<$Res> {
       String buyer_id,
       List<Item> cartItems,
       DateTime transaction_date,
-      LatLng transaction_address});
+      LatLng transaction_address,
+      OrderStatus status});
 }
 
 /// @nodoc
@@ -61,6 +63,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? cartItems = null,
     Object? transaction_date = null,
     Object? transaction_address = null,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
       order_id: null == order_id
@@ -83,6 +86,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.transaction_address
           : transaction_address // ignore: cast_nullable_to_non_nullable
               as LatLng,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as OrderStatus,
     ) as $Val);
   }
 }
@@ -99,7 +106,8 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
       String buyer_id,
       List<Item> cartItems,
       DateTime transaction_date,
-      LatLng transaction_address});
+      LatLng transaction_address,
+      OrderStatus status});
 }
 
 /// @nodoc
@@ -120,6 +128,7 @@ class __$$OrderImplCopyWithImpl<$Res>
     Object? cartItems = null,
     Object? transaction_date = null,
     Object? transaction_address = null,
+    Object? status = null,
   }) {
     return _then(_$OrderImpl(
       order_id: null == order_id
@@ -142,6 +151,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.transaction_address
           : transaction_address // ignore: cast_nullable_to_non_nullable
               as LatLng,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as OrderStatus,
     ));
   }
 }
@@ -154,7 +167,8 @@ class _$OrderImpl implements _Order {
       required this.buyer_id,
       required final List<Item> cartItems,
       required this.transaction_date,
-      required this.transaction_address})
+      required this.transaction_address,
+      required this.status})
       : _cartItems = cartItems;
 
   @override
@@ -173,10 +187,12 @@ class _$OrderImpl implements _Order {
   final DateTime transaction_date;
   @override
   final LatLng transaction_address;
+  @override
+  final OrderStatus status;
 
   @override
   String toString() {
-    return 'Order(order_id: $order_id, buyer_id: $buyer_id, cartItems: $cartItems, transaction_date: $transaction_date, transaction_address: $transaction_address)';
+    return 'Order(order_id: $order_id, buyer_id: $buyer_id, cartItems: $cartItems, transaction_date: $transaction_date, transaction_address: $transaction_address, status: $status)';
   }
 
   @override
@@ -193,7 +209,8 @@ class _$OrderImpl implements _Order {
             (identical(other.transaction_date, transaction_date) ||
                 other.transaction_date == transaction_date) &&
             (identical(other.transaction_address, transaction_address) ||
-                other.transaction_address == transaction_address));
+                other.transaction_address == transaction_address) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @override
@@ -203,7 +220,8 @@ class _$OrderImpl implements _Order {
       buyer_id,
       const DeepCollectionEquality().hash(_cartItems),
       transaction_date,
-      transaction_address);
+      transaction_address,
+      status);
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
@@ -220,7 +238,8 @@ abstract class _Order implements Order {
       required final String buyer_id,
       required final List<Item> cartItems,
       required final DateTime transaction_date,
-      required final LatLng transaction_address}) = _$OrderImpl;
+      required final LatLng transaction_address,
+      required final OrderStatus status}) = _$OrderImpl;
 
   @override
   String get order_id;
@@ -232,6 +251,8 @@ abstract class _Order implements Order {
   DateTime get transaction_date;
   @override
   LatLng get transaction_address;
+  @override
+  OrderStatus get status;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.

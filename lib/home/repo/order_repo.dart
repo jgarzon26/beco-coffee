@@ -143,10 +143,26 @@ class OrderRepo {
   }
 
   Future<void> finishOrder(String orderId) async {
-    final order =
-        (await _supabase.from('order').delete().eq('order_id', orderId).select())[0];
+    final order = (await _supabase
+        .from('order')
+        .delete()
+        .eq('order_id', orderId)
+        .select())[0];
 
     await _supabase.from('finished_order').insert(order);
+  }
+
+  Future<Order> setOrderStatus(String orderID, OrderStatus status) async {
+    final order = (await _supabase
+        .from('order')
+        .update({'status': status.name})
+        .eq('order_id', orderID)
+        .select())[0];
+
+    final cartItems = await ref.read(cartRepoProvider).convertItemIdsToItem(
+        (order['cart'] as List<dynamic>).map((id) => id.toString()).toList());
+
+    return Order.fromJsonWhileManuallyAddCart(order, cartItems);
   }
 }
 

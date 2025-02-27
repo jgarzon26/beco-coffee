@@ -1,4 +1,5 @@
 import 'package:beco_coffee/home/view/delivery_screens/track_order_screen.dart';
+import 'package:beco_coffee/home/view/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -106,7 +107,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 name: 'order',
                 path: '/order',
-                builder: (context, state) => const Placeholder(),
+                builder: (context, state) => const OrderScreen(),
               ),
             ],
           ),

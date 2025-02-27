@@ -13,6 +13,8 @@ const kRatingColor = Color.fromRGBO(255, 193, 0, 1);
 
 final kCoffeeCardBackground = Colors.black.withOpacity(0.05);
 
+final textTheme = GoogleFonts.poppinsTextTheme();
+
 final defaultTheme = ThemeData().copyWith(
   appBarTheme: const AppBarTheme().copyWith(
     backgroundColor: kPrimaryContainer,
@@ -25,8 +27,8 @@ final defaultTheme = ThemeData().copyWith(
         ),
   ),
   scaffoldBackgroundColor: kSurface,
-  textTheme: GoogleFonts.poppinsTextTheme().copyWith(
-      headlineSmall: GoogleFonts.poppinsTextTheme().headlineSmall?.copyWith(
+  textTheme: textTheme.copyWith(
+      headlineSmall: textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
           )),
   iconButtonTheme: const IconButtonThemeData(
@@ -35,6 +37,17 @@ final defaultTheme = ThemeData().copyWith(
       foregroundColor: WidgetStatePropertyAll(kOnPrimaryContainer),
       alignment: Alignment.center,
     ),
+  ),
+  chipTheme: ChipThemeData(
+    backgroundColor: kPrimaryContainer,
+    selectedColor: kSecondaryContainer,
+    side: const BorderSide(color: Colors.transparent),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+    labelStyle: textTheme
+        .titleSmall
+        ?.copyWith(color: Colors.white),
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(

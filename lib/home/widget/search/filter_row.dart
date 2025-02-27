@@ -1,6 +1,5 @@
 import 'package:beco_coffee/home/controller/search_notifier.dart';
 import 'package:beco_coffee/home/model/search_model.dart';
-import 'package:beco_coffee/home/widget/search/filter_search_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,9 +25,9 @@ class FilterRow extends ConsumerWidget {
         (filter) {
           final type = types[filters.indexOf(filter)];
 
-          return FilterSearchChip(
-            label: filter,
-            isSelected: currentType == type,
+          return FilterChip(
+            label: Text(filter),
+            selected: currentType == type,
             onSelected: (value) {
               if (value) {
                 ref

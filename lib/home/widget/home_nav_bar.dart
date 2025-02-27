@@ -35,10 +35,11 @@ class HomeNavBar extends ConsumerWidget {
       '/home' => const SearchAppBar(
           hasNotifications: false,
         ),
+      '/order' => AppBar(
+          title: const Text('My Order'),
+        ),
       '/cart' => AppBar(
-          title: const Text(
-            'My Cart',
-          ),
+          title: const Text('My Cart'),
         ),
       '/profile' => ProfileAppBar(
           context: context,

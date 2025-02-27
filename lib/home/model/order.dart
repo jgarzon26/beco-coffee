@@ -4,6 +4,12 @@ import 'package:latlng/latlng.dart';
 
 part 'order.freezed.dart';
 
+enum OrderStatus {
+  onDelivery,
+  process,
+  success
+}
+
 @freezed
 class Order with _$Order {
   const factory Order({
@@ -12,6 +18,7 @@ class Order with _$Order {
     required List<Item> cartItems,
     required DateTime transaction_date,
     required LatLng transaction_address,
+    required OrderStatus status,
   }) = _Order;
 
   factory Order.fromJsonWhileManuallyAddCart(
@@ -23,6 +30,7 @@ class Order with _$Order {
       transaction_date: DateTime.tryParse(json['transaction_date'] ?? '') ?? DateTime.now(),
       transaction_address: LatLng(Angle.degree(json['transaction_address']?['lat'] ?? 0),
           Angle.degree(json['transaction_address']?['lng'] ?? 0)),
+      status: OrderStatus.values.firstWhere((element) => element.name == json['status'],),
     );
   }
 
@@ -37,6 +45,7 @@ class Order with _$Order {
       transaction_address: LatLng(
           Angle.degree(json['transaction_address']?['lat'] ?? 0),
           Angle.degree(json['transaction_address']?['lng'] ?? 0)),
+      status: OrderStatus.values.firstWhere((element) => element.name == json['status'],),
     );
   }
 }
