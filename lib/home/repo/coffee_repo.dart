@@ -36,6 +36,17 @@ class CoffeeRepo {
 
     return Coffee.fromJson(coffee);
   }
+
+  Future<List<Coffee>> convertCoffeeIdsToCoffee(List<String> coffeeIds) async {
+    final List<Coffee> coffees = [];
+
+    for (final coffeeId in coffeeIds) {
+      final coffee = await getCoffeeById(coffeeId);
+      coffees.add(coffee);
+    }
+
+    return coffees;
+  }
 }
 
 @riverpod

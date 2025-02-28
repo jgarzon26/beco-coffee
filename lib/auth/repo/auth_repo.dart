@@ -101,16 +101,18 @@ class AuthRepo {
     return supabase.auth.onAuthStateChange;
   }
 
-  User? get currentUser {
-    return supabase.auth.currentUser;
-  }
-
-  Future<UserProfile> get currentUserProfile async {
-    final user = currentUser;
+  User get currentUser {
+    final user = supabase.auth.currentUser;
 
     if (user == null) {
       throw Exception('User is not logged in');
     }
+
+    return user;
+  }
+
+  Future<UserProfile> get currentUserProfile async {
+    final user = currentUser;
 
     final response =
         await supabase.from('users').select().eq('user_id', user.id);
@@ -127,19 +129,15 @@ class AuthRepo {
   //this returns list of coffee Ids
   Future<List<String>> getUserSearchQueries() async {
     final currentUser = this.currentUser;
-
-    if (currentUser == null) {
-      throw Exception('User is not logged in');
-    }
-
     final searchQueriesRes = await supabase
         .from('users')
         .select('search_queries')
         .eq('user_id', currentUser.id);
 
-    final List<dynamic> searchQueries = searchQueriesRes[0]['search_queries'] ?? [];
+    final List<dynamic> searchQueries =
+        searchQueriesRes[0]['search_queries'] ?? [];
 
-    if(searchQueries.isEmpty) {
+    if (searchQueries.isEmpty) {
       return [];
     }
 
@@ -158,10 +156,6 @@ class AuthRepo {
 
   Future<List<String>> updateSearchQueries(List<String> coffeeIds) async {
     final currentUser = this.currentUser;
-
-    if (currentUser == null) {
-      throw Exception('User is not logged in');
-    }
 
     final res = await supabase
         .from('users')
@@ -182,6 +176,32 @@ class AuthRepo {
     ).toList();
 
     return updatedSearchQueries;
+  }
+
+  Future<List<String>> getUserWishList() async {
+    final user = currentUser;
+
+    final List<dynamic> userWishListIds = (await supabase
+            .from('users')
+            .select('wishlists')
+            .eq('user_id', user.id))[0]['wishlists'] ??
+        [];
+
+    return userWishListIds
+        .map(
+          (e) => e.toString(),
+        )
+        .toList();
+  }
+
+  Future<List<String>> updateCoffeeWishList(List<String> coffeeIDs) async {
+    final user = currentUser;
+
+    await supabase.from('users').update({
+      'wishlists': coffeeIDs,
+    }).eq('user_id', user.id);
+
+    return getUserWishList();
   }
 }
 

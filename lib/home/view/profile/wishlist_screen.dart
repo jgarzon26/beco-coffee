@@ -1,3 +1,4 @@
+import 'package:beco_coffee/home/controller/wishlist_notifier.dart';
 import 'package:beco_coffee/home/widget/coffee_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,8 @@ class WishlistScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final wishlist = ref.watch(wishlistNotifierProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wishlist'),
@@ -23,9 +26,19 @@ class WishlistScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-        child: CoffeeGridView(
-          isScrollable: true,
-          coffees: [],
+        child: wishlist.when(
+          data: (wishlists) {
+            return CoffeeGridView(
+              isScrollable: true,
+              coffees: wishlists,
+            );
+          },
+          error: (err, st) => Center(
+            child: Text(err.toString()),
+          ),
+          loading: () => const Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
         ),
       ),
     );

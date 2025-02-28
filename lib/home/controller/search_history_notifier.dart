@@ -10,18 +10,7 @@ class SearchHistoryNotifier extends _$SearchHistoryNotifier {
   @override
   FutureOr<List<Coffee>> build() async {
     final coffeeIds = await ref.read(authRepoProvider).getUserSearchQueries();
-    return _convertCoffeeIdsToCoffee(coffeeIds);
-  }
-
-  Future<List<Coffee>> _convertCoffeeIdsToCoffee(List<String> coffeeIds) async {
-    final List<Coffee> coffees = [];
-
-    for (final coffeeId in coffeeIds) {
-      final coffee = await ref.read(coffeeRepoProvider).getCoffeeById(coffeeId);
-      coffees.add(coffee);
-    }
-
-    return coffees;
+    return ref.read(coffeeRepoProvider).convertCoffeeIdsToCoffee(coffeeIds);
   }
 
   Future<void> addCoffeeToSearchHistory(Coffee coffee) async {
@@ -37,7 +26,7 @@ class SearchHistoryNotifier extends _$SearchHistoryNotifier {
       final updatedHistory = [coffee.coffee_id, ...previousSearchHistory];
 
       final coffeeIds = await ref.read(authRepoProvider).updateSearchQueries(updatedHistory);
-      final coffees = await _convertCoffeeIdsToCoffee(coffeeIds);
+      final coffees = await ref.read(coffeeRepoProvider).convertCoffeeIdsToCoffee(coffeeIds);
       state = AsyncData(coffees);
     } catch (e, stack) {
       state = AsyncError(e, stack);

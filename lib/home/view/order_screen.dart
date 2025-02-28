@@ -88,7 +88,6 @@ class _OrderScreenState extends State<OrderScreen> {
                       .watch(coffeeRepoProvider)
                       .getCoffeeById('9b86d881-b02d-431d-98e7-b4c0edccaee5'),
                   builder: (context, snapshot) {
-                    final tempCoffee = snapshot.data!;
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Expanded(
@@ -100,6 +99,8 @@ class _OrderScreenState extends State<OrderScreen> {
                     if (snapshot.hasError) {
                       return const Text('Error');
                     }
+
+                    final tempCoffee = snapshot.data!;
 
                     return Expanded(
                       child: ListView(

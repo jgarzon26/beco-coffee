@@ -42,7 +42,9 @@ class ProfileScreen extends ConsumerWidget {
         title: 'Policy and Privacy',
         leading: Icons.info,
       ),
-      const ProfileSettingsTile(title: 'Sign Out', leading: Icons.logout),
+      ProfileSettingsTile(title: 'Sign Out', leading: Icons.logout, onTap: () {
+
+      }),
     ];
 
     return Stack(
