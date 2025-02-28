@@ -28,6 +28,12 @@ class WishlistScreen extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: wishlist.when(
           data: (wishlists) {
+            if (wishlists.isEmpty) {
+              return const Center(
+                child: Text('No Favorites yet. Add some coffee!'),
+              );
+            }
+
             return CoffeeGridView(
               isScrollable: true,
               coffees: wishlists,

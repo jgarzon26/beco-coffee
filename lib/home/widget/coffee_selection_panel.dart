@@ -1,8 +1,10 @@
 import 'package:beco_coffee/common/favorite_button.dart';
 import 'package:beco_coffee/common/loading_image_builder.dart';
+import 'package:beco_coffee/home/controller/wishlist_notifier.dart';
 import 'package:beco_coffee/home/model/coffee.dart';
 import 'package:beco_coffee/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class CoffeeSelectionPanel extends StatelessWidget {
@@ -49,10 +51,23 @@ class CoffeeSelectionPanel extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
-                    top: 0.5,
-                    right: 0.5,
-                    child: FavoriteButton(),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final wishlists = ref.watch(wishlistNotifierProvider).value ?? [];
+
+                      return Positioned(
+                        top: 0.5,
+                        right: 0.5,
+                        child: FavoriteButton(
+                          isFavorite: wishlists.contains(coffee),
+                          onToggle: (value) {
+                            ref
+                                .read(wishlistNotifierProvider.notifier)
+                                .toggleCoffeeWishlist(coffee, value);
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

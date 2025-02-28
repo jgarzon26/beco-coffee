@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 
-class FavoriteButton extends StatefulWidget {
-  final void Function(bool)? onToggle;
+class FavoriteButton extends StatelessWidget {
+  final bool isFavorite;
+  final void Function(bool) onToggle;
 
   const FavoriteButton({
-    super.key,
-    this.onToggle,
+    super.key, required this.isFavorite, required this.onToggle,
   });
 
-  @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
-}
 
-class _FavoriteButtonState extends State<FavoriteButton> {
-  bool isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +18,11 @@ class _FavoriteButtonState extends State<FavoriteButton> {
       ),
       highlightColor: Colors.transparent,
       onPressed: () {
-        setState(() {
-          isPressed = !isPressed;
-        });
-        if (widget.onToggle != null) {
-          widget.onToggle!(isPressed);
-        }
+        onToggle(!isFavorite);
       },
       icon: Icon(
         Icons.favorite,
-        color: isPressed ? const Color.fromRGBO(255, 4, 95, 1) : Colors.white,
+        color: isFavorite ? const Color.fromRGBO(255, 4, 95, 1) : Colors.white,
         size: 30,
       ),
     );
