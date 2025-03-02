@@ -8,6 +8,8 @@ part 'auth_repo.g.dart';
 class AuthRepo {
   final supabase = Supabase.instance.client;
 
+  //Auth Functions
+
   Future<User?> signUpWithEmail({
     required String fullName,
     required String email,
@@ -21,7 +23,7 @@ class AuthRepo {
     );
 
     //update user info
-    await _updateUserInfo(
+    await _insertUserInfo(
       userId: authResponse.user!.id,
       address: address,
       fullName: fullName,
@@ -44,7 +46,7 @@ class AuthRepo {
     );
 
     //update user info
-    await _updateUserInfo(
+    await _insertUserInfo(
       userId: authResponse.user!.id,
       address: address,
       fullName: fullName,
@@ -54,7 +56,7 @@ class AuthRepo {
     return authResponse.user;
   }
 
-  Future _updateUserInfo({
+  Future _insertUserInfo({
     required String userId,
     required String address,
     required String fullName,

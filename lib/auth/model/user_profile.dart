@@ -4,6 +4,8 @@ class UserProfile {
   final String address;
   final String phone;
   final String profilePicUrl;
+  final DateTime? birthDate;
+  final String gender;
 
   const UserProfile({
     required this.email,
@@ -11,6 +13,8 @@ class UserProfile {
     required this.address,
     required this.phone,
     required this.profilePicUrl,
+    required this.birthDate,
+    required this.gender,
   });
 
   factory UserProfile.fromMap(Map<String, dynamic> map) {
@@ -20,6 +24,8 @@ class UserProfile {
       address: map['address'] ?? '',
       phone: map['phone_number'] ?? '',
       profilePicUrl: map['profile_pic'] ?? '',
+      birthDate: DateTime.tryParse(map['birthday'] ?? ''),
+      gender: map['gender'] ?? '',
     );
   }
 }

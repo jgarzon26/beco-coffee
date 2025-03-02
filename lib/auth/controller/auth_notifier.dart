@@ -12,13 +12,13 @@ class AuthNotifier extends _$AuthNotifier {
 
   @override
   FutureOr<CoffeeUser?> build() async {
-    if (ref.read(authRepoProvider).currentUser != null) {
+    try {
       final user = ref.read(authRepoProvider).currentUser;
       final userProfile = await ref.read(authRepoProvider).currentUserProfile;
-      return CoffeeUser(user: user!, userProfile: userProfile);
+      return CoffeeUser(user: user, userProfile: userProfile);
+    } catch (e) {
+      return null;
     }
-
-    return null;
   }
 
   Future<void> initUserCredentialForSignUp({

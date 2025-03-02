@@ -1,5 +1,6 @@
 import 'package:beco_coffee/home/view/delivery_screens/track_order_screen.dart';
 import 'package:beco_coffee/home/view/order_screen.dart';
+import 'package:beco_coffee/home/view/profile/my_information_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -147,6 +148,11 @@ GoRouter router(Ref ref) {
                     name: 'wishlist',
                     path: 'wishlist',
                     builder: (context, state) => const WishlistScreen(),
+                  ),
+                  GoRoute(
+                    name: 'my-info-screen',
+                    path: 'my-info-screen',
+                    builder: (context, state) => const MyInformationScreen(),
                   ),
                 ],
               ),

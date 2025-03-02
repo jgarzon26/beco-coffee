@@ -21,7 +21,12 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileSettings = [
-      const ProfileSettingsTile(title: 'My Information', leading: Icons.person),
+      ProfileSettingsTile(
+          title: 'My Information',
+          leading: Icons.person,
+          onTap: () {
+            context.goNamed('my-info-screen');
+          }),
       const ProfileSettingsTile(title: 'Address', leading: Icons.location_on),
       const ProfileSettingsTile(
         title: 'Payment',
@@ -42,9 +47,8 @@ class ProfileScreen extends ConsumerWidget {
         title: 'Policy and Privacy',
         leading: Icons.info,
       ),
-      ProfileSettingsTile(title: 'Sign Out', leading: Icons.logout, onTap: () {
-
-      }),
+      ProfileSettingsTile(
+          title: 'Sign Out', leading: Icons.logout, onTap: () {}),
     ];
 
     return Stack(
