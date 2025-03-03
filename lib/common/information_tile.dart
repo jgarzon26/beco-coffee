@@ -4,7 +4,7 @@ class InformationTile {
   final IconData? icon;
   final String? imageSrc;
   final String title;
-  final String value;
+  final String? value;
   const InformationTile({
     this.icon,
     this.imageSrc,

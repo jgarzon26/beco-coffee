@@ -1,3 +1,8 @@
+enum Gender {
+  male,
+  female,
+}
+
 class UserProfile {
   final String email;
   final String fullName;
@@ -5,7 +10,7 @@ class UserProfile {
   final String phone;
   final String profilePicUrl;
   final DateTime? birthDate;
-  final String gender;
+  final Gender? gender;
 
   const UserProfile({
     required this.email,
@@ -25,7 +30,7 @@ class UserProfile {
       phone: map['phone_number'] ?? '',
       profilePicUrl: map['profile_pic'] ?? '',
       birthDate: DateTime.tryParse(map['birthday'] ?? ''),
-      gender: map['gender'] ?? '',
+      gender: map['gender'] != null ? Gender.values.byName(map['gender']) : null,
     );
   }
 }

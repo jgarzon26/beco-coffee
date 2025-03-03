@@ -32,7 +32,7 @@ class InformationListTile extends StatelessWidget {
         ],
       ),
       title: Text(info.title),
-      subtitle: Text(info.value),
+      subtitle: Text(info.value ?? ''),
     );
   }
 }
