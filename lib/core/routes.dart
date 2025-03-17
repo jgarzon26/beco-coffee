@@ -36,7 +36,7 @@ CustomTransitionPage _buildPageWithCustomTransitionPage<T>({
 
 @riverpod
 GoRouter router(Ref ref) {
-  final user = ref.watch(authRepoProvider).currentUser;
+  final user = ref.watch(authRepoProvider).isLogin;
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,

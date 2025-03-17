@@ -1,3 +1,4 @@
+import 'package:beco_coffee/auth/model/coffee_user.dart';
 import 'package:beco_coffee/auth/model/user_profile.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -103,6 +104,11 @@ class AuthRepo {
     return supabase.auth.onAuthStateChange;
   }
 
+  User? get isLogin {
+    return supabase.auth.currentUser;
+  }
+
+  /*assumes that user is logged in, otherwise will throw an error*/
   User get currentUser {
     final user = supabase.auth.currentUser;
 
@@ -120,6 +126,21 @@ class AuthRepo {
         await supabase.from('users').select().eq('user_id', user.id);
 
     return UserProfile.fromMap(response[0]);
+  }
+
+  Future<CoffeeUser> updateUserProfile(UserProfile userProfile) async {
+    final updatedUser = await supabase.auth.updateUser(UserAttributes(
+      email: userProfile.email,
+      phone: userProfile.phone,
+    ));
+
+    final updatedUserProfile = await supabase
+        .from('users')
+        .update(userProfile.toMap())
+        .eq('user_id', currentUser.id)
+        .select();
+
+    return CoffeeUser(user: updatedUser.user!, userProfile: UserProfile.fromMap(updatedUserProfile[0]));
   }
 
   Future<void> logOut() async {

@@ -1,5 +1,7 @@
 import 'package:beco_coffee/auth/model/coffee_user.dart';
+import 'package:beco_coffee/auth/model/user_profile.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -111,6 +113,23 @@ class AuthNotifier extends _$AuthNotifier {
       state = const AsyncData(null);
     } catch (e, stackTrace) {
       state = AsyncError(e, stackTrace);
+    }
+  }
+
+  Future<bool> updateUserProfile(
+    UserProfile userProfile,
+  ) async {
+    state = const AsyncLoading();
+    try {
+      final updated =
+          await ref.read(authRepoProvider).updateUserProfile(userProfile);
+      state = AsyncData(
+        updated,
+      );
+      return true;
+    } catch (e) {
+      state = AsyncData(state.value);
+      return false;
     }
   }
 }

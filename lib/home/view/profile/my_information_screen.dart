@@ -35,7 +35,9 @@ class _MyInformationScreenState extends State<MyInformationScreen> {
                 return Positioned.fill(
                   child: GestureDetector(
                     onTap: () => editInfoOverlay.hide(),
-                    child: const InfoEditOverlay(),
+                    child: InfoEditOverlay(
+                      onSuccess: () => editInfoOverlay.hide(),
+                    ),
                   ),
                 );
               },
@@ -50,6 +52,15 @@ class _MyInformationScreenState extends State<MyInformationScreen> {
           return userProfile.when(
             data: (coffeeUser) {
               final userProfile = coffeeUser!.userProfile;
+
+              final String? gender = userProfile.gender != null
+                  ? (userProfile.gender!.name[0].toUpperCase() +
+                      userProfile.gender!.name.substring(1))
+                  : null;
+
+              final String? birthDate = userProfile.birthDate != null
+                  ? DateFormat('d . M . y').format(userProfile.birthDate!)
+                  : null;
 
               final List<InformationTile> informationTile = [
                 InformationTile(
@@ -70,16 +81,15 @@ class _MyInformationScreenState extends State<MyInformationScreen> {
                 InformationTile(
                   imageSrc: 'assets/icon/profile/male.png',
                   title: 'Gender',
-                  value: userProfile.gender?.name,
+                  value: gender,
                 ),
                 InformationTile(
                   imageSrc: 'assets/icon/profile/schedule.png',
                   title: 'Birthday',
-                  value: userProfile.birthDate != null
-                      ? DateFormat.yMd(userProfile.birthDate).toString()
-                      : '',
+                  value: birthDate,
                 ),
               ];
+
               return ListView.separated(
                 padding: const EdgeInsets.all(10),
                 itemCount: informationTile.length,
@@ -95,8 +105,9 @@ class _MyInformationScreenState extends State<MyInformationScreen> {
               );
             },
             error: (e, st) => Container(),
-            loading: () =>
-                const Center(child: CircularProgressIndicator.adaptive()),
+            loading: () => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
           );
         },
       ),

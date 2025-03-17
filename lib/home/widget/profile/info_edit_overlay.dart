@@ -1,26 +1,63 @@
+import 'package:beco_coffee/auth/controller/auth_notifier.dart';
 import 'package:beco_coffee/auth/model/user_profile.dart';
+import 'package:beco_coffee/home/widget/profile/form_fields/date_form_field.dart';
+import 'package:beco_coffee/home/widget/profile/form_fields/dropdown_form_field.dart';
+import 'package:beco_coffee/home/widget/profile/info_form_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
 
 class InfoEditOverlay extends ConsumerStatefulWidget {
-  const InfoEditOverlay({super.key});
+  final VoidCallback? onSuccess;
+
+  const InfoEditOverlay({
+    super.key,
+    this.onSuccess,
+  });
 
   @override
   ConsumerState<InfoEditOverlay> createState() => _InfoEditOverlayState();
 }
 
 class _InfoEditOverlayState extends ConsumerState<InfoEditOverlay> {
-  String name = '';
-  String? email, phone;
+  String? name, email, phone;
   Gender? gender;
   DateTime? birthdate;
 
+  var dropdownKey = GlobalKey();
   final _formKey = GlobalKey<FormState>();
+
+  String? validate(String label, String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter your $label';
+    }
+
+    return null;
+  }
+
+  void openDropDown() {
+    GestureDetector? detector;
+    void searchForGestureDetector(BuildContext context) {
+      context.visitChildElements((context) {
+        if (context.widget is GestureDetector) {
+          detector = context.widget as GestureDetector;
+        } else {
+          searchForGestureDetector(dropdownKey.currentContext!);
+        }
+      });
+    }
+
+    searchForGestureDetector(context);
+
+    if (detector?.onTap != null) {
+      detector!.onTap!();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final coffeeUser = ref.watch(authNotifierProvider);
+
     return Stack(
       children: [
         const Positioned.fill(
@@ -39,218 +76,145 @@ class _InfoEditOverlayState extends ConsumerState<InfoEditOverlay> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Text(
-                    'Edit Info',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Colors.black,
-                        ),
-                  ),
-                  InfoFormField(
-                    labelText: 'Fullname',
-                    initialValue: '',
-                    validator: (value) => validate('fullname', value),
-                    onSaved: (value) => name = value!,
-                  ),
-                  InfoFormField(
-                    labelText: 'Email',
-                    initialValue: '',
-                    onSaved: (value) => email = value,
-                  ),
-                  InfoFormField(
-                    labelText: 'Phone Number',
-                    initialValue: '',
-                    onSaved: (value) => phone = value,
-                  ),
-                  DropdownFormField(
-                    labelText: 'Gender',
-                    initialValue: null,
-                    items: Gender.values.map((gender) {
-                      return DropdownMenuItem<Gender>(
-                        value: gender,
-                        child: Text(
-                          gender.name,
-                        ),
-                      );
-                    }).toList(),
-                    onSaved: (newValue) => gender = newValue,
-                  ),
-                  DateFormField(
-                    labelText: 'BirthDate',
-                    initialValue: null,
-                    onSaved: (newValue) => birthdate = newValue,
-                  ),
-                  const Spacer(),
-                  Row(
+            child: coffeeUser.when(
+              data: (user) {
+                final userProfile = user?.userProfile;
+
+                if (userProfile == null) {
+                  return const Text('Unexpected error');
+                }
+
+                return Form(
+                  key: _formKey,
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            if (!_formKey.currentState!.validate()) return;
-                          },
-                          child: const Text('Submit'),
+                      Text(
+                        'Edit Info',
+                        style:
+                            Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                  color: Colors.black,
+                                ),
+                      ),
+                      InfoFormField(
+                        labelText: 'Fullname',
+                        initialValue: userProfile.fullName,
+                        validator: (value) => validate('fullname', value),
+                        onSaved: (value) => name = value,
+                      ),
+                      InfoFormField(
+                        labelText: 'Email',
+                        initialValue: userProfile.email,
+                        onSaved: (value) => email = value,
+                      ),
+                      InfoFormField(
+                        labelText: 'Phone Number',
+                        initialValue: userProfile.phone,
+                        onSaved: (value) => phone = value,
+                      ),
+                      GestureDetector(
+                        onTap: openDropDown,
+                        child: DropdownFormField(
+                          key: dropdownKey,
+                          labelText: 'Gender',
+                          initialValue: userProfile.gender,
+                          items: Gender.values.map((gender) {
+                            return DropdownMenuItem<Gender>(
+                              value: gender,
+                              child: Text(
+                                gender.name,
+                              ),
+                            );
+                          }).toList(),
+                          onSaved: (newValue) => gender = newValue,
                         ),
                       ),
-                      const Gap(5),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                            _formKey.currentState!.reset();
-                          },
-                          child: const Text('Reset'),
+                      GestureDetector(
+                        child: DateFormField(
+                          labelText: 'BirthDate',
+                          initialValue: userProfile.birthDate,
+                          onSaved: (newValue) => birthdate = newValue,
                         ),
                       ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                              ),
+                              onPressed: () {
+                                _formKey.currentState!.reset();
+                              },
+                              child: const Text('Reset'),
+                            ),
+                          ),
+                          const Gap(5),
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () async {
+                                if (!_formKey.currentState!.validate()) return;
+
+                                if ((email == null) ^ (phone == null)) {
+                                  return;
+                                }
+
+                                _formKey.currentState!.save();
+
+                                final updated = UserProfile(
+                                  email: email ?? userProfile.email,
+                                  fullName: name ?? userProfile.fullName,
+                                  address: userProfile.address,
+                                  phone: phone ?? userProfile.phone,
+                                  profilePicUrl: userProfile.profilePicUrl,
+                                  birthDate: birthdate ?? userProfile.birthDate,
+                                  gender: gender ?? userProfile.gender,
+                                );
+
+                                final scaffoldM = ScaffoldMessenger.of(context);
+
+                                final status = await ref
+                                    .read(authNotifierProvider.notifier)
+                                    .updateUserProfile(
+                                      updated,
+                                    );
+
+                                if (status) {
+                                  scaffoldM.showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'User Profile Successfully Updated'),
+                                    ),
+                                  );
+                                  if (widget.onSuccess != null) {
+                                    widget.onSuccess!();
+                                  }
+                                } else {
+                                  scaffoldM.showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Failed to Update'),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: const Text('Submit'),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  ),
+                );
+              },
+              error: (e, stack) => Text(e.toString()),
+              loading: () => const Center(
+                child: CircularProgressIndicator.adaptive(),
               ),
             ),
           ),
         )
       ],
-    );
-  }
-
-  String? validate(String label, String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your $label';
-    }
-
-    return null;
-  }
-}
-
-class InfoFormField extends StatelessWidget {
-  final String labelText;
-  final String initialValue;
-  final String? errorText;
-  final String? Function(String? value)? validator;
-  final void Function(String? value)? onSaved;
-
-  const InfoFormField({
-    super.key,
-    required this.labelText,
-    required this.initialValue,
-    this.errorText,
-    this.validator,
-    this.onSaved,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: labelText,
-        errorText: errorText,
-      ),
-      validator: validator,
-      onSaved: onSaved,
-    );
-  }
-}
-
-class DropdownFormField<T> extends FormField<T> {
-  DropdownFormField({
-    super.key,
-    required List<DropdownMenuItem<T>> items,
-    String? labelText,
-    super.initialValue,
-    super.validator,
-    super.onSaved,
-  }) : super(
-          builder: (state) {
-            return CustomFormFieldFormat(
-              labelText: labelText ?? '',
-              suffixButton: DropdownButton(
-                items: items,
-                value: initialValue,
-                onChanged: (value) {
-                  state.didChange(value);
-                },
-              ),
-            );
-          },
-        );
-}
-
-class DateFormField extends FormField<DateTime> {
-  DateFormField({
-    super.key,
-    String? labelText,
-    super.initialValue,
-    super.validator,
-    super.onSaved,
-  }) : super(
-          builder: (state) {
-            return CustomFormFieldFormat(
-              labelText: labelText,
-              valueText: state.value != null
-                  ? DateFormat.yMMMd().format(state.value!)
-                  : '',
-              suffixButton: IconButton(
-                  icon: const Icon(
-                    Icons.calendar_month,
-                    color: Colors.black54,
-                  ),
-                  onPressed: () async {
-                    final pickedDate = await showDatePicker(
-                      context: state.context,
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                      currentDate: initialValue,
-                    );
-
-                    state.didChange(pickedDate);
-                  }),
-            );
-          },
-        );
-}
-
-class CustomFormFieldFormat extends StatelessWidget {
-  final String? labelText;
-  final String? valueText;
-  final Widget? suffixButton;
-
-  const CustomFormFieldFormat({
-    super.key,
-    this.labelText,
-    this.valueText,
-    this.suffixButton,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.black54),
-        ),
-      ),
-      child: Row(
-        children: [
-          Text(
-            labelText ?? '',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Colors.black87,
-                ),
-          ),
-          const Spacer(),
-          if (valueText != null)
-            Text(
-              valueText!,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.black54,
-                  ),
-            ),
-          const Gap(5),
-          if (suffixButton != null) suffixButton!,
-        ],
-      ),
     );
   }
 }
