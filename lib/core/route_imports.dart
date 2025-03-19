@@ -13,5 +13,4 @@ export 'package:beco_coffee/home/view/order_detail_screen.dart';
 export 'package:beco_coffee/home/view/order_done_screen.dart';
 export 'package:beco_coffee/home/view/delivery_screens/track_order_screen.dart';
 export 'package:beco_coffee/home/view/order_screen.dart';
-export 'package:beco_coffee/home/view/profile/about_us_screen.dart';
-export 'package:beco_coffee/home/view/profile/my_information_screen.dart';
+export 'package:beco_coffee/home/view/profile/profile_views.dart';

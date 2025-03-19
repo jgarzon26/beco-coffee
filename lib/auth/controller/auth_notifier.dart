@@ -1,6 +1,8 @@
 import 'package:beco_coffee/auth/model/coffee_user.dart';
 import 'package:beco_coffee/auth/model/user_profile.dart';
 import 'package:beco_coffee/auth/repo/auth_repo.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -105,13 +107,20 @@ class AuthNotifier extends _$AuthNotifier {
     }
   }
 
-  Future<void> logOut() async {
+  Future<void> logOut(BuildContext context) async {
+    final router = GoRouter.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+
     state = const AsyncLoading();
     try {
       await ref.read(authRepoProvider).logOut();
+      router.goNamed('auth');
       state = const AsyncData(null);
-    } catch (e, stackTrace) {
-      state = AsyncError(e, stackTrace);
+      messenger
+          .showSnackBar(const SnackBar(content: Text('Logged out successful')));
+    } catch (e) {
+      state = AsyncData(state.value);
+      messenger.showSnackBar(const SnackBar(content: Text('Cannot log out')));
     }
   }
 
@@ -130,5 +139,20 @@ class AuthNotifier extends _$AuthNotifier {
       state = AsyncData(state.value);
       return false;
     }
+  }
+
+  Future<bool> updateUserPassword(String password) async {
+    bool status;
+    state = const AsyncLoading();
+    try {
+      await ref.read(authRepoProvider).updatePassword(password);
+      status = true;
+    } catch (e) {
+      status = false;
+    } finally {
+      state = AsyncData(state.value);
+    }
+
+    return status;
   }
 }

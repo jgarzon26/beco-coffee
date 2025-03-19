@@ -119,6 +119,12 @@ class AuthRepo {
     return user;
   }
 
+  Future<void> logOut() async {
+    return supabase.auth.signOut();
+  }
+
+  //User Profiles
+
   Future<UserProfile> get currentUserProfile async {
     final user = currentUser;
 
@@ -140,14 +146,18 @@ class AuthRepo {
         .eq('user_id', currentUser.id)
         .select();
 
-    return CoffeeUser(user: updatedUser.user!, userProfile: UserProfile.fromMap(updatedUserProfile[0]));
+    return CoffeeUser(
+        user: updatedUser.user!,
+        userProfile: UserProfile.fromMap(updatedUserProfile[0]));
   }
 
-  Future<void> logOut() async {
-    return supabase.auth.signOut();
+  Future<void> updatePassword(String password) async {
+    await supabase.auth.updateUser(
+      UserAttributes(
+        password: password,
+      ),
+    );
   }
-
-  //User Profiles
 
   //this returns list of coffee Ids
   Future<List<String>> getUserSearchQueries() async {
