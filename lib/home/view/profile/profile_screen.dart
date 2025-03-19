@@ -41,7 +41,11 @@ class ProfileScreen extends ConsumerWidget {
       ),
       const ProfileSettingsTile(title: 'Cafe Following', leading: Icons.store),
       const ProfileSettingsTile(title: 'Refund', leading: Icons.attach_money),
-      const ProfileSettingsTile(title: 'Password', leading: Icons.lock),
+      const ProfileSettingsTile(
+        title: 'Password',
+        leading: Icons.lock,
+        routeName: 'ch-pass',
+      ),
       const ProfileSettingsTile(title: 'Settings', leading: Icons.settings),
       const ProfileSettingsTile(
         title: 'About Us',
@@ -52,7 +56,7 @@ class ProfileScreen extends ConsumerWidget {
           title: 'Sign Out',
           leading: Icons.logout,
           onTap: () async {
-            await ref.read(authNotifierProvider.notifier).logOut();
+            await ref.read(authNotifierProvider.notifier).logOut(context);
           }),
     ];
 
